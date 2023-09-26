@@ -1,0 +1,1292 @@
+{
+    "pre": [
+        {
+            "code": [
+                {
+                    "_value": "title: \"Language schema with errata\"\n   package: \"http://oasis-open.org/openc2/oc2ls/v1.0.1\"\n   version: \"0\""
+                }
+            ]
+        }
+    ],
+    "p": [
+        {
+            "_value": "description: \"OpenC2 LS version 1.0 + errata\"\n       exports: [\"OpenC2-Command\", \"OpenC2-Response\"]\n        config: {\"$Sys\": \":\", \"$TypeName\": \"^[A-Z][-:A-Za-z0-9]{0,31}$\", \"$FieldName\": \"^[a-z][-_a-z0-9]{0,31}$\"}"
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: OpenC2-Command (Record)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "action"
+                },
+                {
+                    "_value": "target"
+                },
+                {
+                    "_value": "args"
+                },
+                {
+                    "_value": "actuator"
+                },
+                {
+                    "_value": "command_id"
+                }
+            ],
+            "_values": [
+                "| ID | Name           | Type     | #   | Description                                                                |\n|----|----------------|----------|------|----------------------------------------------------------------------------|\n| 1  |",
+                "| Action   | 1    | The task or activity to be performed (i.e., the 'verb').                   |\n| 2  |",
+                "| Target   | 1    | The object of the Action. The Action is performed on the Target.           |\n| 3  |",
+                "| Args     | 0..1 | Additional information that applies to the Command.                        |\n| 4  |",
+                "| Actuator | 0..1 | The subject of the Action. The Actuator executes the Action on the Target. |\n| 5  |",
+                "| String   | 0..1 | An identifier of this Command.                                             |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: OpenC2-Response (Map)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "status"
+                },
+                {
+                    "_value": "status_text"
+                },
+                {
+                    "_value": "results"
+                }
+            ],
+            "_values": [
+                "| ID | Name            | Type        | #   | Description                                                                           |\n|----|-----------------|-------------|------|---------------------------------------------------------------------------------------|\n| 1  |",
+                "| Status-Code | 1    | An integer status code                                                                |\n| 2  |",
+                "| String      | 0..1 | A free-form human-readable description of the Response status                         |\n| 3  |",
+                "| Results     | 0..1 | Map of key:value pairs that contain additional results based on the invoking Command. |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Action (Enumerated)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "scan"
+                },
+                {
+                    "_value": "locate"
+                },
+                {
+                    "_value": "query"
+                },
+                {
+                    "_value": "deny"
+                },
+                {
+                    "_value": "contain"
+                },
+                {
+                    "_value": "allow"
+                },
+                {
+                    "_value": "start"
+                },
+                {
+                    "_value": "stop"
+                },
+                {
+                    "_value": "restart"
+                },
+                {
+                    "_value": "cancel"
+                },
+                {
+                    "_value": "set"
+                },
+                {
+                    "_value": "update"
+                },
+                {
+                    "_value": "redirect"
+                },
+                {
+                    "_value": "create"
+                },
+                {
+                    "_value": "delete"
+                },
+                {
+                    "_value": "detonate"
+                },
+                {
+                    "_value": "restore"
+                },
+                {
+                    "_value": "copy"
+                },
+                {
+                    "_value": "investigate"
+                },
+                {
+                    "_value": "remediate"
+                }
+            ],
+            "_values": [
+                "| ID | Item            | Description                                                                                                                             |\n|----|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------|\n| 1  |",
+                "| Systematic examination of some aspect of the entity or its environment.                                                                 |\n| 2  |",
+                "| Find an object physically, logically, functionally, or by organization.                                                                 |\n| 3  |",
+                "| Initiate a request for information.                                                                                                     |\n| 6  |",
+                "| Prevent a certain event or action from completion, such as preventing a flow from reaching a destination or preventing access.          |\n| 7  |",
+                "| Isolate a file, process, or entity so that it cannot modify or access assets or processes.                                              |\n| 8  |",
+                "| Permit access to or execution of a Target.                                                                                              |\n| 9  |",
+                "| Initiate a process, application, system, or activity.                                                                                   |\n| 10 |",
+                "| Halt a system or end an activity.                                                                                                       |\n| 11 |",
+                "| Stop then start a system or an activity.                                                                                                |\n| 14 |",
+                "| Invalidate a previously issued Action.                                                                                                  |\n| 15 |",
+                "| Change a value, configuration, or state of a managed entity.                                                                            |\n| 16 |",
+                "| Instruct a component to retrieve, install, process, and operate in accordance with a software update, reconfiguration, or other update. |\n| 18 |",
+                "| Change the flow of traffic to a destination other than its original destination.                                                        |\n| 19 |",
+                "| Add a new entity of a known type (e.g., data, files, directories).                                                                      |\n| 20 |",
+                "| Remove an entity (e.g., data, files, flows).                                                                                            |\n| 22 |",
+                "| Execute and observe the behavior of a Target (e.g., file, hyperlink) in an isolated environment.                                        |\n| 23 |",
+                "| Return a system to a previously known state.                                                                                            |\n| 28 |",
+                "| Duplicate an object, file, data flow, or artifact.                                                                                      |\n| 30 |",
+                "| Task the recipient to aggregate and report information as it pertains to a security event or incident.                                  |\n| 32 |",
+                "| Task the recipient to eliminate a vulnerability or attack point.                                                                        |"
+            ]
+        },
+        {
+            "_value": "OpenC2 Target datatypes"
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Target (Choice)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "artifact"
+                },
+                {
+                    "_value": "command"
+                },
+                {
+                    "_value": "device"
+                },
+                {
+                    "_value": "domain_name"
+                },
+                {
+                    "_value": "email_addr"
+                },
+                {
+                    "_value": "features"
+                },
+                {
+                    "_value": "file"
+                },
+                {
+                    "_value": "idn_domain_name"
+                },
+                {
+                    "_value": "idn_email_addr"
+                },
+                {
+                    "_value": "ipv4_net"
+                },
+                {
+                    "_value": "ipv6_net"
+                },
+                {
+                    "_value": "ipv4_connection"
+                },
+                {
+                    "_value": "ipv6_connection"
+                },
+                {
+                    "_value": "iri"
+                },
+                {
+                    "_value": "mac_addr"
+                },
+                {
+                    "_value": "process"
+                },
+                {
+                    "_value": "properties"
+                },
+                {
+                    "_value": "uri"
+                }
+            ],
+            "_values": [
+                "| ID | Name                | Type            | # | Description                                                                                         |\n|----|---------------------|-----------------|----|-----------------------------------------------------------------------------------------------------|\n| 1  |",
+                "| Artifact        | 1  | An array of bytes representing a file-like object or a link to that object.                         |\n| 2  |",
+                "| String          | 1  | A reference to a previously issued Command.                                                         |\n| 3  |",
+                "| Device          | 1  | The properties of a hardware device.                                                                |\n| 7  |",
+                "| Domain-Name     | 1  | A network domain name.                                                                              |\n| 8  |",
+                "| Email-Addr      | 1  | A single email address.                                                                             |\n| 9  |",
+                "| Features        | 1  | A set of items used with the query Action to determine an Actuator's capabilities.                  |\n| 10 |",
+                "| File            | 1  | Properties of a file.                                                                               |\n| 11 |",
+                "| IDN-Domain-Name | 1  | An internationalized domain name.                                                                   |\n| 12 |",
+                "| IDN-Email-Addr  | 1  | A single internationalized email address.                                                           |\n| 13 |",
+                "| IPv4-Net        | 1  | An IPv4 address range including CIDR prefix length.                                                 |\n| 14 |",
+                "| IPv6-Net        | 1  | An IPv6 address range including prefix length.                                                      |\n| 15 |",
+                "| IPv4-Connection | 1  | A 5-tuple of source and destination IPv4 address ranges, source and destination ports, and protocol |\n| 16 |",
+                "| IPv6-Connection | 1  | A 5-tuple of source and destination IPv6 address ranges, source and destination ports, and protocol |\n| 20 |",
+                "| IRI             | 1  | An internationalized resource identifier (IRI).                                                     |\n| 17 |",
+                "| MAC-Addr        | 1  | A Media Access Control (MAC) address - EUI-48 or EUI-64 as defined in",
+                "|\n| 18 |",
+                "| Process         | 1  | Common properties of an instance of a computer program as executed on an operating system.          |\n| 25 |",
+                "| Properties      | 1  | Data attribute associated with an Actuator                                                          |\n| 19 |",
+                "| URI             | 1  | A uniform resource identifier (URI).                                                                |"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#eui"
+                    },
+                    "_value": "[EUI]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Args (Map{1..*})"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "start_time"
+                },
+                {
+                    "_value": "stop_time"
+                },
+                {
+                    "_value": "duration"
+                },
+                {
+                    "_value": "response_requested"
+                }
+            ],
+            "_values": [
+                "| ID | Name                   | Type          | #   | Description                                                                         |\n|----|------------------------|---------------|------|-------------------------------------------------------------------------------------|\n| 1  |",
+                "| Date-Time     | 0..1 | The specific date/time to initiate the Command                                      |\n| 2  |",
+                "| Date-Time     | 0..1 | The specific date/time to terminate the Command                                     |\n| 3  |",
+                "| Duration      | 0..1 | The length of time for an Command to be in effect                                   |\n| 4  |",
+                "| Response-Type | 0..1 | The type of Response required for the Command:",
+                ",",
+                ",",
+                ",",
+                ". |"
+            ],
+            "code": [
+                {
+                    "_value": "none"
+                },
+                {
+                    "_value": "ack"
+                },
+                {
+                    "_value": "status"
+                },
+                {
+                    "_value": "complete"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Actuator (Choice)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "placeholder"
+                }
+            ],
+            "_values": [
+                "| ID | Name            | Type   | # | Description |\n|----|-----------------|--------|----|-------------|\n| 1  |",
+                "| String | 1  | Placeholder |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Results (Map{1..*})"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "versions"
+                },
+                {
+                    "_value": "profiles"
+                },
+                {
+                    "_value": "pairs"
+                },
+                {
+                    "_value": "rate_limit"
+                }
+            ],
+            "_values": [
+                "| ID | Name           | Type                    | #    | Description                                                         |\n|----|----------------|-------------------------|-------|---------------------------------------------------------------------|\n| 1  |",
+                "| ArrayOf(Version) unique | 0..* | List of OpenC2 language versions supported by this Actuator         |\n| 2  |",
+                "| ArrayOf(Nsid)           | 0..1  | List of profiles supported by this Actuator                         |\n| 3  |",
+                "| Action-Targets          | 0..1  | List of targets applicable to each supported Action                 |\n| 4  |",
+                "| Number                  | 0..1  | Maximum number of requests per minute supported by design or policy |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Action-Targets"
+                }
+            ],
+            "_values": [
+                "| Type Name          | Type Definition              | Description                                                                                    |\n|--------------------|------------------------------|------------------------------------------------------------------------------------------------|\n|",
+                "| MapOf(Action, Targets){1..*} | Map of each action supported by this actuator to the list of targets applicable to that action |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Targets"
+                }
+            ],
+            "_values": [
+                "| Type Name   | Type Definition                       | Description                           |\n|-------------|---------------------------------------|---------------------------------------|\n|",
+                "| ArrayOf(Pointer[Target]){1..0} unique | List of JSON Pointers to Target types |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Status-Code (Enumerated.ID)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Processing"
+                },
+                {
+                    "_value": "OK"
+                },
+                {
+                    "_value": "BadRequest"
+                },
+                {
+                    "_value": "Unauthorized"
+                },
+                {
+                    "_value": "Forbidden"
+                },
+                {
+                    "_value": "NotFound"
+                },
+                {
+                    "_value": "InternalError"
+                },
+                {
+                    "_value": "NotImplemented"
+                },
+                {
+                    "_value": "ServiceUnavailable"
+                }
+            ],
+            "_values": [
+                "| ID  | Description                                                                                                                                                            |\n|-----|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| 102 |",
+                "- an interim Response used to inform the Producer that the Consumer has accepted the Command but has not yet completed it.                              |\n| 200 |",
+                "- the Command has succeeded.                                                                                                                                    |\n| 400 |",
+                "- the Consumer cannot process the Command due to something that is perceived to be a Producer error (e.g., malformed Command syntax).                   |\n| 401 |",
+                "- the Command Message lacks valid authentication credentials for the target resource or authorization has been refused for the submitted credentials. |\n| 403 |",
+                "- the Consumer understood the Command but refuses to authorize it.                                                                                       |\n| 404 |",
+                "- the Consumer has not found anything matching the Command.                                                                                               |\n| 500 |",
+                "- the Consumer encountered an unexpected condition that prevented it from performing the Command.                                                    |\n| 501 |",
+                "- the Consumer does not support the functionality required to perform the Command.                                                                  |\n| 503 |",
+                "- the Consumer is currently unable to perform the Command due to a temporary overloading or maintenance of the Consumer.                        |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Artifact (Record{1..*})"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "mime_type"
+                },
+                {
+                    "_value": "payload"
+                },
+                {
+                    "_value": "hashes"
+                }
+            ],
+            "_values": [
+                "| ID | Name          | Type    | #   | Description                                                                        |\n|----|---------------|---------|------|------------------------------------------------------------------------------------|\n| 1  |",
+                "| String  | 0..1 | Permitted values specified in the IANA Media Types registry,",
+                "|\n| 2  |",
+                "| Payload | 0..1 | Choice of literal content or URL                                                   |\n| 3  |",
+                "| Hashes  | 0..1 | Hashes of the payload content                                                      |"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc6838"
+                    },
+                    "_value": "[RFC6838]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Device (Map{1..*})"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "hostname"
+                },
+                {
+                    "_value": "idn_hostname"
+                },
+                {
+                    "_value": "device_id"
+                }
+            ],
+            "_values": [
+                "| ID | Name             | Type         | #   | Description                                                                             |\n|----|------------------|--------------|------|-----------------------------------------------------------------------------------------|\n| 1  |",
+                "| Hostname     | 0..1 | A hostname that can be used to connect to this device over a network                    |\n| 2  |",
+                "| IDN-Hostname | 0..1 | An internationalized hostname that can be used to connect to this device over a network |\n| 3  |",
+                "| String       | 0..1 | An identifier that refers to this device within an inventory or management system       |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Domain-Name"
+                }
+            ],
+            "_values": [
+                "| Type Name       | Type Definition  | Description                        |\n|-----------------|------------------|------------------------------------|\n|",
+                "| String /hostname |",
+                ", Section 3.5 |"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc1034"
+                    },
+                    "_value": "[RFC1034]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Email-Addr"
+                }
+            ],
+            "_values": [
+                "| Type Name      | Type Definition | Description                                         |\n|----------------|-----------------|-----------------------------------------------------|\n|",
+                "| String /email   | Email address,",
+                ", Section 3.4.1 |"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc5322"
+                    },
+                    "_value": "[RFC5322]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Features"
+                }
+            ],
+            "_values": [
+                "| Type Name    | Type Definition                | Description                                                                             |\n|--------------|--------------------------------|-----------------------------------------------------------------------------------------|\n|",
+                "| ArrayOf(Feature){0..10} unique | An array of zero to ten names used to query an Actuator for its supported capabilities. |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: File (Map{1..*})"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "name"
+                },
+                {
+                    "_value": "path"
+                },
+                {
+                    "_value": "hashes"
+                }
+            ],
+            "_values": [
+                "| ID | Name       | Type   | #   | Description                                                      |\n|----|------------|--------|------|------------------------------------------------------------------|\n| 1  |",
+                "| String | 0..1 | The name of the file as defined in the file system               |\n| 2  |",
+                "| String | 0..1 | The absolute path to the location of the file in the file system |\n| 3  |",
+                "| Hashes | 0..1 | One or more cryptographic hash codes of the file contents        |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "IDN-Domain-Name"
+                }
+            ],
+            "_values": [
+                "| Type Name           | Type Definition      | Description                                                            |\n|---------------------|----------------------|------------------------------------------------------------------------|\n|",
+                "| String /idn-hostname | Internationalized Domain Name,",
+                ", Section 2.3.2.3. |"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc5890"
+                    },
+                    "_value": "[RFC5890]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "IDN-Email-Addr"
+                }
+            ],
+            "_values": [
+                "| Type Name          | Type Definition   | Description                                            |\n|--------------------|-------------------|--------------------------------------------------------|\n|",
+                "| String /idn-email | Internationalized email address,",
+                "|"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc6531"
+                    },
+                    "_value": "[RFC6531]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: IPv4-Net (Array /ipv4-net)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "ipv4_addr"
+                },
+                {
+                    "_value": "prefix_length"
+                }
+            ],
+            "_values": [
+                "| ID | Type      | #   | Description                                                                          |\n|----|-----------|------|--------------------------------------------------------------------------------------|\n| 1  | IPv4-Addr | 1    |",
+                "- IPv4 address as defined in",
+                "|\n| 2  | Integer   | 0..1 |",
+                "- CIDR prefix-length. If omitted, refers to a single host address. |"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc0791"
+                    },
+                    "_value": "[RFC0791]"
+                }
+            ]
+        },
+        {
+            "_value": "5-tuple that specifies a tcp/ip connection"
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: IPv4-Connection (Record{1..*})"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "src_addr"
+                },
+                {
+                    "_value": "src_port"
+                },
+                {
+                    "_value": "dst_addr"
+                },
+                {
+                    "_value": "dst_port"
+                },
+                {
+                    "_value": "protocol"
+                }
+            ],
+            "_values": [
+                "| ID | Name         | Type        | #   | Description                                                               |\n|----|--------------|-------------|------|---------------------------------------------------------------------------|\n| 1  |",
+                "| IPv4-Net    | 0..1 | IPv4 source address range                                                 |\n| 2  |",
+                "| Port        | 0..1 | source service per",
+                "|\n| 3  |",
+                "| IPv4-Net    | 0..1 | IPv4 destination address range                                            |\n| 4  |",
+                "| Port        | 0..1 | destination service per",
+                "|\n| 5  |",
+                "| L4-Protocol | 0..1 | layer 4 protocol (e.g., TCP) - see",
+                "|"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc6335"
+                    },
+                    "_value": "[RFC6335]"
+                },
+                {
+                    "_attributes": {
+                        "href": "#rfc6335"
+                    },
+                    "_value": "[RFC6335]"
+                },
+                {
+                    "_attributes": {
+                        "href": "#34210-l4-protocol"
+                    },
+                    "_value": "Section 3.4.2.10"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: IPv6-Net (Array /ipv6-net)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "ipv6_addr"
+                },
+                {
+                    "_value": "prefix_length"
+                }
+            ],
+            "_values": [
+                "| ID | Type      | #   | Description                                                                     |\n|----|-----------|------|---------------------------------------------------------------------------------|\n| 1  | IPv6-Addr | 1    |",
+                "- IPv6 address as defined in",
+                "|\n| 2  | Integer   | 0..1 |",
+                "- prefix length. If omitted, refers to a single host address. |"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc8200"
+                    },
+                    "_value": "[RFC8200]"
+                }
+            ]
+        },
+        {
+            "_value": "5-tuple that specifies a tcp/ip connection"
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: IPv6-Connection (Record{1..*})"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "src_addr"
+                },
+                {
+                    "_value": "src_port"
+                },
+                {
+                    "_value": "dst_addr"
+                },
+                {
+                    "_value": "dst_port"
+                },
+                {
+                    "_value": "protocol"
+                }
+            ],
+            "_values": [
+                "| ID | Name         | Type        | #   | Description                                                           |\n|----|--------------|-------------|------|-----------------------------------------------------------------------|\n| 1  |",
+                "| IPv6-Net    | 0..1 | IPv6 source address range                                             |\n| 2  |",
+                "| Port        | 0..1 | source service per",
+                "|\n| 3  |",
+                "| IPv6-Net    | 0..1 | IPv6 destination address range                                        |\n| 4  |",
+                "| Port        | 0..1 | destination service per",
+                "|\n| 5  |",
+                "| L4-Protocol | 0..1 | layer 4 protocol (e.g., TCP) -",
+                "|"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc6335"
+                    },
+                    "_value": "[RFC6335]"
+                },
+                {
+                    "_attributes": {
+                        "href": "#rfc6335"
+                    },
+                    "_value": "[RFC6335]"
+                },
+                {
+                    "_attributes": {
+                        "href": "#34210-l4-protocol"
+                    },
+                    "_value": "Section 3.4.2.10"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "IRI"
+                }
+            ],
+            "_values": [
+                "| Type Name | Type Definition | Description                                                   |\n|-----------|-----------------|---------------------------------------------------------------|\n|",
+                "| String /iri     | Internationalized Resource Identifier,",
+                ". |"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc3987"
+                    },
+                    "_value": "[RFC3987]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "MAC-Addr"
+                }
+            ],
+            "_values": [
+                "| Type Name    | Type Definition | Description                                                                                               |\n|--------------|-----------------|-----------------------------------------------------------------------------------------------------------|\n|",
+                "| Binary /eui     | Media Access Control / Extended Unique Identifier address - EUI-48 or EUI-64 as defined in",
+                ". |"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#eui"
+                    },
+                    "_value": "[EUI]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Process (Map{1..*})"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "pid"
+                },
+                {
+                    "_value": "name"
+                },
+                {
+                    "_value": "cwd"
+                },
+                {
+                    "_value": "executable"
+                },
+                {
+                    "_value": "parent"
+                },
+                {
+                    "_value": "command_line"
+                }
+            ],
+            "_values": [
+                "| ID | Name             | Type           | #   | Description                                                                          |\n|----|------------------|----------------|------|--------------------------------------------------------------------------------------|\n| 1  |",
+                "| Integer{0..*} | 0..1 | Process ID of the process                                                            |\n| 2  |",
+                "| String         | 0..1 | Name of the process                                                                  |\n| 3  |",
+                "| String         | 0..1 | Current working directory of the process                                             |\n| 4  |",
+                "| File           | 0..1 | Executable that was executed to start the process                                    |\n| 5  |",
+                "| Process        | 0..1 | Process that spawned this one                                                        |\n| 6  |",
+                "| String         | 0..1 | The full command line invocation used to start this process, including all arguments |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Properties"
+                }
+            ],
+            "_values": [
+                "| Type Name      | Type Definition              | Description                                                       |\n|----------------|------------------------------|-------------------------------------------------------------------|\n|",
+                "| ArrayOf(String){1..*} unique | A list of names that uniquely identify properties of an Actuator. |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "URI"
+                }
+            ],
+            "_values": [
+                "| Type Name | Type Definition | Description                                         |\n|-----------|-----------------|-----------------------------------------------------|\n|",
+                "| String /uri     | Uniform Resource Identifier,",
+                ". |"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc3986"
+                    },
+                    "_value": "[RFC3986]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Date-Time"
+                }
+            ],
+            "_values": [
+                "| Type Name     | Type Definition | Description   |\n|---------------|-----------------|---------------|\n|",
+                "| Integer{0..*}   | Date and Time |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Duration"
+                }
+            ],
+            "_values": [
+                "| Type Name    | Type Definition | Description      |\n|--------------|-----------------|------------------|\n|",
+                "| Integer{0..*}   | A length of time |"
+            ]
+        },
+        {
+            "_value": "Specifies the results to be returned from a query features Command"
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Feature (Enumerated)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "versions"
+                },
+                {
+                    "_value": "profiles"
+                },
+                {
+                    "_value": "pairs"
+                },
+                {
+                    "_value": "rate_limit"
+                }
+            ],
+            "_values": [
+                "| ID | Item           | Description                                                         |\n|----|----------------|---------------------------------------------------------------------|\n| 1  |",
+                "| List of OpenC2 Language versions supported by this Actuator         |\n| 2  |",
+                "| List of profiles supported by this Actuator                         |\n| 3  |",
+                "| List of supported Actions and applicable Targets                    |\n| 4  |",
+                "| Maximum number of Commands per minute supported by design or policy |"
+            ]
+        },
+        {
+            "_value": "Cryptographic Hash values"
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Hashes (Map{1..*})"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "md5"
+                },
+                {
+                    "_value": "sha1"
+                },
+                {
+                    "_value": "sha256"
+                }
+            ],
+            "_values": [
+                "| ID | Name       | Type      | #   | Description                                     |\n|----|------------|-----------|------|-------------------------------------------------|\n| 1  |",
+                "| Binary /x | 0..1 | MD5 hash as defined in",
+                "|\n| 2  |",
+                "| Binary /x | 0..1 | SHA1 hash as defined in",
+                "|\n| 3  |",
+                "| Binary /x | 0..1 | SHA256 hash as defined in",
+                "|"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc1321"
+                    },
+                    "_value": "[RFC1321]"
+                },
+                {
+                    "_attributes": {
+                        "href": "#rfc6234"
+                    },
+                    "_value": "[RFC6234]"
+                },
+                {
+                    "_attributes": {
+                        "href": "#rfc6234"
+                    },
+                    "_value": "[RFC6234]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Hostname"
+                }
+            ],
+            "_values": [
+                "| Type Name    | Type Definition  | Description                                              |\n|--------------|------------------|----------------------------------------------------------|\n|",
+                "| String /hostname | Internet host name as specified in",
+                "|"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc1123"
+                    },
+                    "_value": "[RFC1123]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "IDN-Hostname"
+                }
+            ],
+            "_values": [
+                "| Type Name        | Type Definition      | Description                                                                                  |\n|------------------|----------------------|----------------------------------------------------------------------------------------------|\n|",
+                "| String /idn-hostname | Internationalized Internet host name as specified in",
+                ", Section 2.3.2.3. |"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc5890"
+                    },
+                    "_value": "[RFC5890]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "IPv4-Addr"
+                }
+            ],
+            "_values": [
+                "| Type Name     | Type Definition   | Description                                             |\n|---------------|-------------------|---------------------------------------------------------|\n|",
+                "| Binary /ipv4-addr | 32 bit IPv4 address as defined in",
+                "|"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc0791"
+                    },
+                    "_value": "[RFC0791]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "IPv6-Addr"
+                }
+            ],
+            "_values": [
+                "| Type Name     | Type Definition   | Description                                              |\n|---------------|-------------------|----------------------------------------------------------|\n|",
+                "| Binary /ipv6-addr | 128 bit IPv6 address as defined in",
+                "|"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc8200"
+                    },
+                    "_value": "[RFC8200]"
+                }
+            ]
+        },
+        {
+            "_value": "Value of the protocol (IPv4) or next header (IPv6) field in an IP packet. Any IANA value, [RFC5237]"
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: L4-Protocol (Enumerated)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "icmp"
+                },
+                {
+                    "_value": "tcp"
+                },
+                {
+                    "_value": "udp"
+                },
+                {
+                    "_value": "sctp"
+                }
+            ],
+            "_values": [
+                "| ID  | Item     | Description                                                  |\n|-----|----------|--------------------------------------------------------------|\n| 1   |",
+                "| Internet Control Message Protocol -",
+                "|\n| 6   |",
+                "| Transmission Control Protocol -",
+                "|\n| 17  |",
+                "| User Datagram Protocol -",
+                "|\n| 132 |",
+                "| Stream Control Transmission Protocol -",
+                "|"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc0792"
+                    },
+                    "_value": "[RFC0792]"
+                },
+                {
+                    "_attributes": {
+                        "href": "#rfc0793"
+                    },
+                    "_value": "[RFC0793]"
+                },
+                {
+                    "_attributes": {
+                        "href": "#rfc0768"
+                    },
+                    "_value": "[RFC0768]"
+                },
+                {
+                    "_attributes": {
+                        "href": "#rfc4960"
+                    },
+                    "_value": "[RFC4960]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Nsid"
+                }
+            ],
+            "_values": [
+                "| Type Name | Type Definition | Description                                    |\n|-----------|-----------------|------------------------------------------------|\n|",
+                "| String{1..16}   | A short identifier that refers to a namespace. |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Payload (Choice)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "bin"
+                },
+                {
+                    "_value": "url"
+                }
+            ],
+            "_values": [
+                "| ID | Name    | Type   | # | Description                                                 |\n|----|---------|--------|----|-------------------------------------------------------------|\n| 1  |",
+                "| Binary | 1  | Specifies the data contained in the artifact                |\n| 2  |",
+                "| URI    | 1  | MUST be a valid URL that resolves to the un-encoded content |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Port"
+                }
+            ],
+            "_values": [
+                "| Type Name | Type Definition   | Description                                           |\n|-----------|-------------------|-------------------------------------------------------|\n|",
+                "| Integer{0..65535} | Transport Protocol Port Number,",
+                "|"
+            ],
+            "a": [
+                {
+                    "_attributes": {
+                        "href": "#rfc6335"
+                    },
+                    "_value": "[RFC6335]"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Type: Response-Type (Enumerated)"
+                }
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "none"
+                },
+                {
+                    "_value": "ack"
+                },
+                {
+                    "_value": "status"
+                },
+                {
+                    "_value": "complete"
+                }
+            ],
+            "_values": [
+                "| ID | Item         | Description                                     |\n|----|--------------|-------------------------------------------------|\n| 0  |",
+                "| No response                                     |\n| 1  |",
+                "| Respond when Command received                   |\n| 2  |",
+                "| Respond with progress toward Command completion |\n| 3  |",
+                "| Respond when all aspects of Command completed   |"
+            ]
+        },
+        {
+            "strong": [
+                {
+                    "_value": "Version"
+                }
+            ],
+            "_values": [
+                "| Type Name   | Type Definition | Description                |\n|-------------|-----------------|----------------------------|\n|",
+                "| String          | Major.Minor version number |"
+            ]
+        }
+    ],
+    "hr": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+    ]
+}

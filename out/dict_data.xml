@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<root>
+	<info type="dict">
+		<package type="str">http://oasis-open.org/openc2/oc2ls/v1.1</package>
+		<title type="str">OpenC2 Language Profile</title>
+		<description type="str">Language Profile from the OpenC2 Language Specification version 1.1</description>
+		<exports type="list">
+			<item type="str">OpenC2-Command</item>
+			<item type="str">OpenC2-Response</item>
+		</exports>
+	</info>
+	<types type="list">
+		<item type="list">
+			<item type="str">OpenC2-Command</item>
+			<item type="str">Record</item>
+			<item type="list"/>
+			<item type="str">The Command defines an Action to be performed on a Target</item>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">action</item>
+					<item type="str">Action</item>
+					<item type="list"/>
+					<item type="str">The task or activity to be performed (i.e., the 'verb').</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">target</item>
+					<item type="str">Target</item>
+					<item type="list"/>
+					<item type="str">The object of the Action. The Action is performed on the Target.</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">args</item>
+					<item type="str">Args</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">Additional information that applies to the Command.</item>
+				</item>
+				<item type="list">
+					<item type="int">4</item>
+					<item type="str">actuator</item>
+					<item type="str">Actuator</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">The subject of the Action. The Actuator executes the Action on the Target.</item>
+				</item>
+				<item type="list">
+					<item type="int">5</item>
+					<item type="str">command_id</item>
+					<item type="str">Command-ID</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">An identifier of this Command.</item>
+				</item>
+			</item>
+		</item>
+	</types>
+</root>

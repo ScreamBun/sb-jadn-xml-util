@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="Barcode">
+		<xs:annotation>
+			<xs:documentation>A UPC-A barcode is 12 digits</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{12}" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

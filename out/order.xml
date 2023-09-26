@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:customer name="John Doe" address="123 Main St" />
+	<xs:order date="2020-01-01" id="12345">
+		<xs:items>
+			<xs:item code="A100" description="Product A" quantity="5" />
+			<xs:item code="B200" description="Product B" quantity="10" />
+		</xs:items>
+	</xs:order>
+</xs:schema>

@@ -1,0 +1,1164 @@
+<?xml version="1.0" ?>
+<root>
+	<info type="dict">
+		<package type="str">http://oasis-open.org/openc2/oc2ls/v1.0.1</package>
+		<version type="str">0</version>
+		<title type="str">Language schema with errata</title>
+		<description type="str">OpenC2 LS version 1.0 + errata</description>
+		<exports type="list">
+			<item type="str">OpenC2-Command</item>
+			<item type="str">OpenC2-Response</item>
+		</exports>
+		<config type="dict">
+			<key name="$Sys" type="str">:</key>
+			<key name="$TypeName" type="str">^[A-Z][-:A-Za-z0-9]{0,31}$</key>
+			<key name="$FieldName" type="str">^[a-z][-_a-z0-9]{0,31}$</key>
+		</config>
+	</info>
+	<types type="list">
+		<item type="list">
+			<item type="str">OpenC2-Command</item>
+			<item type="str">Record</item>
+			<item type="list"/>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">action</item>
+					<item type="str">Action</item>
+					<item type="list"/>
+					<item type="str">The task or activity to be performed (i.e., the 'verb').</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">target</item>
+					<item type="str">Target</item>
+					<item type="list"/>
+					<item type="str">The object of the Action. The Action is performed on the Target.</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">args</item>
+					<item type="str">Args</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">Additional information that applies to the Command.</item>
+				</item>
+				<item type="list">
+					<item type="int">4</item>
+					<item type="str">actuator</item>
+					<item type="str">Actuator</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">The subject of the Action. The Actuator executes the Action on the Target.</item>
+				</item>
+				<item type="list">
+					<item type="int">5</item>
+					<item type="str">command_id</item>
+					<item type="str">String</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">An identifier of this Command.</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">OpenC2-Response</item>
+			<item type="str">Map</item>
+			<item type="list"/>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">status</item>
+					<item type="str">Status-Code</item>
+					<item type="list"/>
+					<item type="str">An integer status code</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">status_text</item>
+					<item type="str">String</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">A free-form human-readable description of the Response status</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">results</item>
+					<item type="str">Results</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">Map of key:value pairs that contain additional results based on the invoking Command.</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Action</item>
+			<item type="str">Enumerated</item>
+			<item type="list"/>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">scan</item>
+					<item type="str">Systematic examination of some aspect of the entity or its environment.</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">locate</item>
+					<item type="str">Find an object physically, logically, functionally, or by organization.</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">query</item>
+					<item type="str">Initiate a request for information.</item>
+				</item>
+				<item type="list">
+					<item type="int">6</item>
+					<item type="str">deny</item>
+					<item type="str">Prevent a certain event or action from completion, such as preventing a flow from reaching a destination or preventing access.</item>
+				</item>
+				<item type="list">
+					<item type="int">7</item>
+					<item type="str">contain</item>
+					<item type="str">Isolate a file, process, or entity so that it cannot modify or access assets or processes.</item>
+				</item>
+				<item type="list">
+					<item type="int">8</item>
+					<item type="str">allow</item>
+					<item type="str">Permit access to or execution of a Target.</item>
+				</item>
+				<item type="list">
+					<item type="int">9</item>
+					<item type="str">start</item>
+					<item type="str">Initiate a process, application, system, or activity.</item>
+				</item>
+				<item type="list">
+					<item type="int">10</item>
+					<item type="str">stop</item>
+					<item type="str">Halt a system or end an activity.</item>
+				</item>
+				<item type="list">
+					<item type="int">11</item>
+					<item type="str">restart</item>
+					<item type="str">Stop then start a system or an activity.</item>
+				</item>
+				<item type="list">
+					<item type="int">14</item>
+					<item type="str">cancel</item>
+					<item type="str">Invalidate a previously issued Action.</item>
+				</item>
+				<item type="list">
+					<item type="int">15</item>
+					<item type="str">set</item>
+					<item type="str">Change a value, configuration, or state of a managed entity.</item>
+				</item>
+				<item type="list">
+					<item type="int">16</item>
+					<item type="str">update</item>
+					<item type="str">Instruct a component to retrieve, install, process, and operate in accordance with a software update, reconfiguration, or other update.</item>
+				</item>
+				<item type="list">
+					<item type="int">18</item>
+					<item type="str">redirect</item>
+					<item type="str">Change the flow of traffic to a destination other than its original destination.</item>
+				</item>
+				<item type="list">
+					<item type="int">19</item>
+					<item type="str">create</item>
+					<item type="str">Add a new entity of a known type (e.g., data, files, directories).</item>
+				</item>
+				<item type="list">
+					<item type="int">20</item>
+					<item type="str">delete</item>
+					<item type="str">Remove an entity (e.g., data, files, flows).</item>
+				</item>
+				<item type="list">
+					<item type="int">22</item>
+					<item type="str">detonate</item>
+					<item type="str">Execute and observe the behavior of a Target (e.g., file, hyperlink) in an isolated environment.</item>
+				</item>
+				<item type="list">
+					<item type="int">23</item>
+					<item type="str">restore</item>
+					<item type="str">Return a system to a previously known state.</item>
+				</item>
+				<item type="list">
+					<item type="int">28</item>
+					<item type="str">copy</item>
+					<item type="str">Duplicate an object, file, data flow, or artifact.</item>
+				</item>
+				<item type="list">
+					<item type="int">30</item>
+					<item type="str">investigate</item>
+					<item type="str">Task the recipient to aggregate and report information as it pertains to a security event or incident.</item>
+				</item>
+				<item type="list">
+					<item type="int">32</item>
+					<item type="str">remediate</item>
+					<item type="str">Task the recipient to eliminate a vulnerability or attack point.</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Target</item>
+			<item type="str">Choice</item>
+			<item type="list"/>
+			<item type="str">OpenC2 Target datatypes</item>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">artifact</item>
+					<item type="str">Artifact</item>
+					<item type="list"/>
+					<item type="str">An array of bytes representing a file-like object or a link to that object.</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">command</item>
+					<item type="str">String</item>
+					<item type="list"/>
+					<item type="str">A reference to a previously issued Command.</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">device</item>
+					<item type="str">Device</item>
+					<item type="list"/>
+					<item type="str">The properties of a hardware device.</item>
+				</item>
+				<item type="list">
+					<item type="int">7</item>
+					<item type="str">domain_name</item>
+					<item type="str">Domain-Name</item>
+					<item type="list"/>
+					<item type="str">A network domain name.</item>
+				</item>
+				<item type="list">
+					<item type="int">8</item>
+					<item type="str">email_addr</item>
+					<item type="str">Email-Addr</item>
+					<item type="list"/>
+					<item type="str">A single email address.</item>
+				</item>
+				<item type="list">
+					<item type="int">9</item>
+					<item type="str">features</item>
+					<item type="str">Features</item>
+					<item type="list"/>
+					<item type="str">A set of items used with the query Action to determine an Actuator's capabilities.</item>
+				</item>
+				<item type="list">
+					<item type="int">10</item>
+					<item type="str">file</item>
+					<item type="str">File</item>
+					<item type="list"/>
+					<item type="str">Properties of a file.</item>
+				</item>
+				<item type="list">
+					<item type="int">11</item>
+					<item type="str">idn_domain_name</item>
+					<item type="str">IDN-Domain-Name</item>
+					<item type="list"/>
+					<item type="str">An internationalized domain name.</item>
+				</item>
+				<item type="list">
+					<item type="int">12</item>
+					<item type="str">idn_email_addr</item>
+					<item type="str">IDN-Email-Addr</item>
+					<item type="list"/>
+					<item type="str">A single internationalized email address.</item>
+				</item>
+				<item type="list">
+					<item type="int">13</item>
+					<item type="str">ipv4_net</item>
+					<item type="str">IPv4-Net</item>
+					<item type="list"/>
+					<item type="str">An IPv4 address range including CIDR prefix length.</item>
+				</item>
+				<item type="list">
+					<item type="int">14</item>
+					<item type="str">ipv6_net</item>
+					<item type="str">IPv6-Net</item>
+					<item type="list"/>
+					<item type="str">An IPv6 address range including prefix length.</item>
+				</item>
+				<item type="list">
+					<item type="int">15</item>
+					<item type="str">ipv4_connection</item>
+					<item type="str">IPv4-Connection</item>
+					<item type="list"/>
+					<item type="str">A 5-tuple of source and destination IPv4 address ranges, source and destination ports, and protocol</item>
+				</item>
+				<item type="list">
+					<item type="int">16</item>
+					<item type="str">ipv6_connection</item>
+					<item type="str">IPv6-Connection</item>
+					<item type="list"/>
+					<item type="str">A 5-tuple of source and destination IPv6 address ranges, source and destination ports, and protocol</item>
+				</item>
+				<item type="list">
+					<item type="int">20</item>
+					<item type="str">iri</item>
+					<item type="str">IRI</item>
+					<item type="list"/>
+					<item type="str">An internationalized resource identifier (IRI).</item>
+				</item>
+				<item type="list">
+					<item type="int">17</item>
+					<item type="str">mac_addr</item>
+					<item type="str">MAC-Addr</item>
+					<item type="list"/>
+					<item type="str">A Media Access Control (MAC) address - EUI-48 or EUI-64 as defined in [[EUI]](#eui)</item>
+				</item>
+				<item type="list">
+					<item type="int">18</item>
+					<item type="str">process</item>
+					<item type="str">Process</item>
+					<item type="list"/>
+					<item type="str">Common properties of an instance of a computer program as executed on an operating system.</item>
+				</item>
+				<item type="list">
+					<item type="int">25</item>
+					<item type="str">properties</item>
+					<item type="str">Properties</item>
+					<item type="list"/>
+					<item type="str">Data attribute associated with an Actuator</item>
+				</item>
+				<item type="list">
+					<item type="int">19</item>
+					<item type="str">uri</item>
+					<item type="str">URI</item>
+					<item type="list"/>
+					<item type="str">A uniform resource identifier (URI).</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Args</item>
+			<item type="str">Map</item>
+			<item type="list">
+				<item type="str">{1</item>
+			</item>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">start_time</item>
+					<item type="str">Date-Time</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">The specific date/time to initiate the Command</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">stop_time</item>
+					<item type="str">Date-Time</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">The specific date/time to terminate the Command</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">duration</item>
+					<item type="str">Duration</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">The length of time for an Command to be in effect</item>
+				</item>
+				<item type="list">
+					<item type="int">4</item>
+					<item type="str">response_requested</item>
+					<item type="str">Response-Type</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">The type of Response required for the Command: `none`, `ack`, `status`, `complete`.</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Actuator</item>
+			<item type="str">Choice</item>
+			<item type="list"/>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="str">1</item>
+					<item type="str">placeholder</item>
+					<item type="str">String</item>
+					<item type="list"/>
+					<item type="str">Placeholder</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Results</item>
+			<item type="str">Map</item>
+			<item type="list">
+				<item type="str">{1</item>
+			</item>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">versions</item>
+					<item type="str">ArrayOf</item>
+					<item type="list">
+						<item type="str">*Version</item>
+						<item type="str">[0</item>
+						<item type="str">]0</item>
+						<item type="str">q</item>
+					</item>
+					<item type="str">List of OpenC2 language versions supported by this Actuator</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">profiles</item>
+					<item type="str">ArrayOf</item>
+					<item type="list">
+						<item type="str">[0</item>
+						<item type="str">*Nsid</item>
+					</item>
+					<item type="str">List of profiles supported by this Actuator</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">pairs</item>
+					<item type="str">Action-Targets</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">List of targets applicable to each supported Action</item>
+				</item>
+				<item type="list">
+					<item type="int">4</item>
+					<item type="str">rate_limit</item>
+					<item type="str">Number</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">Maximum number of requests per minute supported by design or policy</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Action-Targets</item>
+			<item type="str">MapOf</item>
+			<item type="list">
+				<item type="str">{1</item>
+				<item type="str">+Action</item>
+				<item type="str">*Targets</item>
+			</item>
+			<item type="str">Map of each action supported by this actuator to the list of targets applicable to that action</item>
+		</item>
+		<item type="list">
+			<item type="str">Targets</item>
+			<item type="str">ArrayOf</item>
+			<item type="list">
+				<item type="str">*&gt;Target</item>
+				<item type="str">{1</item>
+				<item type="str">}0</item>
+				<item type="str">q</item>
+			</item>
+			<item type="str">List of JSON Pointers to Target types</item>
+		</item>
+		<item type="list">
+			<item type="str">Status-Code</item>
+			<item type="str">Enumerated</item>
+			<item type="list">
+				<item type="str">=</item>
+			</item>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">102</item>
+					<item type="str">Processing</item>
+					<item type="str">an interim Response used to inform the Producer that the Consumer has accepted the Command but has not yet completed it.</item>
+				</item>
+				<item type="list">
+					<item type="int">200</item>
+					<item type="str">OK</item>
+					<item type="str">the Command has succeeded.</item>
+				</item>
+				<item type="list">
+					<item type="int">400</item>
+					<item type="str">BadRequest</item>
+					<item type="str">the Consumer cannot process the Command due to something that is perceived to be a Producer error (e.g., malformed Command syntax).</item>
+				</item>
+				<item type="list">
+					<item type="int">401</item>
+					<item type="str">Unauthorized</item>
+					<item type="str">the Command Message lacks valid authentication credentials for the target resource or authorization has been refused for the submitted credentials.</item>
+				</item>
+				<item type="list">
+					<item type="int">403</item>
+					<item type="str">Forbidden</item>
+					<item type="str">the Consumer understood the Command but refuses to authorize it.</item>
+				</item>
+				<item type="list">
+					<item type="int">404</item>
+					<item type="str">NotFound</item>
+					<item type="str">the Consumer has not found anything matching the Command.</item>
+				</item>
+				<item type="list">
+					<item type="int">500</item>
+					<item type="str">InternalError</item>
+					<item type="str">the Consumer encountered an unexpected condition that prevented it from performing the Command.</item>
+				</item>
+				<item type="list">
+					<item type="int">501</item>
+					<item type="str">NotImplemented</item>
+					<item type="str">the Consumer does not support the functionality required to perform the Command.</item>
+				</item>
+				<item type="list">
+					<item type="int">503</item>
+					<item type="str">ServiceUnavailable</item>
+					<item type="str">the Consumer is currently unable to perform the Command due to a temporary overloading or maintenance of the Consumer.</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Artifact</item>
+			<item type="str">Record</item>
+			<item type="list">
+				<item type="str">{1</item>
+			</item>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">mime_type</item>
+					<item type="str">String</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">Permitted values specified in the IANA Media Types registry, [[RFC6838]](#rfc6838)</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">payload</item>
+					<item type="str">Payload</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">Choice of literal content or URL</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">hashes</item>
+					<item type="str">Hashes</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">Hashes of the payload content</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Device</item>
+			<item type="str">Map</item>
+			<item type="list">
+				<item type="str">{1</item>
+			</item>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">hostname</item>
+					<item type="str">Hostname</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">A hostname that can be used to connect to this device over a network</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">idn_hostname</item>
+					<item type="str">IDN-Hostname</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">An internationalized hostname that can be used to connect to this device over a network</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">device_id</item>
+					<item type="str">String</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">An identifier that refers to this device within an inventory or management system</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Domain-Name</item>
+			<item type="str">String</item>
+			<item type="list">
+				<item type="str">/hostname</item>
+			</item>
+			<item type="str">[[RFC1034]](#rfc1034), Section 3.5</item>
+		</item>
+		<item type="list">
+			<item type="str">Email-Addr</item>
+			<item type="str">String</item>
+			<item type="list">
+				<item type="str">/email</item>
+			</item>
+			<item type="str">Email address, [[RFC5322]](#rfc5322), Section 3.4.1</item>
+		</item>
+		<item type="list">
+			<item type="str">Features</item>
+			<item type="str">ArrayOf</item>
+			<item type="list">
+				<item type="str">*Feature</item>
+				<item type="str">{0</item>
+				<item type="str">}10</item>
+				<item type="str">q</item>
+			</item>
+			<item type="str">An array of zero to ten names used to query an Actuator for its supported capabilities.</item>
+		</item>
+		<item type="list">
+			<item type="str">File</item>
+			<item type="str">Map</item>
+			<item type="list">
+				<item type="str">{1</item>
+			</item>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">name</item>
+					<item type="str">String</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">The name of the file as defined in the file system</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">path</item>
+					<item type="str">String</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">The absolute path to the location of the file in the file system</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">hashes</item>
+					<item type="str">Hashes</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">One or more cryptographic hash codes of the file contents</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">IDN-Domain-Name</item>
+			<item type="str">String</item>
+			<item type="list">
+				<item type="str">/idn-hostname</item>
+			</item>
+			<item type="str">Internationalized Domain Name, [[RFC5890]](#rfc5890), Section 2.3.2.3.</item>
+		</item>
+		<item type="list">
+			<item type="str">IDN-Email-Addr</item>
+			<item type="str">String</item>
+			<item type="list">
+				<item type="str">/idn-email</item>
+			</item>
+			<item type="str">Internationalized email address, [[RFC6531]](#rfc6531)</item>
+		</item>
+		<item type="list">
+			<item type="str">IPv4-Net</item>
+			<item type="str">Array</item>
+			<item type="list">
+				<item type="str">/ipv4-net</item>
+			</item>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">ipv4_addr</item>
+					<item type="str">IPv4-Addr</item>
+					<item type="list"/>
+					<item type="str">IPv4 address as defined in [[RFC0791]](#rfc0791)</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">prefix_length</item>
+					<item type="str">Integer</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">CIDR prefix-length. If omitted, refers to a single host address.</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">IPv4-Connection</item>
+			<item type="str">Record</item>
+			<item type="list">
+				<item type="str">{1</item>
+			</item>
+			<item type="str">5-tuple that specifies a tcp/ip connection</item>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">src_addr</item>
+					<item type="str">IPv4-Net</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">IPv4 source address range</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">src_port</item>
+					<item type="str">Port</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">source service per [[RFC6335]](#rfc6335)</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">dst_addr</item>
+					<item type="str">IPv4-Net</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">IPv4 destination address range</item>
+				</item>
+				<item type="list">
+					<item type="int">4</item>
+					<item type="str">dst_port</item>
+					<item type="str">Port</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">destination service per [[RFC6335]](#rfc6335)</item>
+				</item>
+				<item type="list">
+					<item type="int">5</item>
+					<item type="str">protocol</item>
+					<item type="str">L4-Protocol</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">layer 4 protocol (e.g., TCP) - see [Section 3.4.2.10](#34210-l4-protocol)</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">IPv6-Net</item>
+			<item type="str">Array</item>
+			<item type="list">
+				<item type="str">/ipv6-net</item>
+			</item>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">ipv6_addr</item>
+					<item type="str">IPv6-Addr</item>
+					<item type="list"/>
+					<item type="str">IPv6 address as defined in [[RFC8200]](#rfc8200)</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">prefix_length</item>
+					<item type="str">Integer</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">prefix length. If omitted, refers to a single host address.</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">IPv6-Connection</item>
+			<item type="str">Record</item>
+			<item type="list">
+				<item type="str">{1</item>
+			</item>
+			<item type="str">5-tuple that specifies a tcp/ip connection</item>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">src_addr</item>
+					<item type="str">IPv6-Net</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">IPv6 source address range</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">src_port</item>
+					<item type="str">Port</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">source service per [[RFC6335]](#rfc6335)</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">dst_addr</item>
+					<item type="str">IPv6-Net</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">IPv6 destination address range</item>
+				</item>
+				<item type="list">
+					<item type="int">4</item>
+					<item type="str">dst_port</item>
+					<item type="str">Port</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">destination service per [[RFC6335]](#rfc6335)</item>
+				</item>
+				<item type="list">
+					<item type="int">5</item>
+					<item type="str">protocol</item>
+					<item type="str">L4-Protocol</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">layer 4 protocol (e.g., TCP) - [Section 3.4.2.10](#34210-l4-protocol)</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">IRI</item>
+			<item type="str">String</item>
+			<item type="list">
+				<item type="str">/iri</item>
+			</item>
+			<item type="str">Internationalized Resource Identifier, [[RFC3987]](#rfc3987).</item>
+		</item>
+		<item type="list">
+			<item type="str">MAC-Addr</item>
+			<item type="str">Binary</item>
+			<item type="list">
+				<item type="str">/eui</item>
+			</item>
+			<item type="str">Media Access Control / Extended Unique Identifier address - EUI-48 or EUI-64 as defined in [[EUI]](#eui).</item>
+		</item>
+		<item type="list">
+			<item type="str">Process</item>
+			<item type="str">Map</item>
+			<item type="list">
+				<item type="str">{1</item>
+			</item>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">pid</item>
+					<item type="str">Integer</item>
+					<item type="list">
+						<item type="str">[0</item>
+						<item type="str">{0</item>
+					</item>
+					<item type="str">Process ID of the process</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">name</item>
+					<item type="str">String</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">Name of the process</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">cwd</item>
+					<item type="str">String</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">Current working directory of the process</item>
+				</item>
+				<item type="list">
+					<item type="int">4</item>
+					<item type="str">executable</item>
+					<item type="str">File</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">Executable that was executed to start the process</item>
+				</item>
+				<item type="list">
+					<item type="int">5</item>
+					<item type="str">parent</item>
+					<item type="str">Process</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">Process that spawned this one</item>
+				</item>
+				<item type="list">
+					<item type="int">6</item>
+					<item type="str">command_line</item>
+					<item type="str">String</item>
+					<item type="list">
+						<item type="str">[0</item>
+					</item>
+					<item type="str">The full command line invocation used to start this process, including all arguments</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Properties</item>
+			<item type="str">ArrayOf</item>
+			<item type="list">
+				<item type="str">*String</item>
+				<item type="str">{1</item>
+				<item type="str">q</item>
+			</item>
+			<item type="str">A list of names that uniquely identify properties of an Actuator.</item>
+		</item>
+		<item type="list">
+			<item type="str">URI</item>
+			<item type="str">String</item>
+			<item type="list">
+				<item type="str">/uri</item>
+			</item>
+			<item type="str">Uniform Resource Identifier, [[RFC3986]](#rfc3986).</item>
+		</item>
+		<item type="list">
+			<item type="str">Date-Time</item>
+			<item type="str">Integer</item>
+			<item type="list">
+				<item type="str">{0</item>
+			</item>
+			<item type="str">Date and Time</item>
+		</item>
+		<item type="list">
+			<item type="str">Duration</item>
+			<item type="str">Integer</item>
+			<item type="list">
+				<item type="str">{0</item>
+			</item>
+			<item type="str">A length of time</item>
+		</item>
+		<item type="list">
+			<item type="str">Feature</item>
+			<item type="str">Enumerated</item>
+			<item type="list"/>
+			<item type="str">Specifies the results to be returned from a query features Command</item>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">versions</item>
+					<item type="str">List of OpenC2 Language versions supported by this Actuator</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">profiles</item>
+					<item type="str">List of profiles supported by this Actuator</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">pairs</item>
+					<item type="str">List of supported Actions and applicable Targets</item>
+				</item>
+				<item type="list">
+					<item type="int">4</item>
+					<item type="str">rate_limit</item>
+					<item type="str">Maximum number of Commands per minute supported by design or policy</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Hashes</item>
+			<item type="str">Map</item>
+			<item type="list">
+				<item type="str">{1</item>
+			</item>
+			<item type="str">Cryptographic Hash values</item>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">md5</item>
+					<item type="str">Binary</item>
+					<item type="list">
+						<item type="str">[0</item>
+						<item type="str">/x</item>
+					</item>
+					<item type="str">MD5 hash as defined in [[RFC1321]](#rfc1321)</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">sha1</item>
+					<item type="str">Binary</item>
+					<item type="list">
+						<item type="str">[0</item>
+						<item type="str">/x</item>
+					</item>
+					<item type="str">SHA1 hash as defined in [[RFC6234]](#rfc6234)</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">sha256</item>
+					<item type="str">Binary</item>
+					<item type="list">
+						<item type="str">[0</item>
+						<item type="str">/x</item>
+					</item>
+					<item type="str">SHA256 hash as defined in [[RFC6234]](#rfc6234)</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Hostname</item>
+			<item type="str">String</item>
+			<item type="list">
+				<item type="str">/hostname</item>
+			</item>
+			<item type="str">Internet host name as specified in [[RFC1123]](#rfc1123)</item>
+		</item>
+		<item type="list">
+			<item type="str">IDN-Hostname</item>
+			<item type="str">String</item>
+			<item type="list">
+				<item type="str">/idn-hostname</item>
+			</item>
+			<item type="str">Internationalized Internet host name as specified in [[RFC5890]](#rfc5890), Section 2.3.2.3.</item>
+		</item>
+		<item type="list">
+			<item type="str">IPv4-Addr</item>
+			<item type="str">Binary</item>
+			<item type="list">
+				<item type="str">/ipv4-addr</item>
+			</item>
+			<item type="str">32 bit IPv4 address as defined in [[RFC0791]](#rfc0791)</item>
+		</item>
+		<item type="list">
+			<item type="str">IPv6-Addr</item>
+			<item type="str">Binary</item>
+			<item type="list">
+				<item type="str">/ipv6-addr</item>
+			</item>
+			<item type="str">128 bit IPv6 address as defined in [[RFC8200]](#rfc8200)</item>
+		</item>
+		<item type="list">
+			<item type="str">L4-Protocol</item>
+			<item type="str">Enumerated</item>
+			<item type="list"/>
+			<item type="str">Value of the protocol (IPv4) or next header (IPv6) field in an IP packet. Any IANA value, [RFC5237]</item>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">icmp</item>
+					<item type="str">Internet Control Message Protocol - [[RFC0792]](#rfc0792)</item>
+				</item>
+				<item type="list">
+					<item type="int">6</item>
+					<item type="str">tcp</item>
+					<item type="str">Transmission Control Protocol - [[RFC0793]](#rfc0793)</item>
+				</item>
+				<item type="list">
+					<item type="int">17</item>
+					<item type="str">udp</item>
+					<item type="str">User Datagram Protocol - [[RFC0768]](#rfc0768)</item>
+				</item>
+				<item type="list">
+					<item type="int">132</item>
+					<item type="str">sctp</item>
+					<item type="str">Stream Control Transmission Protocol - [[RFC4960]](#rfc4960)</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Nsid</item>
+			<item type="str">String</item>
+			<item type="list">
+				<item type="str">{1</item>
+				<item type="str">}16</item>
+			</item>
+			<item type="str">A short identifier that refers to a namespace.</item>
+		</item>
+		<item type="list">
+			<item type="str">Payload</item>
+			<item type="str">Choice</item>
+			<item type="list"/>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">bin</item>
+					<item type="str">Binary</item>
+					<item type="list"/>
+					<item type="str">Specifies the data contained in the artifact</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">url</item>
+					<item type="str">URI</item>
+					<item type="list"/>
+					<item type="str">MUST be a valid URL that resolves to the un-encoded content</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Port</item>
+			<item type="str">Integer</item>
+			<item type="list">
+				<item type="str">{0</item>
+				<item type="str">}65535</item>
+			</item>
+			<item type="str">Transport Protocol Port Number, [[RFC6335]](#rfc6335)</item>
+		</item>
+		<item type="list">
+			<item type="str">Response-Type</item>
+			<item type="str">Enumerated</item>
+			<item type="list"/>
+			<item type="str"/>
+			<item type="list">
+				<item type="list">
+					<item type="int">0</item>
+					<item type="str">none</item>
+					<item type="str">No response</item>
+				</item>
+				<item type="list">
+					<item type="int">1</item>
+					<item type="str">ack</item>
+					<item type="str">Respond when Command received</item>
+				</item>
+				<item type="list">
+					<item type="int">2</item>
+					<item type="str">status</item>
+					<item type="str">Respond with progress toward Command completion</item>
+				</item>
+				<item type="list">
+					<item type="int">3</item>
+					<item type="str">complete</item>
+					<item type="str">Respond when all aspects of Command completed</item>
+				</item>
+			</item>
+		</item>
+		<item type="list">
+			<item type="str">Version</item>
+			<item type="str">String</item>
+			<item type="list"/>
+			<item type="str">Major.Minor version number</item>
+		</item>
+	</types>
+</root>
