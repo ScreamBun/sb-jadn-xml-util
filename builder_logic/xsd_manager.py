@@ -1,34 +1,68 @@
 import xml.etree.ElementTree as ET
 
-from builder_logic.xsd_constants import options_keys, attribute_tag, schema_tag, complexType_tag, element_tag, pattern_tag, restriction_tag, sequence_tag, simple_type_tag, xs_decimal, xs_positiveInteger, xs_string, primitives
-from utils.utils import read_type_data_from_file, safe_list_get, write_to_file
-from builder_logic.xsd_builder import add_documention, add_pattern, add_restriction, build_simple_type, get_jadn_option
+from builder_logic.xsd_constants import *
+from utils.utils import *
+from builder_logic.xsd_builder import *
 
 
-def build_simple_types(root: ET.Element, simple_jadn_type: []):
-    jadn_name = safe_list_get(simple_jadn_type, 0, None)
-    jadn_type = safe_list_get(simple_jadn_type, 1, None)
-    jadn_options = safe_list_get(simple_jadn_type, 2, None)
-    jadn_description = safe_list_get(simple_jadn_type, 3, None)
-    jadn_fields = safe_list_get(simple_jadn_type, 4, None)
+def get_common_elements(type: []):
+    print("Building common elemenets")
+    common_elements = {} 
+    common_elements[type_name] = safe_list_get(type, 0, None)
+    common_elements[base_type] = safe_list_get(type, 1, None)
+    common_elements[type_options] = safe_list_get(type, 2, None)
+    common_elements[type_description] = safe_list_get(type, 3, None)
+    common_elements[fields] = safe_list_get(type, 4, None)
+    return common_elements
 
-    if "String" == jadn_type:
-        string = build_simple_type(root, jadn_name)
 
-        if jadn_description:
-          add_documention(string, jadn_description)
+def build_primitive_types(root: ET.Element, type: []):
+    print("Building primitive types")
+    jce = get_common_elements(type)
+
+    if "String" == jce[type_name]:
+        print("Building String type")
+        string = build_simple_type(root, jce[type_name])
+
+        if jce[type_description]:
+          add_documention(string, jce[type_description])
 
         string_restriction = add_restriction(string, xs_string)
 
-        if jadn_options:
-          jadn_options_dict = get_jadn_option(jadn_options)
+        if jce[type_options]:
+          jadn_options_dict = get_jadn_option(jce[type_options])
           for key, option in jadn_options_dict.items():
             print(key, option)
             if key == options_keys["regex"]:     
               string_restriction_pattern = add_pattern(string_restriction, option)          
 
-  
+      # TODO: Add logic for other primative types
+
     # return root
+
+
+def build_enumeration_types(root: ET.Element, type: []):
+    print("Building enumeration types")
+    jce = get_common_elements(type)
+    # TODO: Add logic for enumeration
+
+
+def build_specialization_types(root: ET.Element, type: []):
+    print("Building specialization types")
+    jce = get_common_elements(type)
+    # TODO: Add logic for choice
+
+
+def build_structure_types(root: ET.Element, type: []):
+    print("Building structure types")
+    jce = get_common_elements(type)
+    # TODO: Add logic for structures
+
+    # TODO: Add logic for ArrayOf
+    # TODO: Add logic for MapOf
+    # TODO: Add logic for Array
+    # TODO: Add logic for Map    
+    # TODO: Add logic for Record
 
 
 def create_music_lib():
@@ -40,7 +74,19 @@ def create_music_lib():
 
       simple_jadn_type = primitives.get(type_name, None)
       if simple_jadn_type != None:
-        build_simple_types(root, i)
+        build_primitive_types(root, i)
+
+      enumeration_jadn_type = enumerations.get(type_name, None)
+      if enumeration_jadn_type != None:
+        build_enumeration_types(root, i)
+
+      specialization_jadn_type = specializations.get(type_name, None)
+      if specialization_jadn_type != None:
+        build_specialization_types(root, i)
+
+      structures_jadn_type = structures.get(type_name, None)
+      if structures_jadn_type != None:
+        build_structure_types(root, i)            
       
     write_to_file(root, "music_lib.xsd")
 

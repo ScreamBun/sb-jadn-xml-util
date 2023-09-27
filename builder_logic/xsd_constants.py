@@ -1,5 +1,15 @@
 schema_loc = "{http://www.w3.org/2001/XMLSchema}"
 
+# JADN
+
+## JADN element names
+type_name = 'type_name'
+base_type = 'base_type'
+type_options = 'type_options'
+type_description = 'type_description'
+fields = 'fields'
+
+# XSD
 schema_tag = f"{schema_loc}schema"
 annotation_tag = f"{schema_loc}annotation"
 documentation_tag = f"{schema_loc}documentation"
@@ -45,3 +55,19 @@ primitives = {
       "Integer" : xs_positiveInteger,
       "Boolean" : xs_boolean
     }
+
+enumerations = {
+    "Enumerated" : "tbd"
+}
+
+specializations = {
+    "Choice" : "tbd"
+}
+
+structures = {
+    "ArrayOf" : "tbd",
+    "MapOf" : "tbd",    
+    "Array" : "tbd",    
+    "Map" : "tbd",
+    "Record" : "tbd"
+}
