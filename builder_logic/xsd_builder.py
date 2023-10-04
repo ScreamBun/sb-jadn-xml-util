@@ -1,7 +1,12 @@
 import xml.etree.ElementTree as ET
 
-from builder_logic.xsd_constants import options_keys, restriction_tag, pattern_tag, annotation_tag, documentation_tag, simple_type_tag, complexType_tag
+from builder_logic.xsd_constants import *
 
+
+def add_enumeration(parent_et_tag: ET.Element, value: str):
+    enumeration = ET.SubElement(parent_et_tag, enumeration_tag, value=value)
+
+    return enumeration
 
 
 def add_restriction(parent_et_tag: ET.Element, base: str):

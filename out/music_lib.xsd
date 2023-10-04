@@ -1,11 +1,46 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<xs:simpleType name="Barcode">
+	<xs:simpleType name="String">
 		<xs:annotation>
 			<xs:documentation>A UPC-A barcode is 12 digits</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:pattern value="\d{12}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Instrument">
+		<xs:annotation>
+			<xs:documentation>collection of instruments (non-exhaustive)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="vocals" />
+			<xs:enumeration value="guitar" />
+			<xs:enumeration value="bass" />
+			<xs:enumeration value="drums" />
+			<xs:enumeration value="keyboards" />
+			<xs:enumeration value="percussion" />
+			<xs:enumeration value="brass" />
+			<xs:enumeration value="woodwinds" />
+			<xs:enumeration value="harmonica" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Audio-Format">
+		<xs:annotation>
+			<xs:documentation>can only be one, but can extend list</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="MP3" />
+			<xs:enumeration value="OGG" />
+			<xs:enumeration value="FLAC" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Image-Format">
+		<xs:annotation>
+			<xs:documentation>can only be one, but can extend list</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="PNG" />
+			<xs:enumeration value="JPG" />
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>
