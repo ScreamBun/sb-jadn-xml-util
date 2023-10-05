@@ -1,3 +1,6 @@
+from enum import Enum
+
+
 schema_loc = "{http://www.w3.org/2001/XMLSchema}"
 
 # JADN
@@ -21,6 +24,9 @@ attribute_tag = f"{schema_loc}attribute"
 simple_type_tag = f"{schema_loc}simpleType"
 restriction_tag = f"{schema_loc}restriction"
 pattern_tag = f"{schema_loc}pattern"
+
+# Attribute values
+max_occurs_unbounded = "unbounded"
 
 # REF: https://www.w3.org/TR/xmlschema-2/#built-in-primitive-datatypes
 # binary?

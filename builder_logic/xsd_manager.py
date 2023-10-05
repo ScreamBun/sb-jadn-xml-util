@@ -16,43 +16,48 @@ def get_common_elements(type: []):
     return common_elements
 
 
+def build_base_types(root: ET.Element):
+    print(f"Building Base Types")
+
+    for prim_key, prim_value in primitives.items():
+      base_type = build_simple_type(root, prim_key)  
+      restriction = build_restriction(base_type, prim_value)    
+
+
 def build_primitive_type(root: ET.Element, type: []):
-    print(f"Building primitive type: {type[1]}")
+    print(f"Building Primitive Type: {type[1]}")
     jce = get_common_elements(type)
 
-
-    # if "String" == jce[type_name]:
-    #     print("Building String type")
-    simple_type = build_simple_type(root, jce.get(base_type))
+    simple_type = build_simple_type(root, jce.get(type_name))
 
     if jce.get(type_description):
-      add_documention(simple_type, jce.get(type_description))
+      build_documention(simple_type, jce.get(type_description))
 
-    restriction = add_restriction(simple_type, primitives.get(type[1]))
+    restriction = build_restriction(simple_type, primitives.get(type[1]))
 
     if jce[type_options]:
       jadn_options_dict = get_jadn_option(jce[type_options])
       for key, option in jadn_options_dict.items():
         print(f"Option added {key} {option}")
         if key == options_keys["regex"]:     
-          string_restriction_pattern = add_pattern(restriction, option)          
+          string_restriction_pattern = build_pattern(restriction, option)          
 
       # TODO: Add logic for other primative types
 
     # return root
 
 
-def build_enumeration_types(root: ET.Element, type: []):
-    print("Building enumeration types")
+def build_enumeration_type(root: ET.Element, type: []):
+    print("Building Enumeration Type")
     jce = get_common_elements(type)
     # TODO: Add logic for enumeration
 
     xsd_simple_type = build_simple_type(root, jce[type_name])
 
     if jce[type_description]:
-      add_documention(xsd_simple_type, jce[type_description])
+      build_documention(xsd_simple_type, jce[type_description])
 
-    xsd_restriction = add_restriction(xsd_simple_type, xs_token)
+    xsd_restriction = build_restriction(xsd_simple_type, xs_token)
 
     if jce[fields]:
       fields_arr =jce[fields]
@@ -60,30 +65,65 @@ def build_enumeration_types(root: ET.Element, type: []):
       if count > 0:
         for field in fields_arr:
           field_value = field[1]
-          xsd_enum = add_enumeration(xsd_restriction, field_value)
+          xsd_enum = build_enumeration(xsd_restriction, field_value)
 
 
-def build_specialization_types(root: ET.Element, type: []):
-    print("Building specialization types")
+def build_specialization_type(root: ET.Element, type: []):
+    print("Building Specialization (Choice) Type")
     jce = get_common_elements(type)
     # TODO: Add logic for choice
 
 
-def build_structure_types(root: ET.Element, type: []):
-    print("Building structure types")
+def build_structure_type(root: ET.Element, type: []):
+    print("Building Structure TypeS")
+
     jce = get_common_elements(type)
     # TODO: Add logic for structures
 
     # TODO: Add logic for ArrayOf
+
+    if jce.get(base_type) == "ArrayOf":
+      print("Building ArrayOf Type")
+      xsd_arroy_of_complex_type = build_complex_type(root, jce[type_name])
+
+      if jce.get(type_description):
+        build_documention(xsd_arroy_of_complex_type, jce.get(type_description))
+
+      if jce[fields]:
+        xsd_array_of_seq = build_sequence(xsd_arroy_of_complex_type)
+        xsd_elems = build_element(xsd_array_of_seq, elem, max_occurs_unbounded, jce[base_type])
+
+
     # TODO: Add logic for MapOf
     # TODO: Add logic for Array
     # TODO: Add logic for Map    
-    # TODO: Add logic for Record
+
+    if jce.get(base_type) == "Record":
+      print("Building Record Type")
+      xsd_complex_type = build_complex_type(root, jce[type_name])
+
+      if jce.get(type_description):
+        build_documention(xsd_complex_type, jce.get(type_description))
+
+      xsd_seq = build_sequence(xsd_complex_type)
+      for elem in type[4]:
+        xsd_elems = build_element(xsd_seq, elem)
+
+      # restriction = add_restriction(xsd_complex_type, xs_string) # TODO.. 
+
+      # if jce[type_options]:
+      #   jadn_options_dict = get_jadn_option(jce[type_options])
+      #   for key, option in jadn_options_dict.items():
+      #     print(f"Option added {key} {option}")
+      #     if key == options_keys["regex"]:     
+      #         restriction_pattern = add_pattern(restriction, option)         
 
 
 def create_music_lib():
     root = ET.Element(schema_tag)
     music_lib_dict = read_type_data_from_file("music_lib.jadn.json")
+
+    build_base_types(root)
 
     for i in music_lib_dict:
       type_name = i[1]
@@ -94,15 +134,16 @@ def create_music_lib():
 
       enumeration_jadn_type = enumerations.get(type_name, None)
       if enumeration_jadn_type != None:
-        build_enumeration_types(root, i)
+        build_enumeration_type(root, i)
 
+      # Choice
       specialization_jadn_type = specializations.get(type_name, None)
       if specialization_jadn_type != None:
-        build_specialization_types(root, i)
+        build_specialization_type(root, i)
 
       structures_jadn_type = structures.get(type_name, None)
       if structures_jadn_type != None:
-        build_structure_types(root, i)            
+        build_structure_type(root, i)            
       
     write_to_file(root, "music_lib.xsd")
 
@@ -426,4 +467,7 @@ def create_dict_to_xml():
 
 
     root_name = 'foobar'
-    
+
+
+if __name__=="__main__":    
+   create_music_lib()
