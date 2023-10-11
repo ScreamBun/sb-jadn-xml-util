@@ -59,6 +59,7 @@
     ["Image-Format", "Enumerated", [], "can only be one, but can extend list", [
         [1, "PNG", ""],
         [2, "JPG", ""]
-      ]]
+      ]],
+    ["ArrayOf-Name", "ArrayOf", ["*Cover-Art"], "test comment"]
   ]
 }

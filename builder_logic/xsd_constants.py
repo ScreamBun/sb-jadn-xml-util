@@ -3,15 +3,6 @@ from enum import Enum
 
 schema_loc = "{http://www.w3.org/2001/XMLSchema}"
 
-# JADN
-
-## JADN element names
-type_name = 'type_name'
-base_type = 'base_type'
-type_options = 'type_options'
-type_description = 'type_description'
-fields = 'fields'
-
 # XSD
 schema_tag = f"{schema_loc}schema"
 annotation_tag = f"{schema_loc}annotation"
@@ -53,10 +44,6 @@ xs_integer = "xs:integer"
 xs_positiveInteger = "xs:positiveInteger"
 xs_string = "xs:string"
 xs_token = "xs:token"
-
-options_keys = {
-    "regex" : "%"
-}
 
 # JADN => XSD
 primitives = {

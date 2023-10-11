@@ -24,52 +24,18 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Album">
-		<xs:annotation>
-			<xs:documentation>model for the album</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="artist" type="Artist">
-				<xs:annotation>
-					<xs:documentation>artist associated with this album</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="title" type="String">
-				<xs:annotation>
-					<xs:documentation>commonly known title for this album</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="pub_data" type="Publication-Data">
-				<xs:annotation>
-					<xs:documentation>metadata about album publication</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="tracks" type="ArrayOf">
-				<xs:annotation>
-					<xs:documentation>individual track descriptions</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="cover_art" type="Cover-Art">
-				<xs:annotation>
-					<xs:documentation>cover art image for this album</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element name="artist" type="Artist" />
+			<xs:element name="title" type="String" />
+			<xs:element name="pub_data" type="Publication-Data" />
+			<xs:element name="tracks" type="Track" />
+			<xs:element name="cover_art" type="Cover-Art" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Artist">
-		<xs:annotation>
-			<xs:documentation>interesting information about the performers</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="artist_name" type="String">
-				<xs:annotation>
-					<xs:documentation>who is this person</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="instruments" type="ArrayOf">
-				<xs:annotation>
-					<xs:documentation>and what do they play</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element name="artist_name" type="String" />
+			<xs:element name="instruments" type="Instrument" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:simpleType name="Instrument">
@@ -89,69 +55,24 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Publication-Data">
-		<xs:annotation>
-			<xs:documentation>who and when of publication</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="label" type="String">
-				<xs:annotation>
-					<xs:documentation>name of record label</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="rel_date" type="String">
-				<xs:annotation>
-					<xs:documentation>and when did they let this drop</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element name="label" type="String" />
+			<xs:element name="rel_date" type="String" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Track">
-		<xs:annotation>
-			<xs:documentation>information about the individual audio tracks</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="t_number" type="Number">
-				<xs:annotation>
-					<xs:documentation>track sequence number</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="title" type="String">
-				<xs:annotation>
-					<xs:documentation>track title</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="length" type="String">
-				<xs:annotation>
-					<xs:documentation>length of track</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="featured" type="ArrayOf">
-				<xs:annotation>
-					<xs:documentation>important guest performers</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="audio" type="Audio">
-				<xs:annotation>
-					<xs:documentation>the all important content</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element name="t_number" type="Number" />
+			<xs:element name="title" type="String" />
+			<xs:element name="length" type="String" />
+			<xs:element name="featured" type="Artist" />
+			<xs:element name="audio" type="Audio" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Audio">
-		<xs:annotation>
-			<xs:documentation>information about what gets played</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="a_format" type="Audio-Format">
-				<xs:annotation>
-					<xs:documentation>what type of audio file?</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="a_content" type="Binary">
-				<xs:annotation>
-					<xs:documentation>the audio data in the identified format</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element name="a_format" type="Audio-Format" />
+			<xs:element name="a_content" type="Binary" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:simpleType name="Audio-Format">
@@ -165,20 +86,9 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Cover-Art">
-		<xs:annotation>
-			<xs:documentation>pretty picture for the album</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="i_format" type="Image-Format">
-				<xs:annotation>
-					<xs:documentation>what type of image file?</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="i_content" type="Binary">
-				<xs:annotation>
-					<xs:documentation>the image data in the identified format</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element name="i_format" type="Image-Format" />
+			<xs:element name="i_content" type="Binary" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:simpleType name="Image-Format">
@@ -190,4 +100,7 @@
 			<xs:enumeration value="JPG" />
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:element name="Library" type="Library" />
+	<xs:element name="Album" type="Album" />
+	<xs:element name="Track" type="Track" />
 </xs:schema>

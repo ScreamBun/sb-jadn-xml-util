@@ -79,4 +79,4 @@ def read_type_data_from_file(filename):
  
   f.close()
 
-  return data['types']  
+  return data

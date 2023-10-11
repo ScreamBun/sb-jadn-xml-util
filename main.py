@@ -1,5 +1,5 @@
 import sys
-from builder_logic.xsd_manager import create_music_lib
+from builder_logic.xsd_builder import create_jadn_xsd
 from utils.utils import get_after_last_occurance
 from validation_logic.validation_manager import validate_xml
 
@@ -32,6 +32,6 @@ if __name__=="__main__":
     # else:
     #     validate_xml('students.xsd', 'students.xml')
 
-    create_music_lib()
+    create_jadn_xsd()
     
     
