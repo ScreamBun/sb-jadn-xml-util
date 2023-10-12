@@ -8,7 +8,7 @@
     "exports": ["Library", "Album", "Track"]
   },
   "types": [
-    ["Library", "MapOf", ["+Barcode", "*Album", "{1"], "", []],
+    ["Library", "MapOf", ["+Barcode", "*Album", "{1"], "Library of albums", []],
     ["Barcode", "String", ["%\\d{12}"], "A UPC-A barcode is 12 digits", []],
     ["Album", "Record", [], "model for the album", [
         [1, "artist", "Artist", [], "artist associated with this album"],

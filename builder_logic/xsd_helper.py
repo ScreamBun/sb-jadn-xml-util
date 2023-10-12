@@ -13,21 +13,17 @@ def build_documention(parent_et_tag: ET.Element, documenttion_str: str):
     return annotation
 
 
-def build_element(parent_et_tag: ET.Element, name: str, type: str = None, max_occurs: str = None):
-
-    # if elem_type == "ArraryOf":
-    #     # ref = elem_type
-    #     elem_type = "ArraryOf" # TODO Left off here need type out of options
-    #     jadn_opts = get_jadn_option(elem_options)
-    #     test = ""
-
-    elem_et = ET.SubElement(parent_et_tag, element_tag, name=name)  # TODO min/max occurs
+def build_element(parent_et_tag: ET.Element, name: str, type: str = None, min_occurs: str = None, max_occurs: str = None):
+    elem_et = ET.SubElement(parent_et_tag, element_tag, name=name) 
 
     if type:
         elem_et.set('type', type)
 
-    # if max_occurs:
-    #     elem_et.set('maxOccurs', max_occurs)
+    if min_occurs:
+        elem_et.set('minOccurs', min_occurs)
+
+    if max_occurs:
+        elem_et.set('maxOccurs', max_occurs)
 
     # if ref:
     #     elem_et.set('ref', ref)        
@@ -43,6 +39,28 @@ def build_enumeration(parent_et_tag: ET.Element, value: str):
     enumeration = ET.SubElement(parent_et_tag, enumeration_tag, value=value)
 
     return enumeration
+
+
+def build_group_ref(parent_et_tag: ET.Element, ref: str):
+    group_ref = ET.SubElement(parent_et_tag, group_tag, ref=ref + 'Group')
+                     
+
+    return group_ref
+
+
+def build_group(parent_et_tag: ET.Element, name: str = None, minOccurs: str = None, maxOccurs: str = None):
+    group = ET.SubElement(parent_et_tag, group_tag)
+    
+    if name:
+        group.set('name', name + 'Group')  
+        
+    if minOccurs:
+        group.set('minOccurs', minOccurs)  
+        
+    if maxOccurs:
+        group.set('maxOccurs', maxOccurs)                    
+
+    return group
 
 
 def build_pattern(parent_et_tag: ET.Element, restriction_pattern: str):
@@ -76,8 +94,5 @@ def build_complex_type(parent_et_tag: ET.Element, name: str = None):
 
     return complex_type
 
-def get_vtype(opts: []):
-    vtype = opts[0].replace("*", "", 1)
-    return vtype
 
 

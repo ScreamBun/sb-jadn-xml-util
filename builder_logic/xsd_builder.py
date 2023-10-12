@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
-from builder_logic.jadn_constants import BASE_TYPE, FIELDS, OPTION_KEYS, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS
-from builder_logic.options_helper import get_jadn_option, opt_list_2_dict
+from builder_logic.jadn_constants import ALLOWED_TYPE_OPTIONS, BASE_TYPE, FIELDS, OPTION_KEYS, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS
+from builder_logic.jadn_helper import get_ktype, get_maxv, get_minv, get_type_option_code, get_type_option_human_name, get_vtype, is_type_option_allowed
+from builder_logic.options_helper import get_jadn_option
 
 from builder_logic.xsd_constants import *
 from utils.utils import *
@@ -81,21 +82,59 @@ def build_structure_type(root: ET.Element, type: []):
 
 
     # TODO: Add logic for MapOf
-    # if jce.get(BASE_TYPE) == "MapOf":
-    #   print("Building MapOf Type")
-    #   xsd_array_of_complex_type = build_complex_type(root, jce[TYPE_NAME])
-
-    #   if jce.get(TYPE_DESCRIPTION):
-    #     build_documention(xsd_array_of_complex_type, jce.get(TYPE_DESCRIPTION))
-        
-    
+    if jce.get(BASE_TYPE) == "MapOf":
+      print("Building MapOf Type")
+      
+      '''
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="patients">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="patient" minOccurs="0"  maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="to" type="xs:string"/>
+              <xs:element name="from" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:elemennt>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>      
+      '''
+      
+      xsd_complex_type_1 = build_complex_type(root, jce[TYPE_NAME])
+      
+      if jce.get(TYPE_DESCRIPTION):
+        build_documention(xsd_complex_type_1, jce.get(TYPE_DESCRIPTION))        
+      
+      xsd_seq_1 = build_sequence(xsd_complex_type_1)
+      
+      min_occurs = get_minv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
+      max_occurs = get_maxv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
+      
+      if not max_occurs:
+        max_occurs = max_occurs_unbounded
+      
+      xsd_element_mapOf = build_element(xsd_seq_1, jce[TYPE_NAME] + 'Items', type=None, min_occurs=min_occurs, max_occurs=max_occurs_unbounded)
+      xsd_complex_type_2 = build_complex_type(xsd_element_mapOf)
+      xsd_seq_2 = build_sequence(xsd_complex_type_2)
+      
+      ktype = get_ktype(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
+      vtype = get_vtype(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
+      
+      kelement = build_element(xsd_seq_2, ktype, ktype)
+      velement = build_element(xsd_seq_2, vtype, vtype)            
+      
+      
     # TODO: Add logic for Array
     # TODO: Add logic for Map    
 
     if jce.get(BASE_TYPE) == "Record":
       print("Building Record Type")
       
-      # xsd_element = build_element(root, jce[TYPE_NAME])
       xsd_complex_type = build_complex_type(root, jce[TYPE_NAME])
       xsd_seq = build_sequence(xsd_complex_type)
       

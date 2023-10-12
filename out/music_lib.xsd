@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Library" type="Library" />
+	<xs:element name="Album" type="Album" />
+	<xs:element name="Track" type="Track" />
 	<xs:simpleType name="Binary">
 		<xs:restriction base="xs:byte" />
 	</xs:simpleType>
@@ -15,6 +18,21 @@
 	<xs:simpleType name="String">
 		<xs:restriction base="xs:string" />
 	</xs:simpleType>
+	<xs:complexType name="Library">
+		<xs:annotation>
+			<xs:documentation>Library of albums</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LibraryItems" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Barcode" type="Barcode" />
+						<xs:element name="Album" type="Album" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:simpleType name="Barcode">
 		<xs:annotation>
 			<xs:documentation>A UPC-A barcode is 12 digits</xs:documentation>
@@ -100,7 +118,4 @@
 			<xs:enumeration value="JPG" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:element name="Library" type="Library" />
-	<xs:element name="Album" type="Album" />
-	<xs:element name="Track" type="Track" />
 </xs:schema>
