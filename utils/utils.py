@@ -57,7 +57,7 @@ def write_to_file(root: ET.Element, filename: str):
               method="xml")    
     
 def read_type_data_from_file(filename):
-  f = open('./_data/jadn/' + filename) 
+  f = open('./_data/schemas/' + filename) 
   data = json.load(f)
  
   f.close()
