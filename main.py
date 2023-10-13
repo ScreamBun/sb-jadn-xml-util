@@ -1,16 +1,7 @@
-import sys
-from builder_logic.xsd_builder import create_jadn_xsd
-from utils.utils import get_after_last_occurance
-from validation_logic.validation_manager import validate_xml
+from logic.builder.xsd_builder import create_jadn_xsd
 
 
 if __name__=="__main__":
-
-    # create_customer_order()
-    # create_customer_order2()
-    # create_customer_order3()
-    # create_dict_to_xml()
-
     # if(len(sys.argv) == 3):
 
     #     xsd = sys.argv[1].strip()
