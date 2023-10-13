@@ -1,8 +1,8 @@
 import xml.etree.ElementTree as ET
-from builder_logic.jadn_constants import BASE_TYPE, TYPE_NAME, TYPE_OPTIONS
-from builder_logic.options_helper import get_jadn_option
+from constants.jadn_constants import BASE_TYPE, TYPE_NAME, TYPE_OPTIONS
+from helpers.options_helper import get_jadn_option
 
-from builder_logic.xsd_constants import *
+from constants.xsd_constants import *
 from utils.utils import safe_list_get
 
 

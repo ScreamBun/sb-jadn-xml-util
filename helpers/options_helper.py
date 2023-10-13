@@ -1,6 +1,6 @@
 from ast import List
 
-from builder_logic.jadn_constants import OPTION_KEYS
+from constants.jadn_constants import OPTION_KEYS
 
 
 # def opt_list_2_dict(opts: []):

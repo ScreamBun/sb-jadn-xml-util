@@ -1,4 +1,4 @@
-from builder_logic.jadn_constants import ALLOWED_TYPE_OPTIONS, ARRAYOF_CONST, MAXV_CONST, MINV_CONST, TYPE_OPTIONS_FROZ_DICT
+from constants.jadn_constants import ALLOWED_TYPE_OPTIONS, ARRAYOF_CONST, MAXV_CONST, MINV_CONST, TYPE_OPTIONS_FROZ_DICT
 
 
 def get_type_option_code(human_name: str):

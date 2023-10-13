@@ -1,11 +1,11 @@
 import xml.etree.ElementTree as ET
-from builder_logic.jadn_constants import ALLOWED_TYPE_OPTIONS, BASE_TYPE, FIELDS, OPTION_KEYS, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS
-from builder_logic.jadn_helper import get_ktype, get_maxv, get_minv, get_type_option_code, get_type_option_human_name, get_vtype, is_type_option_allowed
-from builder_logic.options_helper import get_jadn_option
+from constants.jadn_constants import BASE_TYPE, FIELDS, OPTION_KEYS, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS
+from helpers.jadn_helper import get_ktype, get_maxv, get_minv, get_vtype
+from helpers.options_helper import get_jadn_option
 
-from builder_logic.xsd_constants import *
+from constants.xsd_constants import *
 from utils.utils import *
-from builder_logic.xsd_helper import *
+from helpers.xsd_helper import *
 
 
 def get_common_elements(type: []):
