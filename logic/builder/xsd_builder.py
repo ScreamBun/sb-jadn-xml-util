@@ -104,6 +104,26 @@ def build_arrayOf_or_mapOf(root: ET.Element, jce: dict):
     
     else:
       raise "Not an arrayOf or mapOf"  
+    
+    
+def build_record(root: ET.Element, jce: dict):
+    print("Building Record Type")
+    
+    xsd_complex_type = build_complex_type(root, jce[TYPE_NAME])
+    xsd_seq = build_sequence(xsd_complex_type)
+    
+    # TODO: May be able to break out into it's own function
+    for field in jce[FIELDS]:
+      field_index = field[0]
+      field_name = field[1]
+      field_type = field[2]
+      field_opts = field[3]
+      field_desc = field[4]
+      
+      if field_type == "ArrayOf":
+        field_type = get_vtype(field_opts)
+        
+      xsd_elem = build_element(xsd_seq, field_name, field_type)       
 
 
 def build_structure_type(root: ET.Element, type: []):
@@ -117,22 +137,7 @@ def build_structure_type(root: ET.Element, type: []):
     # TODO: Add logic for Map    
 
     if jce.get(BASE_TYPE) == "Record":
-      print("Building Record Type")
-      
-      xsd_complex_type = build_complex_type(root, jce[TYPE_NAME])
-      xsd_seq = build_sequence(xsd_complex_type)
-      
-      for field in jce[FIELDS]:
-        field_index = field[0]
-        field_name = field[1]
-        field_type = field[2]
-        field_opts = field[3]
-        field_desc = field[4]
-        
-        if field_type == "ArrayOf":
-          field_type = get_vtype(field_opts)
-          
-        xsd_elem = build_element(xsd_seq, field_name, field_type)         
+      build_record(root, jce)     
       
       
 def build_types(root : ET.Element, jadn_types_dict: dict):
