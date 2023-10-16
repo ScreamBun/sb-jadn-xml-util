@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from constants.jadn_constants import BASE_TYPE, FIELDS, OPTION_KEYS, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS
+from constants.jadn_constants import ARRAYOF_CONST, BASE_TYPE, FIELDS, MAPOF_CONST, OPTION_KEYS, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS
 from helpers.jadn_helper import get_ktype, get_maxv, get_minv, get_vtype
 from helpers.options_helper import get_jadn_option
 
@@ -72,41 +72,46 @@ def build_specialization_type(root: ET.Element, type: []):
     # TODO: Add logic for choice
 
 
-
-def build_structure_type(root: ET.Element, type: []):
-    print("Building Structure Types")
-
-    jce = get_common_elements(type)
-
-    # TODO: Add logic for ArrayOf
-
-
-    if jce.get(BASE_TYPE) == "MapOf":
-      print("Building MapOf Type")
+def build_arrayOf_or_mapOf(root: ET.Element, jce: dict):
+    print(f"Building {jce[TYPE_NAME]} Type")
+    xsd_complex_type_1 = build_complex_type(root, jce[TYPE_NAME])
+    
+    if jce.get(TYPE_DESCRIPTION):
+      build_documention(xsd_complex_type_1, jce.get(TYPE_DESCRIPTION))
       
-      xsd_complex_type_1 = build_complex_type(root, jce[TYPE_NAME])
+    xsd_seq_1 = build_sequence(xsd_complex_type_1)
+    
+    min_occurs = get_minv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
+    max_occurs = get_maxv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
+    
+    if not max_occurs:
+      max_occurs = max_occurs_unbounded
       
-      if jce.get(TYPE_DESCRIPTION):
-        build_documention(xsd_complex_type_1, jce.get(TYPE_DESCRIPTION))        
+    xsd_element = build_element(xsd_seq_1, jce[TYPE_NAME] + 'Items', type=None, min_occurs=min_occurs, max_occurs=max_occurs_unbounded)
+    xsd_complex_type_2 = build_complex_type(xsd_element)
+    xsd_seq_2 = build_sequence(xsd_complex_type_2)
+    
+    if jce.get(BASE_TYPE) == ARRAYOF_CONST:
+      vtype = get_vtype(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
+      velement = build_element(xsd_seq_2, vtype, vtype)        
       
-      xsd_seq_1 = build_sequence(xsd_complex_type_1)
-      
-      min_occurs = get_minv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
-      max_occurs = get_maxv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
-      
-      if not max_occurs:
-        max_occurs = max_occurs_unbounded
-      
-      xsd_element_mapOf = build_element(xsd_seq_1, jce[TYPE_NAME] + 'Items', type=None, min_occurs=min_occurs, max_occurs=max_occurs_unbounded)
-      xsd_complex_type_2 = build_complex_type(xsd_element_mapOf)
-      xsd_seq_2 = build_sequence(xsd_complex_type_2)
-      
+    elif jce.get(BASE_TYPE) == MAPOF_CONST:
       ktype = get_ktype(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
       vtype = get_vtype(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
       
       kelement = build_element(xsd_seq_2, ktype, ktype)
-      velement = build_element(xsd_seq_2, vtype, vtype)            
-      
+      velement = build_element(xsd_seq_2, vtype, vtype)          
+    
+    else:
+      raise "Not an arrayOf or mapOf"  
+
+
+def build_structure_type(root: ET.Element, type: []):
+    print("Building Structure Types")
+    jce = get_common_elements(type)
+
+    if jce.get(BASE_TYPE) == ARRAYOF_CONST or jce.get(BASE_TYPE) == MAPOF_CONST:
+      build_arrayOf_or_mapOf(root, jce)      
       
     # TODO: Add logic for Array
     # TODO: Add logic for Map    
@@ -166,7 +171,9 @@ def create_jadn_xsd():
 
     build_global_elements(root, jadn_exports)
     build_base_types(root)
-    build_types(root, jadn_types)     
+    build_types(root, jadn_types)    
+    
+    write_to_file(root, "music_lib.xsd") 
    
    
 if __name__=="__main__":    

@@ -19,9 +19,6 @@
 		<xs:restriction base="xs:string" />
 	</xs:simpleType>
 	<xs:complexType name="Library">
-		<xs:annotation>
-			<xs:documentation>Library of albums</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="LibraryItems" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType>
@@ -118,4 +115,18 @@
 			<xs:enumeration value="JPG" />
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="ArrayOf-Name">
+		<xs:annotation>
+			<xs:documentation>test comment</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ArrayOf-NameItems" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Instrument" type="Instrument" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 </xs:schema>
