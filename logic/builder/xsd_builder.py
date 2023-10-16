@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from constants.jadn_constants import ARRAYOF_CONST, BASE_TYPE, FIELDS, MAPOF_CONST, OPTION_KEYS, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS
+from constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, FIELDS, MAP_CONST, MAPOF_CONST, OPTION_KEYS, RECORD_CONST, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS
 from helpers.jadn_helper import get_ktype, get_maxv, get_minv, get_vtype
 from helpers.options_helper import get_jadn_option
 
@@ -24,7 +24,22 @@ def build_base_types(root: ET.Element):
 
     for prim_key, prim_value in primitives.items():
       BASE_TYPE = build_simple_type(root, prim_key)  
-      restriction = build_restriction(BASE_TYPE, prim_value)    
+      restriction = build_restriction(BASE_TYPE, prim_value)
+      
+def build_fields(xsd_seq: ET.Element, jce: dict):
+    for field in jce[FIELDS]:
+      field_index = field[0]
+      field_name = field[1]
+      field_type = field[2]
+      field_opts = field[3]
+      field_desc = field[4]
+      
+      if field_type == "ArrayOf":
+        field_type = get_vtype(field_opts)
+        
+      # TODO: Other field types needed...
+        
+      xsd_elem = build_element(xsd_seq, field_name, field_type)   
 
 
 def build_primitive_type(root: ET.Element, type: []):
@@ -72,7 +87,29 @@ def build_specialization_type(root: ET.Element, type: []):
     # TODO: Add logic for choice
 
 
-def build_arrayOf_or_mapOf(root: ET.Element, jce: dict):
+def build_array(root: ET.Element, jce: dict):
+    print(f"Building {jce[TYPE_NAME]} Type")
+    xsd_complex_type_1 = build_complex_type(root, jce[TYPE_NAME])
+    
+    if jce.get(TYPE_DESCRIPTION):
+      build_documention(xsd_complex_type_1, jce.get(TYPE_DESCRIPTION))
+      
+    xsd_seq_1 = build_sequence(xsd_complex_type_1)
+    
+    min_occurs = get_minv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
+    max_occurs = get_maxv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
+    
+    if not max_occurs:
+      max_occurs = max_occurs_unbounded 
+      
+    xsd_element = build_element(xsd_seq_1, jce[TYPE_NAME] + 'Items', type=None, min_occurs=min_occurs, max_occurs=max_occurs_unbounded)
+    xsd_complex_type_2 = build_complex_type(xsd_element)
+    xsd_seq_2 = build_sequence(xsd_complex_type_2)
+    
+    build_fields(xsd_seq_2, jce)
+
+
+def build_arrayOf_or_mapOf_type(root: ET.Element, jce: dict):
     print(f"Building {jce[TYPE_NAME]} Type")
     xsd_complex_type_1 = build_complex_type(root, jce[TYPE_NAME])
     
@@ -91,11 +128,11 @@ def build_arrayOf_or_mapOf(root: ET.Element, jce: dict):
     xsd_complex_type_2 = build_complex_type(xsd_element)
     xsd_seq_2 = build_sequence(xsd_complex_type_2)
     
-    if jce.get(BASE_TYPE) == ARRAYOF_CONST:
+    if jce.get(BASE_TYPE) == ARRAYOF_CONST or jce.get(BASE_TYPE) == ARRAY_CONST:
       vtype = get_vtype(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
       velement = build_element(xsd_seq_2, vtype, vtype)        
       
-    elif jce.get(BASE_TYPE) == MAPOF_CONST:
+    elif jce.get(BASE_TYPE) == MAPOF_CONST or jce.get(BASE_TYPE) == MAPOF_CONST:
       ktype = get_ktype(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
       vtype = get_vtype(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
       
@@ -103,41 +140,32 @@ def build_arrayOf_or_mapOf(root: ET.Element, jce: dict):
       velement = build_element(xsd_seq_2, vtype, vtype)          
     
     else:
-      raise "Not an arrayOf or mapOf"  
+      raise "Not an array, arrayOf, map or mapOf"  
     
     
-def build_record(root: ET.Element, jce: dict):
+def build_record_type(root: ET.Element, jce: dict):
     print("Building Record Type")
     
     xsd_complex_type = build_complex_type(root, jce[TYPE_NAME])
     xsd_seq = build_sequence(xsd_complex_type)
-    
-    # TODO: May be able to break out into it's own function
-    for field in jce[FIELDS]:
-      field_index = field[0]
-      field_name = field[1]
-      field_type = field[2]
-      field_opts = field[3]
-      field_desc = field[4]
-      
-      if field_type == "ArrayOf":
-        field_type = get_vtype(field_opts)
-        
-      xsd_elem = build_element(xsd_seq, field_name, field_type)       
+    build_fields(xsd_seq, jce)    
 
 
 def build_structure_type(root: ET.Element, type: []):
     print("Building Structure Types")
     jce = get_common_elements(type)
 
-    if jce.get(BASE_TYPE) == ARRAYOF_CONST or jce.get(BASE_TYPE) == MAPOF_CONST:
-      build_arrayOf_or_mapOf(root, jce)      
+    if jce.get(BASE_TYPE) == ARRAY_CONST:
+      build_array(root, jce)
       
-    # TODO: Add logic for Array
-    # TODO: Add logic for Map    
+    # TODO: Build Map
 
-    if jce.get(BASE_TYPE) == "Record":
-      build_record(root, jce)     
+    if (jce.get(BASE_TYPE) == ARRAYOF_CONST or 
+        jce.get(BASE_TYPE) == MAPOF_CONST):
+      build_arrayOf_or_mapOf_type(root, jce)              
+
+    if jce.get(BASE_TYPE) == RECORD_CONST:
+      build_record_type(root, jce)     
       
       
 def build_types(root : ET.Element, jadn_types_dict: dict):
