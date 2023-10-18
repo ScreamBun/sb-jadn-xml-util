@@ -8,6 +8,7 @@ schema_tag = f"{schema_loc}schema"
 annotation_tag = f"{schema_loc}annotation"
 documentation_tag = f"{schema_loc}documentation"
 element_tag = f"{schema_loc}element"
+choice_tag = f"{schema_loc}choice"
 enumeration_tag = f"{schema_loc}enumeration"
 complexType_tag = f"{schema_loc}complexType"
 group_tag = f"{schema_loc}group"
@@ -39,12 +40,14 @@ max_occurs_unbounded = "unbounded"
 # QName?
 # NOTATION?
 xs_byte= "xs:byte"
+xs_choice= "xs:choice"
 xs_boolean = "xs:boolean"
 xs_decimal = "xs:decimal"
+xs_enumeration = "xs:enumeration"
 xs_integer = "xs:integer"
 xs_positiveInteger = "xs:positiveInteger"
 xs_string = "xs:string"
-xs_token = "xs:token"
+# xs_token = "xs:token"
 
 # JADN => XSD
 primitives = {
@@ -56,11 +59,11 @@ primitives = {
     }
 
 enumerations = {
-    "Enumerated" : "tbd"
+    "Enumerated" : xs_enumeration
 }
 
 specializations = {
-    "Choice" : "tbd"
+    "Choice" : xs_choice
 }
 
 structures = {

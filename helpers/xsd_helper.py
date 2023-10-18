@@ -6,6 +6,12 @@ from constants.xsd_constants import *
 from utils.utils import safe_list_get
 
 
+def build_choice(parent_et_tag: ET.Element):
+    choice = ET.SubElement(parent_et_tag, choice_tag)
+
+    return choice
+
+
 def build_documention(parent_et_tag: ET.Element, documenttion_str: str):
     annotation = ET.SubElement(parent_et_tag, annotation_tag)
     documentation = ET.SubElement(annotation, documentation_tag).text = documenttion_str
