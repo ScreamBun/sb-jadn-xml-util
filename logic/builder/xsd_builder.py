@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
-from constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, FIELDS, MAP_CONST, MAPOF_CONST, NUMBER_CONST, OPTION_KEYS, RECORD_CONST, STRING_CONST, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS
-from helpers.jadn_helper import get_ktype, get_maxv, get_minv, get_vtype
+from constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, FIELDS, KTYPE_CONST, MAP_CONST, MAPOF_CONST, MAXV_CONST, MINV_CONST, NUMBER_CONST, OPTION_KEYS, RECORD_CONST, STRING_CONST, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS, VTYPE_CONST
+from helpers.jadn_helper import get_type_option_val, get_vtype
 from helpers.options_helper import get_jadn_option
 
 from constants.xsd_constants import *
@@ -9,7 +9,6 @@ from helpers.xsd_helper import *
 
 
 def get_common_elements(type: []):
-    print("Building common elements")
     common_elements = {} 
     common_elements[TYPE_NAME] = safe_list_get(type, 0, None)
     common_elements[BASE_TYPE] = safe_list_get(type, 1, None)
@@ -132,13 +131,13 @@ def build_array_or_map(root: ET.Element, jce: dict):
       
     xsd_seq_1 = build_sequence(xsd_complex_type_1)
     
-    min_occurs = get_minv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
-    max_occurs = get_maxv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
+    min_occurs = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MINV_CONST)
+    max_occurs = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MAXV_CONST)
     
     if not max_occurs:
       max_occurs = max_occurs_unbounded 
       
-    xsd_element = build_element(xsd_seq_1, jce[TYPE_NAME] + '-Elements', type=None, min_occurs=min_occurs, max_occurs=max_occurs_unbounded)
+    xsd_element = build_element(xsd_seq_1, jce[TYPE_NAME] + '-Elements', type=None, min_occurs=min_occurs, max_occurs=max_occurs)
     xsd_complex_type_2 = build_complex_type(xsd_element)
     xsd_seq_2 = build_sequence(xsd_complex_type_2)
     
@@ -154,23 +153,25 @@ def build_arrayOf_or_mapOf_type(root: ET.Element, jce: dict):
       
     xsd_seq_1 = build_sequence(xsd_complex_type_1)
     
-    min_occurs = get_minv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
-    max_occurs = get_maxv(jce[TYPE_OPTIONS], jce[BASE_TYPE])
+    min_occurs = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MINV_CONST)
+    max_occurs = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MAXV_CONST)
+    
+    ktype = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), KTYPE_CONST)
     
     if not max_occurs:
       max_occurs = max_occurs_unbounded
       
-    xsd_element = build_element(xsd_seq_1, jce[TYPE_NAME] + '-Elements', type=None, min_occurs=min_occurs, max_occurs=max_occurs_unbounded)
+    xsd_element = build_element(xsd_seq_1, jce[TYPE_NAME] + '-Elements', type=None, min_occurs=min_occurs, max_occurs=max_occurs)
     xsd_complex_type_2 = build_complex_type(xsd_element)
     xsd_seq_2 = build_sequence(xsd_complex_type_2)
     
     if jce.get(BASE_TYPE) == ARRAYOF_CONST or jce.get(BASE_TYPE) == ARRAY_CONST:
-      vtype = get_vtype(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
+      ktype = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), KTYPE_CONST)
       build_element(xsd_seq_2, vtype, vtype)        
       
     elif jce.get(BASE_TYPE) == MAPOF_CONST or jce.get(BASE_TYPE) == MAPOF_CONST:
-      ktype = get_ktype(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
-      vtype = get_vtype(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
+      ktype = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), KTYPE_CONST)
+      vtype = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), VTYPE_CONST)
       
       build_element(xsd_seq_2, ktype, ktype)
       build_element(xsd_seq_2, vtype, vtype)          

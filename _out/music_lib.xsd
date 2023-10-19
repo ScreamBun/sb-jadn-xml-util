@@ -63,8 +63,11 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Library">
+		<xs:annotation>
+			<xs:documentation>test comment</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="Library-Elements" minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="Library-Elements" minOccurs="1" maxOccurs="2">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="Barcode" type="Barcode" />
@@ -87,7 +90,7 @@
 			<xs:element name="artist" type="Artist" />
 			<xs:element name="title" type="String" />
 			<xs:element name="pub_data" type="Publication-Data" />
-			<xs:element name="tracks" type="Array" />
+			<xs:element name="tracks" type="Track" />
 			<xs:element name="cover_art" type="Cover-Art" />
 		</xs:sequence>
 	</xs:complexType>
@@ -159,62 +162,4 @@
 			<xs:enumeration value="JPG" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:complexType name="Record-Name">
-		<xs:sequence />
-	</xs:complexType>
-	<xs:complexType name="Array-Name">
-		<xs:sequence>
-			<xs:element name="Array-Name-Elements" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="field_value_1" type="Array" />
-						<xs:element name="field_value_2" type="String" />
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="Enumerated-Name">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="field_value_1" />
-			<xs:enumeration value="field_value_2" />
-			<xs:enumeration value="field_value_3" />
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="Choice-Name">
-		<xs:choice>
-			<xs:element name="field_value_1" type="Choice" />
-			<xs:element name="field_value_2" type="String" />
-		</xs:choice>
-	</xs:complexType>
-	<xs:complexType name="Choice-Name-1">
-		<xs:choice>
-			<xs:element name="field_value_1" type="Choice" />
-			<xs:element name="field_value_2" type="String" />
-			<xs:element name="field_value_3" type="String" />
-		</xs:choice>
-	</xs:complexType>
-	<xs:complexType name="ArrayOf-Name">
-		<xs:sequence>
-			<xs:element name="ArrayOf-Name-Elements" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="Array" type="Array" />
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="Map-Name">
-		<xs:sequence>
-			<xs:element name="Map-Name-Elements" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="field_value_1" type="String" />
-						<xs:element name="field_value_2" type="String" />
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 </xs:schema>

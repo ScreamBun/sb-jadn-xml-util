@@ -1,8 +1,8 @@
-from constants.jadn_constants import ALLOWED_TYPE_OPTIONS, ARRAYOF_CONST, MAXV_CONST, MINV_CONST, TYPE_OPTIONS_FROZ_DICT
+from constants.jadn_constants import ALLOWED_TYPE_OPTIONS, ARRAYOF_CONST, MAPOF_CONST, MAXV_CONST, MINV_CONST, TYPE_OPTIONS_FROZ_DICT
 
 
 def get_type_option_code(human_name: str):
-    code: chr
+    code: chr = None
     
     for opt in TYPE_OPTIONS_FROZ_DICT.items():
         if opt[0] == human_name:
@@ -32,55 +32,38 @@ def is_type_option_allowed(base_type: str, human_name: str):
     return is_allowed
 
 
-def get_minv(opts: [], base_type: str):
-    minv_val = None
-    is_allowed: bool = False
+def get_type_option_val(opts: [], base_type: str, opt_human_name: str):
+    opt_val = None
     
-    minv_code = get_type_option_code(MINV_CONST)
-    is_allowed = is_type_option_allowed(base_type, MINV_CONST)
+    is_allowed = is_type_option_allowed(base_type, opt_human_name)
     
     if is_allowed:
+        opt_key_char = get_type_option_code(opt_human_name)
         for opt in opts:
-            if opt[0] == minv_code:
-                minv_val = opt[1]
+            if opt[0] == opt_key_char:
+                opt_val = opt[1:len(opt)]
                 break
     
-    return minv_val
+    return opt_val
 
-
-def get_maxv(opts: [], base_type: str):
-    maxv_val = None
-    is_allowed: bool = False
-    
-    maxv_code = get_type_option_code(MAXV_CONST)
-    is_allowed = is_type_option_allowed(base_type, MAXV_CONST)
-    
-    if is_allowed:
-        for opt in opts:
-            if opt[0] == maxv_code:
-                maxv_val = opt[1]
-                break
-    
-    return maxv_val
-
-
+# NOT USED
 def get_ktype(opts: [], type: str = ARRAYOF_CONST):
     ktype = None
     
     if type == ARRAYOF_CONST:
         ktype = opts[0].replace("+", "", 1)
-    elif type == "MapOf":
+    elif type == MAPOF_CONST:
         ktype = opts[0].replace("+", "", 1)
         
     return ktype
 
-
+# USED, BUT SHOULD BE REPLACED WITH GET OPTION VAL
 def get_vtype(opts: [], type: str = ARRAYOF_CONST):
     vtype = None
     
     if type == ARRAYOF_CONST:
         vtype = opts[0].replace("*", "", 1)
-    elif type == "MapOf":
+    elif type == MAPOF_CONST:
         vtype = opts[1].replace("*", "", 1)
         
     return vtype

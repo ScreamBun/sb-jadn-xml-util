@@ -59,8 +59,8 @@ CORE_TYPES = PRIMITIVE_TYPES + SELECTOR_TYPES + STRUCTURED_TYPES
 TYPE_OPTIONS_ALT = FrozenDict({        # Option ID: (name, value type, canonical order) # ASCII ID
     61: (ID_CONST, lambda x: True, 1),          # "=", Enumerated type and Choice/Map/Record keys are ID not Name
     42: (VTYPE_CONST, lambda x: x, 2),          # "*", Value type for ArrayOf and MapOf
-    43: (VTYPE_CONST, lambda x: x, 3),          # "+", Key type for MapOf
-    35: (VTYPE_CONST, lambda x: x, 4),           # "#", enumeration derived from Array/Choice/Map/Record type
+    43: (KTYPE_CONST, lambda x: x, 3),          # "+", Key type for MapOf
+    35: (ENUM_CONST, lambda x: x, 4),           # "#", enumeration derived from Array/Choice/Map/Record type
     62: (POINTER_CONST, lambda x: x, 5),        # ">", enumeration of pointers derived from Array/Choice/Map/Record type
     47: (FORMAT_CONST, lambda x: x, 6),         # "/", semantic validation keyword, may affect serialization
     37: (PATTERN_CONST, lambda x: x, 7),        # "%", regular expression that a string must match
@@ -78,8 +78,8 @@ TYPE_OPTIONS_ALT = FrozenDict({        # Option ID: (name, value type, canonical
 TYPE_OPTIONS_FROZ_DICT = FrozenDict({
     ID_CONST:"=",        # Enumerated type and Choice/Map/Record keys are ID not Name
     VTYPE_CONST:"*",     # Value type for ArrayOf and MapOf
-    VTYPE_CONST:"+",     # Key type for MapOf
-    VTYPE_CONST:"#",      # Enumeration derived from Array/Choice/Map/Record type
+    KTYPE_CONST:"+",     # Key type for MapOf
+    ENUM_CONST:"#",      # Enumeration derived from Array/Choice/Map/Record type
     POINTER_CONST:">",   # Enumeration of pointers derived from Array/Choice/Map/Record type
     FORMAT_CONST:"/",    # Semantic validation keyword, may affect serialization
     PATTERN_CONST:"%",   # Eegular expression that a string must match
@@ -125,7 +125,7 @@ REQUIRED_TYPE_OPTIONS = FrozenDict(
     Choice=(),
     Enumerated=(),
     Map=(),
-    MapOf=(VTYPE_CONST, VTYPE_CONST),
+    MapOf=(KTYPE_CONST, VTYPE_CONST),
     Record=()
 )
 
@@ -142,7 +142,7 @@ ALLOWED_TYPE_OPTIONS = FrozenDict(
     Choice=(ID_CONST, EXTEND_CONST),
     Enumerated=(ID_CONST, VTYPE_CONST, POINTER_CONST, EXTEND_CONST),
     Map=(ID_CONST, EXTEND_CONST, MINV_CONST, MAXV_CONST),
-    MapOf=(VTYPE_CONST, VTYPE_CONST, MINV_CONST, MAXV_CONST),
+    MapOf=(KTYPE_CONST, VTYPE_CONST, MINV_CONST, MAXV_CONST),
     Record=(EXTEND_CONST, MINV_CONST, MAXV_CONST)
 )
 

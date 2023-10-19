@@ -8,13 +8,13 @@
     "exports": ["Library", "Album", "Track"]
   },
   "types": [
-    ["Library", "MapOf", ["+Barcode", "*Album", "{1"], "", []],
+    ["Library", "MapOf", ["*Album", "+Barcode", "{1", "}2"], "test comment"],
     ["Barcode", "String", ["%\\d{12}"], "A UPC-A barcode is 12 digits", []],
     ["Album", "Record", [], "model for the album", [
         [1, "artist", "Artist", [], "artist associated with this album"],
         [2, "title", "String", [], "commonly known title for this album"],
         [3, "pub_data", "Publication-Data", [], "metadata about album publication"],
-        [4, "tracks", "Array", [], "individual track descriptions"],
+        [4, "tracks", "ArrayOf", ["*Track", "]0"], "individual track descriptions"],
         [5, "cover_art", "Cover-Art", [], "cover art image for this album"]
       ]],
     ["Artist", "Record", [], "interesting information about the performers", [
@@ -59,30 +59,6 @@
     ["Image-Format", "Enumerated", [], "can only be one, but can extend list", [
         [1, "PNG", ""],
         [2, "JPG", ""]
-      ]],
-    ["Record-Name", "Record", [], "", []],
-    ["Array-Name", "Array", [], "", [
-        [1, "field_value_1", "Array", [], ""],
-        [2, "field_value_2", "String", [], ""]
-      ]],
-    ["Enumerated-Name", "Enumerated", [], "", [
-        [1, "field_value_1", ""],
-        [2, "field_value_2", ""],
-        [3, "field_value_3", ""]
-      ]],
-    ["Choice-Name", "Choice", [], "", [
-        [1, "field_value_1", "Choice", [], ""],
-        [2, "field_value_2", "String", [], ""]
-      ]],
-    ["Choice-Name-1", "Choice", [], "", [
-        [1, "field_value_1", "Choice", [], ""],
-        [2, "field_value_2", "String", [], ""],
-        [3, "field_value_3", "String", [], ""]
-      ]],
-    ["ArrayOf-Name", "ArrayOf", ["*Array"], ""],
-    ["Map-Name", "Map", [], "", [
-        [1, "field_value_1", "String", [], ""],
-        [2, "field_value_2", "String", [], ""]
       ]]
   ]
 }
