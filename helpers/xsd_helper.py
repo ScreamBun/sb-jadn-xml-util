@@ -19,7 +19,7 @@ def build_documention(parent_et_tag: ET.Element, documenttion_str: str):
     return annotation
 
 
-def build_element(parent_et_tag: ET.Element, name: str, type: str = None, min_occurs: str = None, max_occurs: str = None):
+def build_element(parent_et_tag: ET.Element, name: str, type: str = None, min_occurs: str = None, max_occurs: str = None, is_unique: str = False, is_set: str = False):
     elem_et = ET.SubElement(parent_et_tag, element_tag, name=name) 
 
     if type:
@@ -30,6 +30,11 @@ def build_element(parent_et_tag: ET.Element, name: str, type: str = None, min_oc
 
     if max_occurs:
         elem_et.set('maxOccurs', max_occurs)
+
+    if is_unique or is_set:
+        unique_et = ET.SubElement(elem_et, unique_tag, name=name + '-Unique')
+        ET.SubElement(unique_et, selector_tag, xpath=name)
+        ET.SubElement(unique_et, field_tag, xpath='.')
 
     # if ref:
     #     elem_et.set('ref', ref)        

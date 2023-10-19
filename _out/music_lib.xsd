@@ -63,11 +63,8 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Library">
-		<xs:annotation>
-			<xs:documentation>test comment</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="Library-Elements" minOccurs="1" maxOccurs="2">
+			<xs:element name="Library-Elements" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="Barcode" type="Barcode" />
@@ -162,4 +159,15 @@
 			<xs:enumeration value="JPG" />
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="ArrayOf-Name">
+		<xs:sequence>
+			<xs:element name="ArrayOf-Name-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Album" type="Album" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 </xs:schema>

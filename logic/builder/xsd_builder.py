@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, FIELDS, KTYPE_CONST, MAP_CONST, MAPOF_CONST, MAXV_CONST, MINV_CONST, NUMBER_CONST, OPTION_KEYS, RECORD_CONST, STRING_CONST, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS, VTYPE_CONST
+from constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, FIELDS, KTYPE_CONST, MAP_CONST, MAPOF_CONST, MAXV_CONST, MINV_CONST, NUMBER_CONST, OPTION_KEYS, RECORD_CONST, SET_CONST, STRING_CONST, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS, UNIQUE_CONST, UNORDERED_CONST, VTYPE_CONST
 from helpers.jadn_helper import get_type_option_val, get_vtype
 from helpers.options_helper import get_jadn_option
 
@@ -153,28 +153,29 @@ def build_arrayOf_or_mapOf_type(root: ET.Element, jce: dict):
       
     xsd_seq_1 = build_sequence(xsd_complex_type_1)
     
-    min_occurs = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MINV_CONST)
-    max_occurs = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MAXV_CONST)
+    minv_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MINV_CONST)
+    maxv_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MAXV_CONST)
+    vtype_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), VTYPE_CONST)
     
-    ktype = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), KTYPE_CONST)
-    
-    if not max_occurs:
-      max_occurs = max_occurs_unbounded
+    if not maxv_opt:
+      maxv_opt = max_occurs_unbounded
       
-    xsd_element = build_element(xsd_seq_1, jce[TYPE_NAME] + '-Elements', type=None, min_occurs=min_occurs, max_occurs=max_occurs)
+    xsd_element = build_element(xsd_seq_1, jce[TYPE_NAME] + '-Elements', type=None, min_occurs=minv_opt, max_occurs=maxv_opt)
     xsd_complex_type_2 = build_complex_type(xsd_element)
     xsd_seq_2 = build_sequence(xsd_complex_type_2)
     
-    if jce.get(BASE_TYPE) == ARRAYOF_CONST or jce.get(BASE_TYPE) == ARRAY_CONST:
-      ktype = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), KTYPE_CONST)
-      build_element(xsd_seq_2, vtype, vtype)        
+    if jce.get(BASE_TYPE) == ARRAYOF_CONST:
+      unique_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), UNIQUE_CONST)   
+      set_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), SET_CONST)   
+      # XSD 1.0 does not have order restrictions, also unordered is the default
+      # unordered_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), UNORDERED_CONST)   
+      build_element(xsd_seq_2, vtype_opt, vtype_opt, is_unique=unique_opt, is_set=set_opt)        
       
-    elif jce.get(BASE_TYPE) == MAPOF_CONST or jce.get(BASE_TYPE) == MAPOF_CONST:
-      ktype = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), KTYPE_CONST)
-      vtype = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), VTYPE_CONST)
+    elif jce.get(BASE_TYPE) == MAPOF_CONST:
+      ktype_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), KTYPE_CONST)
       
-      build_element(xsd_seq_2, ktype, ktype)
-      build_element(xsd_seq_2, vtype, vtype)          
+      build_element(xsd_seq_2, ktype_opt, ktype_opt)
+      build_element(xsd_seq_2, vtype_opt, vtype_opt)          
     
     else:
       raise "Not an array, arrayOf, map or mapOf"  

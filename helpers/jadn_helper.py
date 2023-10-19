@@ -41,7 +41,10 @@ def get_type_option_val(opts: [], base_type: str, opt_human_name: str):
         opt_key_char = get_type_option_code(opt_human_name)
         for opt in opts:
             if opt[0] == opt_key_char:
-                opt_val = opt[1:len(opt)]
+                if len(opt) == 1:
+                    opt_val = opt[0]
+                else:
+                    opt_val = opt[1:len(opt)]
                 break
     
     return opt_val

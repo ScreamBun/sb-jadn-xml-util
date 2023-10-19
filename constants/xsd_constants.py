@@ -17,6 +17,9 @@ attribute_tag = f"{schema_loc}attribute"
 simple_type_tag = f"{schema_loc}simpleType"
 restriction_tag = f"{schema_loc}restriction"
 pattern_tag = f"{schema_loc}pattern"
+unique_tag = f"{schema_loc}unique"
+selector_tag = f"{schema_loc}selector"
+field_tag = f"{schema_loc}field"
 
 # Attribute values
 max_occurs_unbounded = "unbounded"

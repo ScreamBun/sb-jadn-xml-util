@@ -8,7 +8,7 @@
     "exports": ["Library", "Album", "Track"]
   },
   "types": [
-    ["Library", "MapOf", ["*Album", "+Barcode", "{1", "}2"], "test comment"],
+    ["Library", "MapOf", ["+Barcode", "*Album", "{1"], "", []],
     ["Barcode", "String", ["%\\d{12}"], "A UPC-A barcode is 12 digits", []],
     ["Album", "Record", [], "model for the album", [
         [1, "artist", "Artist", [], "artist associated with this album"],
@@ -59,6 +59,7 @@
     ["Image-Format", "Enumerated", [], "can only be one, but can extend list", [
         [1, "PNG", ""],
         [2, "JPG", ""]
-      ]]
+      ]],
+    ["ArrayOf-Name", "ArrayOf", ["*Album", "b"], ""]
   ]
 }
