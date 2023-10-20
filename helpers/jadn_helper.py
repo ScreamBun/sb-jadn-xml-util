@@ -1,3 +1,4 @@
+from sb_utils import FrozenDict
 from constants.jadn_constants import ALLOWED_TYPE_OPTIONS, ARRAYOF_CONST, MAPOF_CONST, MAXV_CONST, MINV_CONST, TYPE_OPTIONS_FROZ_DICT
 
 
@@ -30,6 +31,27 @@ def is_type_option_allowed(base_type: str, human_name: str):
             break
     
     return is_allowed
+
+
+def get_type_option_vals(opts: [], base_type: str):
+    opt_vals_fd = {}
+    
+    for opt_code in TYPE_OPTIONS_FROZ_DICT.values():
+        opt_vals_fd[opt_code] = None
+    
+    for allowed_opt in ALLOWED_TYPE_OPTIONS.get(base_type):
+        opt_key_char = get_type_option_code(allowed_opt)
+        for opt in opts:
+            if opt[0] == opt_key_char:
+                if len(opt) == 1:
+                    opt_val = opt[0]
+                    opt_vals_fd[opt_key_char] = opt_val
+                else:
+                    opt_val = opt[1:len(opt)]
+                    opt_vals_fd[opt_key_char] = opt_val
+                break
+    
+    return opt_vals_fd
 
 
 def get_type_option_val(opts: [], base_type: str, opt_human_name: str):
