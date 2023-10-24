@@ -1,8 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<xs:element name="Library" type="Library" />
-	<xs:element name="Album" type="Album" />
-	<xs:element name="Track" type="Track" />
 	<xs:simpleType name="Binary">
 		<xs:restriction base="xs:byte" />
 	</xs:simpleType>
@@ -62,112 +59,48 @@
 			<xs:element name="Record" type="String" />
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="Library">
-		<xs:sequence>
-			<xs:element name="Library-Elements" minOccurs="1" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="Barcode" type="Barcode" />
-						<xs:element name="Album" type="Album" />
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="Barcode">
+	<xs:simpleType name="Integer-Name">
 		<xs:annotation>
-			<xs:documentation>A UPC-A barcode is 12 digits</xs:documentation>
+			<xs:documentation>test comment</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:pattern value="\d{12}" />
+		<xs:restriction base="xs:duration">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3</xs:documentation>
+			</xs:annotation>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:complexType name="Album">
-		<xs:sequence>
-			<xs:element name="artist" type="Artist" />
-			<xs:element name="title" type="String" />
-			<xs:element name="pub_data" type="Publication-Data" />
-			<xs:element name="tracks" type="Track" />
-			<xs:element name="cover_art" type="Cover-Art" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="Artist">
-		<xs:sequence>
-			<xs:element name="artist_name" type="String" />
-			<xs:element name="instruments" type="Instrument" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="Instrument">
-		<xs:annotation>
-			<xs:documentation>collection of instruments (non-exhaustive)</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="vocals" />
-			<xs:enumeration value="guitar" />
-			<xs:enumeration value="bass" />
-			<xs:enumeration value="drums" />
-			<xs:enumeration value="keyboards" />
-			<xs:enumeration value="percussion" />
-			<xs:enumeration value="brass" />
-			<xs:enumeration value="woodwinds" />
-			<xs:enumeration value="harmonica" />
+	<xs:simpleType name="Integer-Name-1">
+		<xs:restriction base="xs:integer">
+			<xs:annotation>
+				<xs:documentation>Signed 8 bit integer, value must be between -128 and 127.</xs:documentation>
+			</xs:annotation>
+			<xs:minInclusive value="-128" />
+			<xs:maxInclusive value="127" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:complexType name="Publication-Data">
-		<xs:sequence>
-			<xs:element name="label" type="String" />
-			<xs:element name="rel_date" type="String" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="Track">
-		<xs:sequence>
-			<xs:element name="t_number" type="Number" />
-			<xs:element name="title" type="String" />
-			<xs:element name="length" type="String" />
-			<xs:element name="featured" type="Artist" />
-			<xs:element name="audio" type="Audio" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="Audio">
-		<xs:sequence>
-			<xs:element name="a_format" type="Audio-Format" />
-			<xs:element name="a_content" type="Binary" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="Audio-Format">
-		<xs:annotation>
-			<xs:documentation>can only be one, but can extend list</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="MP3" />
-			<xs:enumeration value="OGG" />
-			<xs:enumeration value="FLAC" />
+	<xs:simpleType name="Integer-Name-2">
+		<xs:restriction base="xs:integer">
+			<xs:annotation>
+				<xs:documentation>Signed 16 bit integer, value must be between -32768 and 32767.</xs:documentation>
+			</xs:annotation>
+			<xs:minInclusive value="-32768" />
+			<xs:maxInclusive value="32767" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:complexType name="Cover-Art">
-		<xs:sequence>
-			<xs:element name="i_format" type="Image-Format" />
-			<xs:element name="i_content" type="Binary" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="Image-Format">
-		<xs:annotation>
-			<xs:documentation>can only be one, but can extend list</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="PNG" />
-			<xs:enumeration value="JPG" />
+	<xs:simpleType name="Integer-Name-3">
+		<xs:restriction base="xs:integer">
+			<xs:annotation>
+				<xs:documentation>Signed 32 bit integer, value must be between -2147483648 and 2147483647.</xs:documentation>
+			</xs:annotation>
+			<xs:minInclusive value="-2147483648" />
+			<xs:maxInclusive value="2147483647" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:complexType name="ArrayOf-Name">
-		<xs:sequence>
-			<xs:element name="ArrayOf-Name-Elements" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="Album" type="Album" />
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
+	<xs:simpleType name="Integer-Name-4">
+		<xs:restriction base="xs:integer">
+			<xs:annotation>
+				<xs:documentation>Unsigned integer or bit field of &lt;n&gt; bits, value must be between 0 and 2^&lt;n&gt; - 1.</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

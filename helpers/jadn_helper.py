@@ -54,6 +54,16 @@ def get_type_option_vals(opts: [], base_type: str):
     return opt_vals_fd
 
 
+def get_active_type_option_vals(opts: [], base_type: str):
+    type_opts = get_type_option_vals(opts, base_type)
+    return dict(filter(lambda item: item[1] != None, type_opts.items()))
+
+
+def get_opt_type_val(type_opt_const_name: str, active_type_opts: {}):
+    code = TYPE_OPTIONS_FROZ_DICT.get(type_opt_const_name)
+    return active_type_opts.get(code)    
+    
+
 def get_type_option_val(opts: [], base_type: str, opt_human_name: str):
     opt_val = None
     

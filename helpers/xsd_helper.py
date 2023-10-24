@@ -1,9 +1,11 @@
 import xml.etree.ElementTree as ET
 from constants.jadn_constants import BASE_TYPE, TYPE_NAME, TYPE_OPTIONS
+from helpers.jadn_helper import get_type_option_vals
 from helpers.options_helper import get_jadn_option
 
 from constants.xsd_constants import *
 from utils.utils import safe_list_get
+            
 
 
 def build_choice(parent_et_tag: ET.Element):
@@ -72,6 +74,24 @@ def build_group(parent_et_tag: ET.Element, name: str = None, minOccurs: str = No
         group.set('maxOccurs', maxOccurs)                    
 
     return group
+
+
+def build_max_inclusive(parent_et_tag: ET.Element, value: str):
+    max_inclusive = ET.SubElement(parent_et_tag, max_inclusive_tag)
+    
+    if value:
+        max_inclusive.set('value', value)      
+
+    return max_inclusive
+
+
+def build_min_inclusive(parent_et_tag: ET.Element, value: str):
+    min_inclusive = ET.SubElement(parent_et_tag, min_inclusive_tag)
+    
+    if value:
+        min_inclusive.set('value', value)    
+
+    return min_inclusive
 
 
 def build_pattern(parent_et_tag: ET.Element, restriction_pattern: str):

@@ -44,12 +44,39 @@ DIR_CONST = "dir"
 KEY_CONST = "key"
 LINK_CONST = "link"
 
+# Format Option Constants
+# Dict Keys
+DURATION_CONST = "duration"
+EUI_CONST = "eui"
+IPV4_ADDR_CONST = "ipv4-addr"
+IPV6_ADDR_CONST = "ipv6-addr"
+IPV4_NET_CONST = "ipv4-net"
+IPV6_NET_CONST = "ipv6-net"
+I8_CONST = "i8"
+I16_CONST = "i16"
+I32_CONST = "i32"
+UNSIGNED_BITS_CONST = "u\\d+"
+
+# Dict
+# name, type, min, max, description 
+FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
+    DURATION_CONST: ["String", "", "", "JSON Schema Section 7.3"],
+    EUI_CONST : ["Binary", "", "", "IEEE Extended Unique Identifier (MAC Address)"],
+    IPV4_ADDR_CONST : ["Binary", "", "", "IPv4 address as specified in RFC 791 Section 3.1"],
+    IPV6_ADDR_CONST : ["Binary", "", "", "IPv6 address as specified in RFC 8200 Section 3"],
+    IPV4_NET_CONST : ["Array", "", "", "Binary IPv4 address and Integer prefix length as specified in RFC 4632 Section 3.1"],
+    IPV6_NET_CONST : ["Array", "", "", "Binary IPv6 address and Integer prefix length as specified in RFC 4291 Section 2.3"],
+    I8_CONST : ["Integer", "-128", "127", "Signed 8 bit integer, value must be between -128 and 127."],
+    I16_CONST : ["Integer", "-32768", "32767", "Signed 16 bit integer, value must be between -32768 and 32767."],
+    I32_CONST : ["Integer", "-2147483648", "2147483647", "Signed 32 bit integer, value must be between -2147483648 and 2147483647."],
+    UNSIGNED_BITS_CONST : ["Integer", "", "", "Unsigned integer or bit field of <n> bits, value must be between 0 and 2^<n> - 1."]  
+})
+
 PRIMITIVE_TYPES = (BINARY_CONST, BOOLEAN_CONST, INTEGER_CONST, NUMBER_CONST, STRING_CONST)
 SELECTOR_TYPES = (ENUMERATED_CONST, CHOICE_CONST)
 STRUCTURED_TYPES = (ARRAY_CONST, ARRAYOF_CONST, MAP_CONST, MAPOF_CONST, RECORD_CONST)
 FIELD_TYPES = (ENUMERATED_CONST, CHOICE_CONST, ARRAY_CONST, MAP_CONST, RECORD_CONST)  # Types that have defined fields
 CORE_TYPES = PRIMITIVE_TYPES + SELECTOR_TYPES + STRUCTURED_TYPES
-
 
 # Option Tags/Keys
 #   JADN TypeOptions and FieldOptions contain a list of strings, each of which is an option.
@@ -91,7 +118,7 @@ TYPE_OPTIONS_FROZ_DICT = FrozenDict({
     SET_CONST:"s",       # ArrayOf instance is unordered and unique
     UNORDERED_CONST:"b", # ArrayOf instance is unordered and not unique (bag)
     EXTEND_CONST:"X",    # Type has an extension point where fields may be appended
-    DEFAULT_CONST:"!"     # Default or constant value of instances of this type
+    DEFAULT_CONST:"!"    # Default or constant value of instances of this type
 })
 
 FIELD_OPTIONS = FrozenDict({
@@ -138,9 +165,9 @@ ALLOWED_TYPE_OPTIONS = FrozenDict(
     String=(MINV_CONST, MAXV_CONST, FORMAT_CONST, PATTERN_CONST),
     # Structures
     Array=(EXTEND_CONST, FORMAT_CONST, MINV_CONST, MAXV_CONST),
-    ArrayOf=(VTYPE_CONST, MINV_CONST, MAXV_CONST, UNIQUE_CONST, SET_CONST,  ),
+    ArrayOf=(VTYPE_CONST, MINV_CONST, MAXV_CONST, UNIQUE_CONST, SET_CONST, UNORDERED_CONST),
     Choice=(ID_CONST, EXTEND_CONST),
-    Enumerated=(ID_CONST, VTYPE_CONST, POINTER_CONST, EXTEND_CONST),
+    Enumerated=(ID_CONST, ENUM_CONST, POINTER_CONST, EXTEND_CONST),
     Map=(ID_CONST, EXTEND_CONST, MINV_CONST, MAXV_CONST),
     MapOf=(KTYPE_CONST, VTYPE_CONST, MINV_CONST, MAXV_CONST),
     Record=(EXTEND_CONST, MINV_CONST, MAXV_CONST)

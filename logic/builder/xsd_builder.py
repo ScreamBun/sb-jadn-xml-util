@@ -1,7 +1,6 @@
 import xml.etree.ElementTree as ET
-from constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, FIELDS, KTYPE_CONST, MAP_CONST, MAPOF_CONST, MAXV_CONST, MINV_CONST, NUMBER_CONST, OPTION_KEYS, RECORD_CONST, SET_CONST, STRING_CONST, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS, UNIQUE_CONST, UNORDERED_CONST, VTYPE_CONST
-from helpers.jadn_helper import get_type_option_val, get_vtype
-from helpers.options_helper import get_jadn_option
+from constants.jadn_constants import *
+from helpers.jadn_helper import get_active_type_option_vals, get_opt_type_val, get_type_option_val, get_vtype
 
 from constants.xsd_constants import *
 from utils.utils import *
@@ -71,8 +70,50 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
         
       # TODO: Other field types needed...
         
-      build_element(xsd_seq, field_name, field_type)   
+      build_element(xsd_seq, field_name, field_type)         
 
+
+def build_integer_format_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):  
+  if jadn_opts:
+    format_val = get_opt_type_val(FORMAT_CONST, jadn_opts) 
+    
+    if format_val:
+      for frozen_format_opt in FORMAT_OPTIONS_FROZ_DICT.items():
+        frozen_format_opt_name = frozen_format_opt[0]
+        if format_val == frozen_format_opt_name:
+          
+          if format_val == DURATION_CONST:
+            restriction = build_restriction(parent_et, xs_duration)
+          else:
+            restriction = build_restriction(parent_et, primitives.get(base_type))
+            
+          build_documention(restriction, FORMAT_OPTIONS_FROZ_DICT.get(frozen_format_opt_name)[3])
+          
+          # Min
+          if FORMAT_OPTIONS_FROZ_DICT.get(frozen_format_opt_name)[1]:
+            build_min_inclusive(restriction, FORMAT_OPTIONS_FROZ_DICT.get(frozen_format_opt_name)[1])
+            
+          # Max
+          if FORMAT_OPTIONS_FROZ_DICT.get(frozen_format_opt_name)[2]:
+            build_max_inclusive(restriction, FORMAT_OPTIONS_FROZ_DICT.get(frozen_format_opt_name)[2])                                
+    
+    else:                
+      minv_val = get_opt_type_val(MINV_CONST, jadn_opts)
+      maxv_val = get_opt_type_val(MAXV_CONST, jadn_opts)
+      
+      if minv_val or maxv_val:
+        restriction = build_restriction(parent_et, primitives.get(type[1]))
+        
+      if minv_val:
+        build_min_inclusive(restriction, minv_val)
+      
+      if maxv_val:
+        build_max_inclusive(restriction, maxv_val)
+        
+        
+def build_number_format_opts(parent_et: ET.Element, jadn_opts: {}):         
+  test = "test"
+  
 
 def build_primitive_type(root: ET.Element, type: []):
     print(f"Building Primitive Type: {type[1]}")
@@ -83,14 +124,13 @@ def build_primitive_type(root: ET.Element, type: []):
     if jce.get(TYPE_DESCRIPTION):
       build_documention(simple_type, jce.get(TYPE_DESCRIPTION))
 
-    restriction = build_restriction(simple_type, primitives.get(type[1]))
-
     if jce[TYPE_OPTIONS]:
-      jadn_options_dict = get_jadn_option(jce[TYPE_OPTIONS])
-      for key, option in jadn_options_dict.items():
-        print(f"Option added {key} {option}")
-        if key == OPTION_KEYS["regex"]:     
-          build_pattern(restriction, option)          
+      active_jadn_opts = get_active_type_option_vals(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
+      
+      if active_jadn_opts:
+      
+        if jce.get(BASE_TYPE) == INTEGER_CONST:
+          build_integer_format_opts(simple_type, active_jadn_opts, jce.get(BASE_TYPE))      
 
 
 def build_enumeration_type(root: ET.Element, type: []):
@@ -237,11 +277,20 @@ def build_global_elements(root : ET.Element, jadn_exports):
 def create_jadn_xsd():
     root = ET.Element(schema_tag)
     jadn_dict = read_type_data_from_file("music_lib.jadn.json")
-    jadn_info= jadn_dict['info']
-    jadn_exports = jadn_info['exports']
+    jadn_info = None
+    jadn_exports = None
+    
+    if jadn_dict.get('info'):
+      jadn_info= jadn_dict['info']
+      
+      if jadn_info.get('exports'):
+        jadn_exports = jadn_info['exports']
+        
     jadn_types = jadn_dict['types']
 
-    build_global_elements(root, jadn_exports)
+    if jadn_exports:
+      build_global_elements(root, jadn_exports)
+      
     build_base_types(root)
     build_types(root, jadn_types)    
     
