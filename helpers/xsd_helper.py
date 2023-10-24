@@ -54,6 +54,12 @@ def build_enumeration(parent_et_tag: ET.Element, value: str):
     return enumeration
 
 
+def build_fraction_digits(parent_et_tag: ET.Element, value: str):
+    fraction_digits = ET.SubElement(parent_et_tag, fraction_digits_tag, value=value)
+
+    return fraction_digits
+
+
 def build_group_ref(parent_et_tag: ET.Element, ref: str):
     group_ref = ET.SubElement(parent_et_tag, group_tag, ref=ref + 'Group')
                      

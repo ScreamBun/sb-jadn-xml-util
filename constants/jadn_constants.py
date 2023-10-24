@@ -46,30 +46,72 @@ LINK_CONST = "link"
 
 # Format Option Constants
 # Dict Keys
-DURATION_CONST = "duration"
-EUI_CONST = "eui"
-IPV4_ADDR_CONST = "ipv4-addr"
-IPV6_ADDR_CONST = "ipv6-addr"
-IPV4_NET_CONST = "ipv4-net"
-IPV6_NET_CONST = "ipv6-net"
-I8_CONST = "i8"
-I16_CONST = "i16"
-I32_CONST = "i32"
-UNSIGNED_BITS_CONST = "u\\d+"
+DATE_TIME = "date-time"
+DATE = "date"
+TIME = "time"
+DURATION = "duration"
+EMAIL = "email"
+IDN_EMAIL = "idn-email"
+HOSTNAME = "hostname"
+IDN_HOSTNAME = "idn-hostname"
+EMAIL = "email"
+EUI = "eui"
+F16 = "f16"
+F32 = "f32"
+F16_DIGITS = "4"
+F32_DIGITS = "6"
+IRI = "iri"
+IRI_REFERENCE = "iri-reference"
+IPV4 = "ipv4"
+IPV6 = "ipv6"
+IPV4_ADDR = "ipv4-addr"
+IPV6_ADDR = "ipv6-addr"
+IPV4_NET = "ipv4-net"
+IPV6_NET = "ipv6-net"
+I8 = "i8"
+I16 = "i16"
+I32 = "i32"
+JSON_POINTER = "json-pointer"
+REGEX = "regex"
+RELATIVE_JSON_POINTER = "relative-json-pointer"
+UNSIGNED_BITS = "u\\d+"
+URI = "uri"
+URI_REFERENCE = "uri-reference"
+URI_TEMPLATE = "uri-template"
 
 # Dict
 # name, type, min, max, description 
 FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
-    DURATION_CONST: ["String", "", "", "JSON Schema Section 7.3"],
-    EUI_CONST : ["Binary", "", "", "IEEE Extended Unique Identifier (MAC Address)"],
-    IPV4_ADDR_CONST : ["Binary", "", "", "IPv4 address as specified in RFC 791 Section 3.1"],
-    IPV6_ADDR_CONST : ["Binary", "", "", "IPv6 address as specified in RFC 8200 Section 3"],
-    IPV4_NET_CONST : ["Array", "", "", "Binary IPv4 address and Integer prefix length as specified in RFC 4632 Section 3.1"],
-    IPV6_NET_CONST : ["Array", "", "", "Binary IPv6 address and Integer prefix length as specified in RFC 4291 Section 2.3"],
-    I8_CONST : ["Integer", "-128", "127", "Signed 8 bit integer, value must be between -128 and 127."],
-    I16_CONST : ["Integer", "-32768", "32767", "Signed 16 bit integer, value must be between -32768 and 32767."],
-    I32_CONST : ["Integer", "-2147483648", "2147483647", "Signed 32 bit integer, value must be between -2147483648 and 2147483647."],
-    UNSIGNED_BITS_CONST : ["Integer", "", "", "Unsigned integer or bit field of <n> bits, value must be between 0 and 2^<n> - 1."]  
+    DATE_TIME: ["String", "", "", "JSON Schema Section 7.3.1"],
+    DATE: ["String", "", "", "JSON Schema Section 7.3.1"],
+    DURATION: ["Integer", "", "", "JSON Schema Section 7.3.1"],
+    TIME: ["String", "", "", "JSON Schema Section 7.3.1"],
+    EMAIL: ["String", "", "", "JSON Schema Section 7.3.2"],
+    IDN_EMAIL: ["String", "", "", "JSON Schema Section 7.3.2"],
+    HOSTNAME: ["String", "", "", "JSON Schema Section 7.3.3"],
+    IDN_HOSTNAME: ["String", "", "", "JSON Schema Section 7.3.3"],    
+    IPV4: ["String", "", "", "JSON Schema Section 7.3.4"],    
+    IPV6: ["String", "", "", "JSON Schema Section 7.3.4"],    
+    URI: ["String", "", "", "JSON Schema Section 7.3.5"],    
+    URI: ["String", "", "", "JSON Schema Section 7.3.5"],    
+    URI_REFERENCE: ["String", "", "", "JSON Schema Section 7.3.5"],    
+    URI_TEMPLATE: ["String", "", "", "JSON Schema Section 7.3.6"],    
+    IRI: ["String", "", "", "JSON Schema Section 7.3.5"],    
+    IRI_REFERENCE: ["String", "", "", "JSON Schema Section 7.3.5"],    
+    JSON_POINTER: ["String", "", "", "JSON Schema Section 7.3.7"],    
+    RELATIVE_JSON_POINTER: ["String", "", "", "JSON Schema Section 7.3.7"],    
+    REGEX: ["String", "", "", "JSON Schema Section 7.3.8"],
+    EUI : ["Binary", "", "", "IEEE Extended Unique Identifier (MAC Address)"],
+    F16 : ["Number", "", "", "float16: IEEE 754 Half-Precision Float (#7.25)."],
+    F32 : ["Number", "", "", "float32: IEEE 754 Single-Precision Float (#7.26)."],
+    IPV4_ADDR : ["Binary", "", "", "IPv4 address as specified in RFC 791 Section 3.1"],
+    IPV6_ADDR : ["Binary", "", "", "IPv6 address as specified in RFC 8200 Section 3"],
+    IPV4_NET : ["Array", "", "", "Binary IPv4 address and Integer prefix length as specified in RFC 4632 Section 3.1"],
+    IPV6_NET : ["Array", "", "", "Binary IPv6 address and Integer prefix length as specified in RFC 4291 Section 2.3"],
+    I8 : ["Integer", "-128", "127", "Signed 8 bit integer, value must be between -128 and 127."],
+    I16 : ["Integer", "-32768", "32767", "Signed 16 bit integer, value must be between -32768 and 32767."],
+    I32 : ["Integer", "-2147483648", "2147483647", "Signed 32 bit integer, value must be between -2147483648 and 2147483647."],
+    UNSIGNED_BITS : ["Integer", "", "", "Unsigned integer or bit field of <n> bits, value must be between 0 and 2^<n> - 1."]  
 })
 
 PRIMITIVE_TYPES = (BINARY_CONST, BOOLEAN_CONST, INTEGER_CONST, NUMBER_CONST, STRING_CONST)

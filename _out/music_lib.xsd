@@ -26,6 +26,16 @@
 			<xs:element name="Choice-Element" />
 		</xs:choice>
 	</xs:complexType>
+	<xs:simpleType name="f16">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="4" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="f32">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="6" />
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="ArrayOf">
 		<xs:restriction base="String" />
 	</xs:simpleType>
@@ -59,48 +69,38 @@
 			<xs:element name="Record" type="String" />
 		</xs:sequence>
 	</xs:complexType>
-	<xs:simpleType name="Integer-Name">
-		<xs:annotation>
-			<xs:documentation>test comment</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:duration">
+	<xs:simpleType name="Number-Name">
+		<xs:restriction base="f16">
 			<xs:annotation>
-				<xs:documentation>JSON Schema Section 7.3</xs:documentation>
+				<xs:documentation>float16: IEEE 754 Half-Precision Float (#7.25).</xs:documentation>
 			</xs:annotation>
+			<xs:minInclusive value="1" />
+			<xs:maxInclusive value="2" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="Integer-Name-1">
-		<xs:restriction base="xs:integer">
+	<xs:simpleType name="Number-Name-1">
+		<xs:restriction base="f32">
 			<xs:annotation>
-				<xs:documentation>Signed 8 bit integer, value must be between -128 and 127.</xs:documentation>
+				<xs:documentation>float32: IEEE 754 Single-Precision Float (#7.26).</xs:documentation>
 			</xs:annotation>
-			<xs:minInclusive value="-128" />
-			<xs:maxInclusive value="127" />
+			<xs:minInclusive value="1" />
+			<xs:maxInclusive value="2" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="Integer-Name-2">
-		<xs:restriction base="xs:integer">
-			<xs:annotation>
-				<xs:documentation>Signed 16 bit integer, value must be between -32768 and 32767.</xs:documentation>
-			</xs:annotation>
-			<xs:minInclusive value="-32768" />
-			<xs:maxInclusive value="32767" />
+	<xs:simpleType name="Number-Name-2">
+		<xs:restriction base="Number">
+			<xs:minInclusive value="1" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="Integer-Name-3">
-		<xs:restriction base="xs:integer">
-			<xs:annotation>
-				<xs:documentation>Signed 32 bit integer, value must be between -2147483648 and 2147483647.</xs:documentation>
-			</xs:annotation>
-			<xs:minInclusive value="-2147483648" />
-			<xs:maxInclusive value="2147483647" />
+	<xs:simpleType name="Number-Name-3">
+		<xs:restriction base="Number">
+			<xs:maxInclusive value="2" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="Integer-Name-4">
-		<xs:restriction base="xs:integer">
-			<xs:annotation>
-				<xs:documentation>Unsigned integer or bit field of &lt;n&gt; bits, value must be between 0 and 2^&lt;n&gt; - 1.</xs:documentation>
-			</xs:annotation>
+	<xs:simpleType name="Number-Name-4">
+		<xs:restriction base="Number">
+			<xs:minInclusive value="1" />
+			<xs:maxInclusive value="2" />
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

@@ -4,7 +4,29 @@ import xml.etree.ElementTree as ET
 from constants.jadn_constants import *
 from constants.xsd_constants import *
 from helpers.jadn_helper import get_active_type_option_vals, get_type_option_vals
-from logic.builder.xsd_builder import build_integer_format_opts
+from logic.builder.xsd_builder import build_integer_format_opts, build_number_format_opts
+
+
+def test_build_number_format_opts():
+    root = ET.Element(schema_tag)
+    tests = { 
+                1 : ["y1", "z2", "/f16"],
+                2 : ["y1", "z2", "/f32"],
+                3 : ["y1"],
+                4 : ["z2"],
+                5 : ["y1", "z2"],
+                6 : ["/f16"],
+                7 : ["/f32"],
+             }
+    
+    for test in tests.items():
+        active_jadn_opts = get_active_type_option_vals(test[1], NUMBER_CONST)
+        build_number_format_opts(root, active_jadn_opts, NUMBER_CONST)
+    
+        for child in root:
+            print(child.tag, child.attrib)    
+    
+        assert root != None 
 
 
 def test_build_integer_format_opts():

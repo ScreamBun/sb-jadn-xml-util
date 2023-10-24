@@ -1,9 +1,9 @@
 {
   "types": [
-    ["Integer-Name", "Integer", ["{-12", "}2", "/duration"], "test comment"],
-    ["Integer-Name-1", "Integer", ["{1", "}2", "/i8"], ""],
-    ["Integer-Name-2", "Integer", ["{1", "}2", "/i16"], ""],
-    ["Integer-Name-3", "Integer", ["{1", "}2", "/i32"], ""],
-    ["Integer-Name-4", "Integer", ["{1", "}2", "/u\\d+"], ""]
+    ["Number-Name", "Number", ["y1", "z2", "/f16"], ""],
+    ["Number-Name-1", "Number", ["y1", "z2", "/f32"], ""],
+    ["Number-Name-2", "Number", ["y1"], ""],
+    ["Number-Name-3", "Number", ["z2"], ""],
+    ["Number-Name-4", "Number", ["y1", "z2"], ""]
   ]
 }
