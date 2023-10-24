@@ -162,18 +162,16 @@ def build_string_format_opts(parent_et: ET.Element, jadn_opts: {}, base_type: st
     
     # TODO: Left off here...  
     '''
+    if minv, min number characters allowed on string
+    if maxv, max number characters allowed on string    
+    
     if format date
-      if minv, millis from current date
-      if maxv, milis from current date
-      if pattern, pattern applied to date
       
+    elif pattern
+    
     elif other formats.....      
       
-    else
-      if minv, min number characters allowed on string
-      if maxv, max number characters allowed on string
-      if pattern, pattern applied to string
-    '''                                       
+    '''
      
 
 def build_primitive_type(root: ET.Element, type: []):
