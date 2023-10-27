@@ -36,6 +36,25 @@
 			<xs:fractionDigits value="6" />
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="date">
+		<xs:restriction base="xs:date" />
+	</xs:simpleType>
+	<xs:simpleType name="time">
+		<xs:restriction base="xs:time" />
+	</xs:simpleType>
+	<xs:simpleType name="date-time">
+		<xs:restriction base="xs:dateTime" />
+	</xs:simpleType>
+	<xs:simpleType name="email">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="idn-email">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" />
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:simpleType name="ArrayOf">
 		<xs:restriction base="String" />
 	</xs:simpleType>
@@ -69,38 +88,16 @@
 			<xs:element name="Record" type="String" />
 		</xs:sequence>
 	</xs:complexType>
-	<xs:simpleType name="Number-Name">
-		<xs:restriction base="f16">
+	<xs:simpleType name="String-Name">
+		<xs:annotation>
+			<xs:documentation>test comment</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="idn-email">
 			<xs:annotation>
-				<xs:documentation>float16: IEEE 754 Half-Precision Float (#7.25).</xs:documentation>
+				<xs:documentation>JSON Schema Section 7.3.2</xs:documentation>
 			</xs:annotation>
-			<xs:minInclusive value="1" />
-			<xs:maxInclusive value="2" />
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="Number-Name-1">
-		<xs:restriction base="f32">
-			<xs:annotation>
-				<xs:documentation>float32: IEEE 754 Single-Precision Float (#7.26).</xs:documentation>
-			</xs:annotation>
-			<xs:minInclusive value="1" />
-			<xs:maxInclusive value="2" />
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="Number-Name-2">
-		<xs:restriction base="Number">
-			<xs:minInclusive value="1" />
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="Number-Name-3">
-		<xs:restriction base="Number">
-			<xs:maxInclusive value="2" />
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="Number-Name-4">
-		<xs:restriction base="Number">
-			<xs:minInclusive value="1" />
-			<xs:maxInclusive value="2" />
+			<xs:maxLength value="15" />
+			<xs:pattern value="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" />
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

@@ -15,6 +15,8 @@ enumeration_tag = f"{schema_loc}enumeration"
 field_tag = f"{schema_loc}field"
 fraction_digits_tag = f"{schema_loc}fractionDigits"
 group_tag = f"{schema_loc}group"
+max_length_tag = f"{schema_loc}maxLength"
+min_length_tag = f"{schema_loc}minLength"
 max_inclusive_tag = f"{schema_loc}maxInclusive"
 min_inclusive_tag = f"{schema_loc}minInclusive"
 pattern_tag = f"{schema_loc}pattern"
@@ -32,9 +34,9 @@ max_occurs_unbounded = "unbounded"
 # float?
 # double?
 # duration?
-# dataTime?
-# time?
-# date?
+xs_date = "xs:date"
+xs_time = "xs:time"
+xs_dateTime = "xs:dateTime"
 # gYearMonth?
 # gYear?
 # gMonthDay?

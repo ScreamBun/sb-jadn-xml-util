@@ -1,3 +1,4 @@
+from datetime import date
 import xml.etree.ElementTree as ET
 from constants.jadn_constants import *
 from helpers.jadn_helper import get_active_type_option_vals, get_opt_type_val, get_type_option_val, get_vtype
@@ -46,7 +47,29 @@ def build_base_types(root: ET.Element):
     # float32
     xsd_f32_type = build_simple_type(root, F32)
     xsd_f32_restriction = build_restriction(xsd_f32_type, xs_decimal)
-    build_fraction_digits(xsd_f32_restriction, F32_DIGITS)     
+    build_fraction_digits(xsd_f32_restriction, F32_DIGITS)
+
+    # date
+    date_type = build_simple_type(root, DATE)
+    build_restriction(date_type, xs_date) 
+    
+    # time
+    time_type = build_simple_type(root, TIME)
+    build_restriction(time_type, xs_time)     
+    
+    # dateTime
+    date_time_type = build_simple_type(root, DATE_TIME)
+    build_restriction(date_time_type, xs_dateTime)
+    
+    # email
+    email_type = build_simple_type(root, EMAIL)
+    email_restriction = build_restriction(email_type, xs_string)
+    build_pattern(email_restriction, EMAIL_REG_CONST)
+    
+    # idn email
+    idn_email_type = build_simple_type(root, IDN_EMAIL)
+    idn_email_restriction = build_restriction(idn_email_type, xs_string)
+    build_pattern(idn_email_restriction, EMAIL_REG_CONST)    
       
     for struct_key, struct_value in structures.items():
       if struct_key is ARRAYOF_CONST or struct_key is MAPOF_CONST:
@@ -83,7 +106,7 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
       build_element(xsd_seq, field_name, field_type)         
 
 
-def build_integer_format_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):  
+def build_integer_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):  
   if jadn_opts:
     format_val = get_opt_type_val(FORMAT_CONST, jadn_opts) 
     
@@ -121,7 +144,7 @@ def build_integer_format_opts(parent_et: ET.Element, jadn_opts: {}, base_type: s
           build_max_inclusive(restriction, maxv_val)
         
         
-def build_number_format_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):        
+def build_number_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):        
   if jadn_opts:
     
     format_val = get_opt_type_val(FORMAT_CONST, jadn_opts)
@@ -147,12 +170,11 @@ def build_number_format_opts(parent_et: ET.Element, jadn_opts: {}, base_type: st
         if minf_val:     
           build_min_inclusive(restriction, minf_val) 
           
-        
         if maxf_val:     
           build_max_inclusive(restriction, maxf_val)  
           
           
-def build_string_format_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):        
+def build_string_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):        
   if jadn_opts:
     
     format_val = get_opt_type_val(FORMAT_CONST, jadn_opts)
@@ -162,16 +184,54 @@ def build_string_format_opts(parent_et: ET.Element, jadn_opts: {}, base_type: st
     
     # TODO: Left off here...  
     '''
-    if minv, min number characters allowed on string
-    if maxv, max number characters allowed on string    
-    
-    if format date
-      
-    elif pattern
+    if format date*
     
     elif other formats.....      
       
     '''
+    
+    
+    if format_val:
+      frozen_format_opt = FORMAT_OPTIONS_FROZ_DICT.get(format_val)
+      restriction = build_restriction(parent_et, format_val)           
+      
+      build_documention(restriction, frozen_format_opt[3])      
+      
+      if format_val == DATE or format_val == DATE_TIME or format_val == TIME:
+
+        if minv_val:
+          print(f'Min length is not used by xs:date, xs:dateTime or xs:time')
+          
+        if maxv_val:
+          print(f'Max length is not used by xs:date, xs:dateTime or xs:time')  
+          
+      else:
+        if minv_val:
+          build_min_length(restriction, minv_val)
+          
+        if maxv_val:
+          build_max_length(restriction, maxv_val)
+          
+      if pattern_val:
+        
+        # TODO: Move to util
+        # Replaces default pattern with user specified pattern
+        for child in restriction:
+          if child.attrib and child.attrib != pattern_tag:
+              restriction.remove(child)
+        
+        build_pattern(restriction, pattern_val)               
+    
+    else:
+                  
+      if minv_val or maxv_val:
+        restriction = build_restriction(parent_et, base_type)
+                
+        if minv_val:     
+          build_min_inclusive(restriction, minv_val) 
+          
+        if maxv_val:     
+          build_max_inclusive(restriction, maxv_val)      
      
 
 def build_primitive_type(root: ET.Element, type: []):
@@ -189,10 +249,19 @@ def build_primitive_type(root: ET.Element, type: []):
       if active_jadn_opts:
       
         if jce.get(BASE_TYPE) == INTEGER_CONST:
-          build_integer_format_opts(simple_type, active_jadn_opts, jce.get(BASE_TYPE))  
+          build_integer_type_opts(simple_type, active_jadn_opts, jce.get(BASE_TYPE))  
           
         if jce.get(BASE_TYPE) == NUMBER_CONST:
-          build_number_format_opts(simple_type, active_jadn_opts, jce.get(BASE_TYPE))                
+          build_number_type_opts(simple_type, active_jadn_opts, jce.get(BASE_TYPE)) 
+          
+        if jce.get(BASE_TYPE) == STRING_CONST:
+          build_string_type_opts(simple_type, active_jadn_opts, jce.get(BASE_TYPE))            
+          
+      else:
+        build_restriction(simple_type, jce.get(BASE_TYPE))
+          
+    else:
+      build_restriction(simple_type, jce.get(BASE_TYPE))
 
 
 def build_enumeration_type(root: ET.Element, type: []):

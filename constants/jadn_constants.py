@@ -54,7 +54,6 @@ EMAIL = "email"
 IDN_EMAIL = "idn-email"
 HOSTNAME = "hostname"
 IDN_HOSTNAME = "idn-hostname"
-EMAIL = "email"
 EUI = "eui"
 F16 = "f16"
 F32 = "f32"
@@ -78,6 +77,11 @@ UNSIGNED_BITS = "u\\d+"
 URI = "uri"
 URI_REFERENCE = "uri-reference"
 URI_TEMPLATE = "uri-template"
+
+# Patterns
+EMAIL_REG_CONST = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+#TODO: Need an idn-email regex
+#TODO: Left off on hostname regex, check oif or jschema
 
 # Dict
 # name, type, min, max, description 

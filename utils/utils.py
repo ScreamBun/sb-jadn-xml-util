@@ -1,7 +1,17 @@
+from datetime import date, timedelta
 import json
 import os
 from lxml import etree
 import xml.etree.ElementTree as ET
+
+
+def convert_str_to_int(str_val: str):
+  return_int: int = 0
+  try:
+      return_int = int(str_val)
+  except ValueError:
+      print(f'unable to convert str ${str_val} to int')  
+  return return_int
 
 
 def get_after_last_occurance(char: str, value: str):
@@ -15,6 +25,11 @@ def safe_list_get (l, idx, default):
     return l[idx]
   except IndexError:
     return default
+  
+
+def add_days_to_date(date_val: date, days_to_add: int):
+    return_date = date_val + timedelta(days=days_to_add)
+    return return_date
 
 
 def get_xml_file(file_name):

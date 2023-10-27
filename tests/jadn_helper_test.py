@@ -4,8 +4,37 @@ import xml.etree.ElementTree as ET
 from constants.jadn_constants import *
 from constants.xsd_constants import *
 from helpers.jadn_helper import get_active_type_option_vals, get_type_option_vals
-from logic.builder.xsd_builder import build_integer_format_opts, build_number_format_opts
+from logic.builder.xsd_builder import build_integer_type_opts, build_number_type_opts, build_string_type_opts
 
+
+def test_build_string_format_opts():
+    root = ET.Element(schema_tag)
+    tests = { 
+                1 : ["/date-time", "%DD-MM-YYYY hh:mm:ss"],
+                2 : ["/date", "%DD-MM-YYYY", "{1", "}8"],
+                3 : ["/time", "%hh:mm:ss"],
+                4 : ["/email", "%abcd", "{1", "}8"],
+                5 : ["/idn-email", "%abcd", "{1", "}8"],
+                6 : ["/hostname", "%abcd", "{1", "}8"],
+                7 : ["/idn-hostname", "%abcd", "{1", "}8"],
+                8 : ["/ipv4", "%abcd", "{1", "}8"],
+                9 : ["/ipv6", "%abcd", "{1", "}8"],
+                10 : ["/uri", "%abcd", "{1", "}8"],
+                11 : ["/iri-reference", "%abcd", "{1", "}8"],
+                12 : ["/json-pointer", "%abcd", "{1", "}8"],
+                13 : ["/relative-json-pointer", "%abcd", "{1", "}8"],
+                14 : ["/regex", "%abcd", "{1", "}8"]
+             }
+    
+    for test in tests.items():
+        active_jadn_opts = get_active_type_option_vals(test[1], STRING_CONST)
+        build_string_type_opts(root, active_jadn_opts, STRING_CONST)
+    
+        for child in root:
+            print(child.tag, child.attrib)    
+    
+        assert root != None 
+        
 
 def test_build_number_format_opts():
     root = ET.Element(schema_tag)
@@ -21,7 +50,7 @@ def test_build_number_format_opts():
     
     for test in tests.items():
         active_jadn_opts = get_active_type_option_vals(test[1], NUMBER_CONST)
-        build_number_format_opts(root, active_jadn_opts, NUMBER_CONST)
+        build_number_type_opts(root, active_jadn_opts, NUMBER_CONST)
     
         for child in root:
             print(child.tag, child.attrib)    
@@ -41,7 +70,7 @@ def test_build_integer_format_opts():
     
     for test in tests.items():
         active_jadn_opts = get_active_type_option_vals(test[1], INTEGER_CONST)
-        build_integer_format_opts(root, active_jadn_opts, INTEGER_CONST)
+        build_integer_type_opts(root, active_jadn_opts, INTEGER_CONST)
     
         for child in root:
             print(child.tag, child.attrib)    

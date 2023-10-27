@@ -14,6 +14,15 @@ def build_choice(parent_et_tag: ET.Element):
     return choice
 
 
+def build_complex_type(parent_et_tag: ET.Element, name: str = None):
+    complex_type = ET.SubElement(parent_et_tag, complexType_tag)
+    
+    if name:
+        complex_type.set('name', name)
+
+    return complex_type
+
+
 def build_documention(parent_et_tag: ET.Element, documenttion_str: str):
     annotation = ET.SubElement(parent_et_tag, annotation_tag)
     documentation = ET.SubElement(annotation, documentation_tag).text = documenttion_str
@@ -82,6 +91,24 @@ def build_group(parent_et_tag: ET.Element, name: str = None, minOccurs: str = No
     return group
 
 
+def build_max_length(parent_et_tag: ET.Element, value: str):
+    max_length = ET.SubElement(parent_et_tag, max_length_tag)
+    
+    if value:
+        max_length.set('value', value)    
+
+    return max_length
+
+
+def build_min_length(parent_et_tag: ET.Element, value: str):
+    min_length = ET.SubElement(parent_et_tag, min_length_tag)
+    
+    if value:
+        min_length.set('value', value)    
+
+    return min_length
+
+
 def build_max_inclusive(parent_et_tag: ET.Element, value: str):
     max_inclusive = ET.SubElement(parent_et_tag, max_inclusive_tag)
     
@@ -122,14 +149,6 @@ def build_simple_type(parent_et_tag: ET.Element, jadn_name: str):
     simple_type = ET.SubElement(parent_et_tag, simple_type_tag, name=jadn_name)    
 
     return simple_type
-
-def build_complex_type(parent_et_tag: ET.Element, name: str = None):
-    complex_type = ET.SubElement(parent_et_tag, complexType_tag)
-    
-    if name:
-        complex_type.set('name', name)
-
-    return complex_type
 
 
 
