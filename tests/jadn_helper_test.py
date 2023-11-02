@@ -3,9 +3,27 @@
 import xml.etree.ElementTree as ET
 from constants.jadn_constants import *
 from constants.xsd_constants import *
-from helpers.jadn_helper import get_active_type_option_vals, get_type_option_vals
+from helpers.jadn_helper import get_active_type_option_vals, get_field_option_val, get_type_option_vals
 from logic.builder.xsd_builder import build_integer_type_opts, build_number_type_opts, build_string_type_opts
 
+
+def test_get_field_option_val():
+    tests = { 
+                "[" : ["K", "L", "[1", "]2", "&test", "<"],
+                "]" : ["K", "L", "[1", "]2", "&test", "<"],
+                "&" : ["K", "L", "[1", "]2", "&test", "<"],
+                "<" : ["K", "L", "[1", "]2", "&test", "<"],
+                "K" : ["K", "L", "[1", "]2", "&test", "<"],
+                "L" : ["K", "L", "[1", "]2", "&test", "<"]
+             }
+    
+    for test in tests.items():
+        id = test[0]
+        opts = test[1]
+        field_opt_val = get_field_option_val(opts, id)  
+
+        assert field_opt_val != None
+        
 
 def test_build_string_format_opts():
     root = ET.Element(schema_tag)
@@ -13,17 +31,17 @@ def test_build_string_format_opts():
                 1 : ["/date-time", "%DD-MM-YYYY hh:mm:ss"],
                 2 : ["/date", "%DD-MM-YYYY", "{1", "}8"],
                 3 : ["/time", "%hh:mm:ss"],
-                4 : ["/email", "%abcd", "{1", "}8"],
-                5 : ["/idn-email", "%abcd", "{1", "}8"],
-                6 : ["/hostname", "%abcd", "{1", "}8"],
-                7 : ["/idn-hostname", "%abcd", "{1", "}8"],
-                8 : ["/ipv4", "%abcd", "{1", "}8"],
-                9 : ["/ipv6", "%abcd", "{1", "}8"],
-                10 : ["/uri", "%abcd", "{1", "}8"],
-                11 : ["/iri-reference", "%abcd", "{1", "}8"],
-                12 : ["/json-pointer", "%abcd", "{1", "}8"],
-                13 : ["/relative-json-pointer", "%abcd", "{1", "}8"],
-                14 : ["/regex", "%abcd", "{1", "}8"]
+                4 : ["/email", "{1", "}8"],
+                5 : ["/idn-email", "{1", "}8"],
+                6 : ["/hostname", "{1", "}8"],
+                7 : ["/idn-hostname", "{1", "}8"],
+                8 : ["/ipv4", "{1", "}8"],
+                9 : ["/ipv6", "{1", "}8"],
+                10 : ["/uri", "{1", "}8"],
+                11 : ["/iri-reference", "{1", "}8"],
+                12 : ["/json-pointer", "{1", "}8"],
+                13 : ["/relative-json-pointer", "{1", "}8"],
+                14 : ["/regex", "{1", "}8"]
              }
     
     for test in tests.items():

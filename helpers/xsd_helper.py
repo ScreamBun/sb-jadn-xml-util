@@ -7,6 +7,17 @@ from constants.xsd_constants import *
 from utils.utils import safe_list_get
             
 
+def add_minoccurs_to_element(et_tag: ET.Element, val: str):
+    et_tag.set('minOccurs', val)
+    
+    return et_tag
+
+
+def add_maxoccurs_to_element(et_tag: ET.Element, val: str):
+    et_tag.set('maxOccurs', val)
+    
+    return et_tag
+
 
 def build_choice(parent_et_tag: ET.Element):
     choice = ET.SubElement(parent_et_tag, choice_tag)

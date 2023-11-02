@@ -1,7 +1,7 @@
 from datetime import date
 import xml.etree.ElementTree as ET
 from constants.jadn_constants import *
-from helpers.jadn_helper import get_active_type_option_vals, get_opt_type_val, get_type_option_val, get_vtype
+from helpers.jadn_helper import get_active_type_option_vals, get_field_option_val, get_opt_type_val, get_type_option_val, get_vtype
 
 from constants.xsd_constants import *
 from utils.utils import *
@@ -59,18 +59,16 @@ def build_base_types(root: ET.Element):
     
     # dateTime
     date_time_type = build_simple_type(root, DATE_TIME)
-    build_restriction(date_time_type, xs_dateTime)
+    build_restriction(date_time_type, xs_dateTime)         
     
-    # email
-    email_type = build_simple_type(root, EMAIL)
-    email_restriction = build_restriction(email_type, xs_string)
-    build_pattern(email_restriction, EMAIL_REG_CONST)
-    
-    # idn email
-    idn_email_type = build_simple_type(root, IDN_EMAIL)
-    idn_email_restriction = build_restriction(idn_email_type, xs_string)
-    build_pattern(idn_email_restriction, EMAIL_REG_CONST)    
-      
+    # string formats with regex
+    string_base_types_w_reg = find_items_by_val(FORMAT_OPTIONS_FROZ_DICT, STRING_CONST)
+    for string_type_key, string_type_value in string_base_types_w_reg.items():
+      if string_type_value[3]:
+        string_base_type = build_simple_type(root, string_type_key)
+        string_base_restriction = build_restriction(string_base_type, xs_string)
+        build_pattern(string_base_restriction, string_type_value[3])   
+                  
     for struct_key, struct_value in structures.items():
       if struct_key is ARRAYOF_CONST or struct_key is MAPOF_CONST:
         # ArrayOf and MapOf
@@ -101,9 +99,34 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
       if field_type == ARRAYOF_CONST:
         field_type = get_vtype(field_opts)
         
-      # TODO: Other field types needed...
+      field_type_et = build_element(xsd_seq, field_name, field_type)
+      
+      if field_opts:
         
-      build_element(xsd_seq, field_name, field_type)         
+        minc_field_id = FIELD_OPTIONS_FROZ_DICT.get(MINC_CONST)
+        minc_val = get_field_option_val(field_opts, minc_field_id)
+        if minc_val: 
+          field_type_et = add_minoccurs_to_element(field_type_et, minc_val)
+          
+        maxc_field_id = FIELD_OPTIONS_FROZ_DICT.get(MAXC_CONST)
+        maxc_val = get_field_option_val(field_opts, maxc_field_id)
+        if maxc_val: 
+          field_type_et = add_maxoccurs_to_element(field_type_et, maxc_val)          
+        
+        active_jadn_opts = get_active_type_option_vals(field_opts, field_type)
+        
+        if active_jadn_opts:
+        
+          if field_type == INTEGER_CONST:
+            build_integer_type_opts(field_type_et, active_jadn_opts, field_type)  
+            
+          if field_type == NUMBER_CONST:
+            build_number_type_opts(field_type_et, active_jadn_opts, field_type) 
+            
+          if field_type == STRING_CONST:
+            build_string_type_opts(field_type_et, active_jadn_opts, field_type)         
+        
+         
 
 
 def build_integer_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):  
@@ -154,7 +177,7 @@ def build_number_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
     if format_val:
       frozen_format_opt = FORMAT_OPTIONS_FROZ_DICT.get(format_val)
       restriction = build_restriction(parent_et, format_val)
-      build_documention(restriction, frozen_format_opt[3])
+      build_documention(restriction, frozen_format_opt[5])
       
       if minf_val:     
         build_min_inclusive(restriction, minf_val)       
@@ -180,22 +203,13 @@ def build_string_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
     format_val = get_opt_type_val(FORMAT_CONST, jadn_opts)
     minv_val = get_opt_type_val(MINV_CONST, jadn_opts)
     maxv_val = get_opt_type_val(MAXV_CONST, jadn_opts)                                           
-    pattern_val = get_opt_type_val(PATTERN_CONST, jadn_opts)    
-    
-    # TODO: Left off here...  
-    '''
-    if format date*
-    
-    elif other formats.....      
-      
-    '''
-    
+    pattern_val = get_opt_type_val(PATTERN_CONST, jadn_opts)       
     
     if format_val:
       frozen_format_opt = FORMAT_OPTIONS_FROZ_DICT.get(format_val)
       restriction = build_restriction(parent_et, format_val)           
       
-      build_documention(restriction, frozen_format_opt[3])      
+      build_documention(restriction, frozen_format_opt[4])      
       
       if format_val == DATE or format_val == DATE_TIME or format_val == TIME:
 
@@ -214,7 +228,7 @@ def build_string_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
           
       if pattern_val:
         
-        # TODO: Move to util
+        # TODO: Move to util?
         # Replaces default pattern with user specified pattern
         for child in restriction:
           if child.attrib and child.attrib != pattern_tag:
@@ -407,7 +421,8 @@ def build_global_elements(root : ET.Element, jadn_exports):
 
 def create_jadn_xsd():
     root = ET.Element(schema_tag)
-    jadn_dict = read_type_data_from_file("music_lib.jadn.json")
+    # jadn_dict = read_type_data_from_file("music_lib.jadn.json")
+    jadn_dict = read_type_data_from_file("test_data.json")
     jadn_info = None
     jadn_exports = None
     
@@ -425,7 +440,8 @@ def create_jadn_xsd():
     build_base_types(root)
     build_types(root, jadn_types)    
     
-    write_to_file(root, "music_lib.xsd") 
+    # write_to_file(root, "music_lib.xsd") 
+    write_to_file(root, "test_data.xsd") 
    
    
 if __name__=="__main__":    

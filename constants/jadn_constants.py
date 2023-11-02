@@ -72,50 +72,63 @@ I16 = "i16"
 I32 = "i32"
 JSON_POINTER = "json-pointer"
 REGEX = "regex"
-RELATIVE_JSON_POINTER = "relative-json-pointer"
+REL_JSON_POINTER = "relative-json-pointer"
 UNSIGNED_BITS = "u\\d+"
 URI = "uri"
 URI_REFERENCE = "uri-reference"
 URI_TEMPLATE = "uri-template"
 
 # Patterns
-EMAIL_REG_CONST = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+EMAIL_REG_CONST = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
 #TODO: Need an idn-email regex
-#TODO: Left off on hostname regex, check oif or jschema
+IDN_EMAIL_REG_CONST = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
+HOSTNAME_REG_CONST = "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])"
+#TODO: Need idn-hostname regex
+IDN_HOSTNAME_REG_CONST = "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)+([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])"
+IPV4_REG_CONST = "((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))[.]((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))[.]((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))[.]((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))"
+IPV6_REG_CONST = "((([0-9A-Fa-f]{1,4}:){1,6}:)|(([0-9A-Fa-f]{1,4}:){7}))([0-9A-Fa-f]{1,4})"
+# RFC 3986 Appendix-B
+URI_REG_CONST = "(https?:\/\/(www\.)?)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"
+#TODO: Need uri-ref regex
+URI_REF_REG_CONST = "(https?:\/\/(www\.)?)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"
+#TODO: Need uri-template regex
+URI_TEMPLATE_REG_CONST = "(https?:\/\/(www\.)?)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"
+IRI_REG_CONST = "<(.*)>"
+IRI_REF_REG_CONST = "<(.*)>"
+REG_REG_CONST = "\/((?![*+?])(?:[^\r\n\[/\\]|\\.|\[(?:[^\r\n\]\\]|\\.)*\])+)\/((?:g(?:im?|mi?)?|i(?:gm?|mg?)?|m(?:gi?|ig?)?)?)"
 
 # Dict
-# name, type, min, max, description 
+#   key               type[0],        min[1],        max[2],       regex[3],               description [4]
 FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
-    DATE_TIME: ["String", "", "", "JSON Schema Section 7.3.1"],
-    DATE: ["String", "", "", "JSON Schema Section 7.3.1"],
-    DURATION: ["Integer", "", "", "JSON Schema Section 7.3.1"],
-    TIME: ["String", "", "", "JSON Schema Section 7.3.1"],
-    EMAIL: ["String", "", "", "JSON Schema Section 7.3.2"],
-    IDN_EMAIL: ["String", "", "", "JSON Schema Section 7.3.2"],
-    HOSTNAME: ["String", "", "", "JSON Schema Section 7.3.3"],
-    IDN_HOSTNAME: ["String", "", "", "JSON Schema Section 7.3.3"],    
-    IPV4: ["String", "", "", "JSON Schema Section 7.3.4"],    
-    IPV6: ["String", "", "", "JSON Schema Section 7.3.4"],    
-    URI: ["String", "", "", "JSON Schema Section 7.3.5"],    
-    URI: ["String", "", "", "JSON Schema Section 7.3.5"],    
-    URI_REFERENCE: ["String", "", "", "JSON Schema Section 7.3.5"],    
-    URI_TEMPLATE: ["String", "", "", "JSON Schema Section 7.3.6"],    
-    IRI: ["String", "", "", "JSON Schema Section 7.3.5"],    
-    IRI_REFERENCE: ["String", "", "", "JSON Schema Section 7.3.5"],    
-    JSON_POINTER: ["String", "", "", "JSON Schema Section 7.3.7"],    
-    RELATIVE_JSON_POINTER: ["String", "", "", "JSON Schema Section 7.3.7"],    
-    REGEX: ["String", "", "", "JSON Schema Section 7.3.8"],
-    EUI : ["Binary", "", "", "IEEE Extended Unique Identifier (MAC Address)"],
-    F16 : ["Number", "", "", "float16: IEEE 754 Half-Precision Float (#7.25)."],
-    F32 : ["Number", "", "", "float32: IEEE 754 Single-Precision Float (#7.26)."],
-    IPV4_ADDR : ["Binary", "", "", "IPv4 address as specified in RFC 791 Section 3.1"],
-    IPV6_ADDR : ["Binary", "", "", "IPv6 address as specified in RFC 8200 Section 3"],
-    IPV4_NET : ["Array", "", "", "Binary IPv4 address and Integer prefix length as specified in RFC 4632 Section 3.1"],
-    IPV6_NET : ["Array", "", "", "Binary IPv6 address and Integer prefix length as specified in RFC 4291 Section 2.3"],
-    I8 : ["Integer", "-128", "127", "Signed 8 bit integer, value must be between -128 and 127."],
-    I16 : ["Integer", "-32768", "32767", "Signed 16 bit integer, value must be between -32768 and 32767."],
-    I32 : ["Integer", "-2147483648", "2147483647", "Signed 32 bit integer, value must be between -2147483648 and 2147483647."],
-    UNSIGNED_BITS : ["Integer", "", "", "Unsigned integer or bit field of <n> bits, value must be between 0 and 2^<n> - 1."]  
+    DATE_TIME:        [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    DATE:             [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    DURATION:         [INTEGER_CONST, "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    TIME:             [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    EMAIL:            [STRING_CONST,  "",            "",           EMAIL_REG_CONST,        "JSON Schema Section 7.3.2"],
+    IDN_EMAIL:        [STRING_CONST,  "",            "",           IDN_EMAIL_REG_CONST,    "JSON Schema Section 7.3.2"],
+    HOSTNAME:         [STRING_CONST,  "",            "",           HOSTNAME_REG_CONST,     "JSON Schema Section 7.3.3"],
+    IDN_HOSTNAME:     [STRING_CONST,  "",            "",           IDN_HOSTNAME_REG_CONST, "JSON Schema Section 7.3.3"],    
+    IPV4:             [STRING_CONST,  "",            "",           IPV4_REG_CONST,         "JSON Schema Section 7.3.4"],    
+    IPV6:             [STRING_CONST,  "",            "",           IPV6_REG_CONST,         "JSON Schema Section 7.3.4"],    
+    URI:              [STRING_CONST,  "",            "",           URI_REG_CONST,          "JSON Schema Section 7.3.5"],    
+    URI_REFERENCE:    [STRING_CONST,  "",            "",           URI_REF_REG_CONST,      "JSON Schema Section 7.3.5"],    
+    URI_TEMPLATE:     [STRING_CONST,  "",            "",           URI_TEMPLATE_REG_CONST, "JSON Schema Section 7.3.6"],    
+    IRI:              [STRING_CONST,  "",            "",           IRI_REG_CONST,          "JSON Schema Section 7.3.5"],    
+    IRI_REFERENCE:    [STRING_CONST,  "",            "",           IRI_REF_REG_CONST,      "JSON Schema Section 7.3.5"],    
+    JSON_POINTER:     [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.7"],    
+    REL_JSON_POINTER: [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.7"],    
+    REGEX:            [STRING_CONST,  "",            "",           REG_REG_CONST,          "JSON Schema Section 7.3.8"],
+    EUI :             [BINARY_CONST,  "",            "",           "",                     "IEEE Extended Unique Identifier (MAC Address)"],
+    F16 :             [NUMBER_CONST,  "",            "",           "",                     "float16: IEEE 754 Half-Precision Float (#7.25)."],
+    F32 :             [NUMBER_CONST,  "",            "",           "",                     "float32: IEEE 754 Single-Precision Float (#7.26)."],
+    IPV4_ADDR :       [BINARY_CONST,  "",            "",           "",                     "IPv4 address as specified in RFC 791 Section 3.1"],
+    IPV6_ADDR :       [BINARY_CONST,  "",            "",           "",                     "IPv6 address as specified in RFC 8200 Section 3"],
+    IPV4_NET :        [ARRAY_CONST,   "",            "",           "",                     "Binary IPv4 address and Integer prefix length as specified in RFC 4632 Section 3.1"],
+    IPV6_NET :        [ARRAY_CONST,   "",            "",           "",                     "Binary IPv6 address and Integer prefix length as specified in RFC 4291 Section 2.3"],
+    I8 :              [INTEGER_CONST, "-128",        "127",        "",                     "Signed 8 bit integer, value must be between -128 and 127."],
+    I16 :             [INTEGER_CONST, "-32768",      "32767",      "",                     "Signed 16 bit integer, value must be between -32768 and 32767."],
+    I32 :             [INTEGER_CONST, "-2147483648", "2147483647", "",                     "Signed 32 bit integer, value must be between -2147483648 and 2147483647."],
+    UNSIGNED_BITS :   [INTEGER_CONST, "",            "",           "",                     "Unsigned integer or bit field of <n> bits, value must be between 0 and 2^<n> - 1."]  
 })
 
 PRIMITIVE_TYPES = (BINARY_CONST, BOOLEAN_CONST, INTEGER_CONST, NUMBER_CONST, STRING_CONST)
@@ -165,6 +178,15 @@ TYPE_OPTIONS_FROZ_DICT = FrozenDict({
     UNORDERED_CONST:"b", # ArrayOf instance is unordered and not unique (bag)
     EXTEND_CONST:"X",    # Type has an extension point where fields may be appended
     DEFAULT_CONST:"!"    # Default or constant value of instances of this type
+})
+
+FIELD_OPTIONS_FROZ_DICT = FrozenDict({
+    MINC_CONST:"[",      # Minimum cardinality, default = 1, 0 = optional  
+    MAXC_CONST:"]",      # Maximum cardinality, default = 1, 0 = default max, >1 = array 
+    TAGID_CONST:"&",     # Field containing an explicit tag for this Choice type
+    DIR_CONST:"<",       # Pointer enumeration treats field as a group of items
+    KEY_CONST:"K",       # Field is a primary key for this type  
+    LINK_CONST:"L",      # Field is a foreign key reference to a type instance
 })
 
 FIELD_OPTIONS = FrozenDict({

@@ -1,0 +1,7 @@
+{
+  "types": [
+    ["Record-Name", "Record", [], "", [
+        [1, "field_value_1", "String", ["[1", "]2", "&test", "<", "K", "L"], ""]
+      ]]
+  ]
+}

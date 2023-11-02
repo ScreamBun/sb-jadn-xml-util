@@ -81,6 +81,21 @@ def get_type_option_val(opts: [], base_type: str, opt_human_name: str):
     
     return opt_val
 
+
+def get_field_option_val(opts: [], id: str):
+    opt_val = None
+    
+    for opt in opts:
+        if opt[0] == id:
+            if len(opt) == 1:
+                opt_val = opt[0]
+            else:
+                opt_val = opt[1:len(opt)]
+            break
+    
+    return opt_val
+
+
 # NOT USED
 def get_ktype(opts: [], type: str = ARRAYOF_CONST):
     ktype = None

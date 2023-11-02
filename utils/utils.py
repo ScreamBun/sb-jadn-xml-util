@@ -14,6 +14,10 @@ def convert_str_to_int(str_val: str):
   return return_int
 
 
+def find_items_by_val(dictionary: dict, search_string: str):
+    return {key:val for key,val in dictionary.items() if any(search_string in s for s in val)}
+
+
 def get_after_last_occurance(char: str, value: str):
     str_split = value.rsplit(char, 1)
     after_last = str_split[-1]
