@@ -103,15 +103,12 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
       
       if field_opts:
         
-        minc_field_id = FIELD_OPTIONS_FROZ_DICT.get(MINC_CONST)
-        minc_val = get_field_option_val(field_opts, minc_field_id)
-        if minc_val: 
-          field_type_et = add_minoccurs_to_element(field_type_et, minc_val)
-          
-        maxc_field_id = FIELD_OPTIONS_FROZ_DICT.get(MAXC_CONST)
-        maxc_val = get_field_option_val(field_opts, maxc_field_id)
-        if maxc_val: 
-          field_type_et = add_maxoccurs_to_element(field_type_et, maxc_val)          
+        #TODO: dir, key?
+        
+        field_type_et = add_id_to_element(field_type_et, field_opts)        
+        field_type_et = add_minoccurs_to_element(field_type_et, field_opts)
+        field_type_et = add_maxoccurs_to_element(field_type_et, field_opts)       
+        field_type_et = add_ref_to_element(field_type_et, field_opts)       
         
         active_jadn_opts = get_active_type_option_vals(field_opts, field_type)
         
@@ -125,8 +122,6 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
             
           if field_type == STRING_CONST:
             build_string_type_opts(field_type_et, active_jadn_opts, field_type)         
-        
-         
 
 
 def build_integer_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):  
@@ -435,10 +430,15 @@ def create_jadn_xsd():
     jadn_types = jadn_dict['types']
 
     if jadn_exports:
+      # TODO: Find all children
       build_global_elements(root, jadn_exports)
+    # else:
       
     build_base_types(root)
-    build_types(root, jadn_types)    
+    
+    main_root = build_element(root, "root")    
+    
+    build_types(main_root, jadn_types)    
     
     # write_to_file(root, "music_lib.xsd") 
     write_to_file(root, "test_data.xsd") 

@@ -1,20 +1,60 @@
 import xml.etree.ElementTree as ET
-from constants.jadn_constants import BASE_TYPE, TYPE_NAME, TYPE_OPTIONS
-from helpers.jadn_helper import get_type_option_vals
+from constants.jadn_constants import BASE_TYPE, FIELD_OPTIONS_FROZ_DICT, LINK_CONST, MAXC_CONST, MINC_CONST, TAGID_CONST, TYPE_NAME, TYPE_OPTIONS
+from helpers.jadn_helper import get_field_option_val, get_type_option_vals
 from helpers.options_helper import get_jadn_option
 
 from constants.xsd_constants import *
 from utils.utils import safe_list_get
             
 
-def add_minoccurs_to_element(et_tag: ET.Element, val: str):
-    et_tag.set('minOccurs', val)
+def add_id_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 
+    if val:  
+        et_tag.set('id', val)
+    else:    
+        id = FIELD_OPTIONS_FROZ_DICT.get(TAGID_CONST)
+        val = get_field_option_val(field_opts, id)
+        
+        if val:  
+            et_tag.set('id', val)
     
     return et_tag
 
 
-def add_maxoccurs_to_element(et_tag: ET.Element, val: str):
-    et_tag.set('maxOccurs', val)
+def add_minoccurs_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None):   
+    if val:  
+        et_tag.set('minOccurs', val)
+    else:    
+        id = FIELD_OPTIONS_FROZ_DICT.get(MINC_CONST)
+        val = get_field_option_val(field_opts, id)
+        
+        if val:  
+            et_tag.set('minOccurs', val)        
+    
+    return et_tag
+
+
+def add_maxoccurs_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 
+    if val:  
+        et_tag.set('maxOccurs', val)
+    else:    
+        id = FIELD_OPTIONS_FROZ_DICT.get(MAXC_CONST)
+        val = get_field_option_val(field_opts, id)
+        
+        if val:  
+            et_tag.set('maxOccurs', val)    
+    
+    return et_tag
+
+
+def add_ref_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 
+    if val:  
+        et_tag.set('ref', val)
+    else:    
+        id = FIELD_OPTIONS_FROZ_DICT.get(LINK_CONST)
+        val = get_field_option_val(field_opts, id)
+        
+        if val:  
+            et_tag.set('ref', val)
     
     return et_tag
 
@@ -56,14 +96,7 @@ def build_element(parent_et_tag: ET.Element, name: str, type: str = None, min_oc
     if is_unique or is_set:
         unique_et = ET.SubElement(elem_et, unique_tag, name=name + '-Unique')
         ET.SubElement(unique_et, selector_tag, xpath=name)
-        ET.SubElement(unique_et, field_tag, xpath='.')
-
-    # if ref:
-    #     elem_et.set('ref', ref)        
-
-    # if safe_list_get(type, 4, None):
-    #     elem_desc = type[4]
-    #     build_documention(elem_et, elem_desc)    
+        ET.SubElement(unique_et, field_tag, xpath='.')   
 
     return elem_et
 

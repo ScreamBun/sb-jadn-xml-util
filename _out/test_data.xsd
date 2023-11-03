@@ -138,9 +138,11 @@
 			<xs:element name="Record" type="String" />
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="Record-Name">
-		<xs:sequence>
-			<xs:element name="field_value_1" type="String" minOccurs="1" maxOccurs="2" />
-		</xs:sequence>
-	</xs:complexType>
+	<xs:element name="root">
+		<xs:complexType name="Record-Name">
+			<xs:sequence>
+				<xs:element name="field_value_1" type="String" id="test" minOccurs="1" maxOccurs="2" ref="L" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
