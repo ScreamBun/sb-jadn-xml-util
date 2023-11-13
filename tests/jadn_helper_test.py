@@ -3,8 +3,20 @@
 import xml.etree.ElementTree as ET
 from constants.jadn_constants import *
 from constants.xsd_constants import *
-from helpers.jadn_helper import get_active_type_option_vals, get_field_option_val, get_type_option_vals
+from helpers.jadn_helper import get_active_type_option_vals, get_all_jadn_descendants, get_field_option_val, get_type_option_vals
 from logic.builder.xsd_builder import build_integer_type_opts, build_number_type_opts, build_string_type_opts
+from utils.utils import read_type_data_from_file
+
+
+def test_get_all_descendants():
+    
+    jadn_dict = read_type_data_from_file("test_data.json")
+    jadn_types = jadn_dict['types']
+    test_parent = "Parent"
+    test_data = get_all_jadn_descendants(test_parent, jadn_types, [])
+    
+    assert test_data != None
+    assert len(test_data) > 0
 
 
 def test_get_field_option_val():

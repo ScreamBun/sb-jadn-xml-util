@@ -23,6 +23,26 @@ if __name__=="__main__":
     # else:
     #     validate_xml('students.xsd', 'students.xml')
 
-    create_jadn_xsd()
+    print("Pick your script (1 or 2): ")
+    print("1: JADN XSD Converter")
+    print("2: XML Validator")
+    program_input = input()
+    
+    if program_input == "1":
+        print("What's the JADN filename?")
+        filename_input = input()
+        
+        if filename_input:
+            print("Building the JADN XSD... ")
+            create_jadn_xsd(filename_input)
+        else:
+            print("Invalid entry... ")
+            
+    elif program_input == "2":
+        # TOD something else
+        test = "test"
+    else:
+        print("Invalid entry... ")
+
     
     

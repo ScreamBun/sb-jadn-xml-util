@@ -1,5 +1,53 @@
-from sb_utils import FrozenDict
 from constants.jadn_constants import ALLOWED_TYPE_OPTIONS, ARRAYOF_CONST, MAPOF_CONST, MAXV_CONST, MINV_CONST, TYPE_OPTIONS_FROZ_DICT
+
+
+def get_root_et(multi_root: dict, name: str):
+    
+    root_found = multi_root.get(name)
+    
+    if root_found == None:
+        root_found = multi_root.get('schema')
+    
+    return root_found
+
+
+def get_all_jadn_descendants(match_name: str, data_to_search: [], family_tree: []):
+    
+    for jadn_type in data_to_search:
+        jadn_type_name = jadn_type[0]    
+    
+        if match_name == jadn_type_name:
+            family_tree.append(match_name)
+            
+            if jadn_type[1] == MAPOF_CONST:
+                field_data = jadn_type[2]
+                map_k = field_data[0]
+                map_v = field_data[1]
+                map_filtered_key = map_k[1:len(map_k)]
+                map_filtered_val = map_v[1:len(map_v)]
+                
+                if map_filtered_key not in family_tree:
+                    get_all_jadn_descendants(map_filtered_key, data_to_search, family_tree)
+                    
+                if map_filtered_val not in family_tree:
+                    get_all_jadn_descendants(map_filtered_val, data_to_search, family_tree)                                    
+                
+            elif jadn_type[1] == ARRAYOF_CONST:
+                field_data = jadn_type[2]
+                arr_v = field_data[0]
+                arr_filtered_val = arr_v[1:len(arr_v)]
+                if arr_filtered_val:
+                    if arr_filtered_val not in family_tree:
+                        get_all_jadn_descendants(arr_filtered_val, data_to_search, family_tree)  
+                
+            else:
+                if len(jadn_type[4]) > 0:
+                    for field in jadn_type[4]:
+                        if field[2]:
+                            if field[2] not in family_tree:
+                                get_all_jadn_descendants(field[2], data_to_search, family_tree)  
+    
+    return family_tree
 
 
 def get_type_option_code(human_name: str):
@@ -33,11 +81,26 @@ def is_type_option_allowed(base_type: str, human_name: str):
     return is_allowed
 
 
-def get_type_option_vals(opts: [], base_type: str):
+def find_ref_type(name, all_types):
+    type_found = None
+    for type in all_types:
+        if type[0] == name:
+            type_found = type
+            break
+
+    return type_found
+
+def get_type_option_vals(opts: [], base_type: str, all_types: {}):
     opt_vals_fd = {}
     
     for opt_code in TYPE_OPTIONS_FROZ_DICT.values():
         opt_vals_fd[opt_code] = None
+    
+    allowed_opts = ALLOWED_TYPE_OPTIONS.get(base_type)
+    if not allowed_opts:
+        ref_type = find_ref_type(base_type, all_types)
+        if ref_type:
+            base_type = ref_type[1]
     
     for allowed_opt in ALLOWED_TYPE_OPTIONS.get(base_type):
         opt_key_char = get_type_option_code(allowed_opt)
@@ -54,8 +117,8 @@ def get_type_option_vals(opts: [], base_type: str):
     return opt_vals_fd
 
 
-def get_active_type_option_vals(opts: [], base_type: str):
-    type_opts = get_type_option_vals(opts, base_type)
+def get_active_type_option_vals(opts: [], base_type: str, all_types: {}):
+    type_opts = get_type_option_vals(opts, base_type, all_types)
     return dict(filter(lambda item: item[1] != None, type_opts.items()))
 
 

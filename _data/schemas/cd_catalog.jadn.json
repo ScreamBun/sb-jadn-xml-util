@@ -1,0 +1,34 @@
+{
+  "info": {
+    "package": "http://test/v1.0",
+    "version": "1.0.0",
+    "title": "cd_catalog",
+    "exports": ["CATALOG"],
+    "config": {
+      "$MaxBinary": 255,
+      "$MaxString": 255,
+      "$MaxElements": 100,
+      "$Sys": "$",
+      "$TypeName": "^[A-Z][-$A-Za-z0-9]{0,63}$",
+      "$FieldName": "^[A-Z][_A-Za-z0-9]{0,63}$",
+      "$NSID": "^[A-Za-z][A-Za-z0-9]{0,7}$"
+    }
+  },
+  "types": [
+    ["CATALOG", "ArrayOf", ["*CD"], ""],
+    ["CD", "Record", [], "", [
+        [1, "TITLE", "TITLE", [], ""],
+        [2, "ARTIST", "ARTIST", [], ""],
+        [3, "COUNTRY", "COUNTRY", [], ""],
+        [4, "COMPANY", "COMPANY", [], ""],
+        [5, "PRICE", "PRICE", [], ""],
+        [6, "YEAR", "YEAR", [], ""]
+      ]],
+    ["TITLE", "String", [], ""],
+    ["ARTIST", "String", [], ""],
+    ["COUNTRY", "String", [], ""],
+    ["COMPANY", "String", [], ""],
+    ["PRICE", "Number", [], ""],
+    ["YEAR", "Integer", [], ""]
+  ]
+}

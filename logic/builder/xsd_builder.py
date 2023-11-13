@@ -1,12 +1,14 @@
 from datetime import date
 import xml.etree.ElementTree as ET
 from constants.jadn_constants import *
-from helpers.jadn_helper import get_active_type_option_vals, get_field_option_val, get_opt_type_val, get_type_option_val, get_vtype
+from helpers.jadn_helper import *
 
 from constants.xsd_constants import *
 from utils.utils import *
 from helpers.xsd_helper import *
 
+
+jadn_types_dict: {} = {}
 
 def get_common_elements(type: []):
     common_elements = {} 
@@ -110,7 +112,8 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
         field_type_et = add_maxoccurs_to_element(field_type_et, field_opts)       
         field_type_et = add_ref_to_element(field_type_et, field_opts)       
         
-        active_jadn_opts = get_active_type_option_vals(field_opts, field_type)
+        global jadn_types_dict
+        active_jadn_opts = get_active_type_option_vals(field_opts, field_type, jadn_types_dict)
         
         if active_jadn_opts:
         
@@ -253,7 +256,8 @@ def build_primitive_type(root: ET.Element, type: []):
       build_documention(simple_type, jce.get(TYPE_DESCRIPTION))
 
     if jce[TYPE_OPTIONS]:
-      active_jadn_opts = get_active_type_option_vals(jce[TYPE_OPTIONS], jce.get(BASE_TYPE))
+      global jadn_types_dict
+      active_jadn_opts = get_active_type_option_vals(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), jadn_types_dict)
       
       if active_jadn_opts:
       
@@ -384,8 +388,12 @@ def build_structure_type(root: ET.Element, type: []):
       build_record_type(root, jce)     
       
       
-def build_types(root : ET.Element, jadn_types_dict: dict):
+def build_types(multi_root : dict):
+    global jadn_types_dict
     for jadn_type in jadn_types_dict:
+      
+      root = get_root_et(multi_root, jadn_type[0])
+      
       jadn_type_name = jadn_type[1]
 
       # Primitives
@@ -410,14 +418,17 @@ def build_types(root : ET.Element, jadn_types_dict: dict):
   
 
 def build_global_elements(root : ET.Element, jadn_exports):
+  root_et_dict = {}
   for export in jadn_exports:
-    build_element(root, export, export)
+    root_et_dict[export] = build_element(root, export)
+    
+  return root_et_dict
 
 
-def create_jadn_xsd():
-    root = ET.Element(schema_tag)
-    # jadn_dict = read_type_data_from_file("music_lib.jadn.json")
-    jadn_dict = read_type_data_from_file("test_data.json")
+def create_jadn_xsd(jadn_file_name: str):
+    schema_et = ET.Element(schema_tag)
+    jadn_dict = read_type_data_from_file(jadn_file_name)
+    
     jadn_info = None
     jadn_exports = None
     
@@ -427,21 +438,24 @@ def create_jadn_xsd():
       if jadn_info.get('exports'):
         jadn_exports = jadn_info['exports']
         
-    jadn_types = jadn_dict['types']
+    global jadn_types_dict        
+    jadn_types_dict = jadn_dict['types']
 
+    # TODO: Move to another schema and import
+    build_base_types(schema_et)
+
+    multi_root = {}
+    multi_root["schema"] = schema_et
+    
     if jadn_exports:
-      # TODO: Find all children
-      build_global_elements(root, jadn_exports)
-    # else:
-      
-    build_base_types(root)
+      global_roots = build_global_elements(schema_et, jadn_exports)    
+      multi_root.update(global_roots)
     
-    main_root = build_element(root, "root")    
+    build_types(multi_root)    
     
-    build_types(main_root, jadn_types)    
-    
-    # write_to_file(root, "music_lib.xsd") 
-    write_to_file(root, "test_data.xsd") 
+    write_filename = get_file_name_only(jadn_file_name)
+    write_filename = write_filename + ".xsd"
+    write_to_file(schema_et, write_filename) 
    
    
 if __name__=="__main__":    

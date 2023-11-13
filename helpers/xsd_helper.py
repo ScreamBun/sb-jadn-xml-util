@@ -69,7 +69,10 @@ def build_complex_type(parent_et_tag: ET.Element, name: str = None):
     complex_type = ET.SubElement(parent_et_tag, complexType_tag)
     
     if name:
-        complex_type.set('name', name)
+        
+        if not parent_et_tag.attrib.get('name'):
+        
+            complex_type.set('name', name)
 
     return complex_type
 

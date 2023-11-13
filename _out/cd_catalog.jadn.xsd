@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="Binary">
+		<xs:restriction base="xs:byte" />
+	</xs:simpleType>
+	<xs:simpleType name="Boolean">
+		<xs:restriction base="xs:boolean" />
+	</xs:simpleType>
+	<xs:simpleType name="Integer">
+		<xs:restriction base="xs:integer" />
+	</xs:simpleType>
+	<xs:simpleType name="Number">
+		<xs:restriction base="xs:decimal" />
+	</xs:simpleType>
+	<xs:simpleType name="String">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+	<xs:simpleType name="Enumerated">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Enumerated-Value1" />
+			<xs:enumeration value="Enumerated-Value2" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Choice">
+		<xs:choice>
+			<xs:element name="Choice-Element" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="f16">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="4" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="f32">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="6" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="date">
+		<xs:restriction base="xs:date" />
+	</xs:simpleType>
+	<xs:simpleType name="time">
+		<xs:restriction base="xs:time" />
+	</xs:simpleType>
+	<xs:simpleType name="date-time">
+		<xs:restriction base="xs:dateTime" />
+	</xs:simpleType>
+	<xs:simpleType name="email">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="idn-email">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="hostname">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="idn-hostname">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ipv4">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))[.]((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))[.]((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))[.]((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ipv6">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((([0-9A-Fa-f]{1,4}:){1,6}:)|(([0-9A-Fa-f]{1,4}:){7}))([0-9A-Fa-f]{1,4})" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="uri">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="uri-reference">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="uri-template">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="iri">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="&lt;(.*)&gt;" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="iri-reference">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="&lt;(.*)&gt;" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="regex">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\*." />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ArrayOf">
+		<xs:restriction base="String" />
+	</xs:simpleType>
+	<xs:simpleType name="MapOf">
+		<xs:restriction base="String" />
+	</xs:simpleType>
+	<xs:complexType name="Array">
+		<xs:sequence>
+			<xs:element name="Array-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Array-Element" type="String" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Map">
+		<xs:sequence>
+			<xs:element name="Map-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Map-Element" type="String" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Record">
+		<xs:sequence>
+			<xs:element name="Record" type="String" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="CATALOG">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CATALOG-Elements" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CD" type="CD" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="CD">
+		<xs:sequence>
+			<xs:element name="TITLE" type="TITLE" />
+			<xs:element name="ARTIST" type="ARTIST" />
+			<xs:element name="COUNTRY" type="COUNTRY" />
+			<xs:element name="COMPANY" type="COMPANY" />
+			<xs:element name="PRICE" type="PRICE" />
+			<xs:element name="YEAR" type="YEAR" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="TITLE">
+		<xs:restriction base="String" />
+	</xs:simpleType>
+	<xs:simpleType name="ARTIST">
+		<xs:restriction base="String" />
+	</xs:simpleType>
+	<xs:simpleType name="COUNTRY">
+		<xs:restriction base="String" />
+	</xs:simpleType>
+	<xs:simpleType name="COMPANY">
+		<xs:restriction base="String" />
+	</xs:simpleType>
+	<xs:simpleType name="PRICE">
+		<xs:restriction base="Number" />
+	</xs:simpleType>
+	<xs:simpleType name="YEAR">
+		<xs:restriction base="Integer" />
+	</xs:simpleType>
+</xs:schema>

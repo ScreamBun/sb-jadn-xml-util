@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 import json
 import os
+import pathlib
 from lxml import etree
 import xml.etree.ElementTree as ET
 
@@ -22,6 +23,16 @@ def get_after_last_occurance(char: str, value: str):
     str_split = value.rsplit(char, 1)
     after_last = str_split[-1]
     return after_last
+
+
+def get_file_extension_only(file_name: str):
+    file_extension = pathlib.Path(file_name).suffix    
+    return file_extension
+
+
+def get_file_name_only(file_name: str):
+    file_name_only = pathlib.Path(file_name).stem    
+    return file_name_only
 
 
 def safe_list_get (l, idx, default):
