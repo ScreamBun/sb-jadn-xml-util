@@ -47,6 +47,10 @@ def add_days_to_date(date_val: date, days_to_add: int):
     return return_date
 
 
+def get_filename_from_path(path: str):
+    return os.path.basename(path).split('/')[-1]    
+
+
 def get_xml_file(file_name):
     file_dir = os.path.dirname(os.path.realpath('__file__'))
     print(file_dir)
