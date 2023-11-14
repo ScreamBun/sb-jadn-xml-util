@@ -138,19 +138,17 @@
 			<xs:element name="Record" type="String" />
 		</xs:sequence>
 	</xs:complexType>
-	<xs:element name="CATALOG">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="CATALOG-Elements" maxOccurs="unbounded">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="CD" type="CD" />
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+	<xs:complexType name="CATALOG">
+		<xs:sequence>
+			<xs:element name="CATALOG-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CD" type="CD" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="CD">
 		<xs:sequence>
 			<xs:element name="TITLE" type="TITLE" />
@@ -179,4 +177,5 @@
 	<xs:simpleType name="YEAR">
 		<xs:restriction base="Integer" />
 	</xs:simpleType>
+	<xs:element name="CATALOG" type="CATALOG" />
 </xs:schema>

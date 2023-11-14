@@ -171,7 +171,7 @@ TYPE_OPTIONS_FROZ_DICT = FrozenDict({
     ENUM_CONST:"#",      # Enumeration derived from Array/Choice/Map/Record type
     POINTER_CONST:">",   # Enumeration of pointers derived from Array/Choice/Map/Record type
     FORMAT_CONST:"/",    # Semantic validation keyword, may affect serialization
-    PATTERN_CONST:"%",   # Eegular expression that a string must match
+    PATTERN_CONST:"%",   # Regular expression that a string must match
     MINF_CONST:"y",      # Minimum Number value
     MAXF_CONST:"z",      # Maximum Number value
     MINV_CONST:"{",      # Minimum byte or text string length, Integer value, element count

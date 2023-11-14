@@ -138,26 +138,22 @@
 			<xs:element name="Record" type="String" />
 		</xs:sequence>
 	</xs:complexType>
-	<xs:element name="OpenC2-Command">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="action" type="Action" />
-				<xs:element name="target" type="Target" />
-				<xs:element name="args" type="Args" minOccurs="0" />
-				<xs:element name="actuator" type="Actuator" minOccurs="0" />
-				<xs:element name="command_id" type="Command-ID" minOccurs="0" />
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="OpenC2-Response">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="status" type="Status-Code" />
-				<xs:element name="status_text" type="String" minOccurs="0" />
-				<xs:element name="results" type="Results" minOccurs="0" />
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+	<xs:complexType name="OpenC2-Command">
+		<xs:sequence>
+			<xs:element name="action" type="Action" />
+			<xs:element name="target" type="Target" />
+			<xs:element name="args" type="Args" minOccurs="0" />
+			<xs:element name="actuator" type="Actuator" minOccurs="0" />
+			<xs:element name="command_id" type="Command-ID" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OpenC2-Response">
+		<xs:sequence>
+			<xs:element name="status" type="Status-Code" />
+			<xs:element name="status_text" type="String" minOccurs="0" />
+			<xs:element name="results" type="Results" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
 	<xs:simpleType name="Action">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="scan" />
@@ -232,12 +228,14 @@
 						<xs:element name="versions" type="Versions" minOccurs="0" />
 						<xs:element name="profiles" type="Profiles" minOccurs="0" />
 						<xs:element name="pairs" type="Action-Targets" minOccurs="0" />
-						<xs:element name="rate_limit" type="Number" minOccurs="0">
-							<xs:restriction base="Number">
-								<xs:minInclusive value="0.0" />
-							</xs:restriction>
+						<xs:element name="rate_limit" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="Number">
+									<xs:minInclusive value="0.0" />
+								</xs:restriction>
+							</xs:simpleType>
 						</xs:element>
-						<xs:element name="args" type="Enumerated" minOccurs="0" maxOccurs="0" />
+						<xs:element name="args" type="Enumerated" minOccurs="0" maxOccurs="unbounded" />
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -451,10 +449,12 @@
 			<xs:element name="Process-Elements" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="pid" type="Integer" minOccurs="0">
-							<xs:restriction base="Integer">
-								<xs:minInclusive value="0" />
-							</xs:restriction>
+						<xs:element name="pid" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="Integer">
+									<xs:minInclusive value="0" />
+								</xs:restriction>
+							</xs:simpleType>
 						</xs:element>
 						<xs:element name="name" type="String" minOccurs="0" />
 						<xs:element name="cwd" type="String" minOccurs="0" />
@@ -661,5 +661,10 @@
 		<xs:annotation>
 			<xs:documentation>Command Identifier</xs:documentation>
 		</xs:annotation>
+		<xs:restriction base="String">
+			<xs:pattern value="^\S{0,36}$" />
+		</xs:restriction>
 	</xs:simpleType>
+	<xs:element name="OpenC2-Command" type="OpenC2-Command" />
+	<xs:element name="OpenC2-Response" type="OpenC2-Response" />
 </xs:schema>

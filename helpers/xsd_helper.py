@@ -1,10 +1,8 @@
 import xml.etree.ElementTree as ET
-from constants.jadn_constants import BASE_TYPE, FIELD_OPTIONS_FROZ_DICT, LINK_CONST, MAXC_CONST, MINC_CONST, TAGID_CONST, TYPE_NAME, TYPE_OPTIONS
-from helpers.jadn_helper import get_field_option_val, get_type_option_vals
-from helpers.options_helper import get_jadn_option
+from constants.jadn_constants import *
+from helpers.jadn_helper import get_field_option_val
 
 from constants.xsd_constants import *
-from utils.utils import safe_list_get
             
 
 def add_id_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 
@@ -33,15 +31,24 @@ def add_minoccurs_to_element(et_tag: ET.Element, field_opts: [] = [], val: str =
     return et_tag
 
 
+def check_for_unbounded(val: str):
+    return_val = val
+    if val == "0":
+        return_val = "unbounded"
+    return return_val
+
+
 def add_maxoccurs_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 
     if val:  
-        et_tag.set('maxOccurs', val)
+        xsd_val = check_for_unbounded(val)
+        et_tag.set('maxOccurs', xsd_val)
     else:    
         id = FIELD_OPTIONS_FROZ_DICT.get(MAXC_CONST)
         val = get_field_option_val(field_opts, id)
         
         if val:  
-            et_tag.set('maxOccurs', val)    
+            xsd_val = check_for_unbounded(val)
+            et_tag.set('maxOccurs', xsd_val)    
     
     return et_tag
 
@@ -181,7 +188,18 @@ def build_pattern(parent_et_tag: ET.Element, restriction_pattern: str):
 
 
 def build_restriction(parent_et_tag: ET.Element, base: str):
-    restriction = ET.SubElement(parent_et_tag, restriction_tag, base=base)
+    restriction = None
+    if "element" in parent_et_tag.tag:
+        simple_type_tag = build_simple_type(parent_et_tag)
+        restriction = ET.SubElement(simple_type_tag, restriction_tag, base=base)
+    else:
+        restriction = ET.SubElement(parent_et_tag, restriction_tag, base=base)
+           
+    if parent_et_tag.attrib.get('type'):
+        if restriction.attrib.get('base'):
+            parent_et_tag.attrib.pop('type')
+            # Note: Can't have a element type and a restriction base, must be one or the other
+            # Removing element type and keeping more specific restriction base
 
     return restriction
 
@@ -192,8 +210,11 @@ def build_sequence(parent_et_tag: ET.Element):
     return seq
 
 
-def build_simple_type(parent_et_tag: ET.Element, jadn_name: str):
-    simple_type = ET.SubElement(parent_et_tag, simple_type_tag, name=jadn_name)    
+def build_simple_type(parent_et_tag: ET.Element, jadn_name: str = None):
+    simple_type = ET.SubElement(parent_et_tag, simple_type_tag)  
+    
+    if jadn_name:  
+        simple_type.set('name', jadn_name)
 
     return simple_type
 

@@ -226,8 +226,6 @@ def build_string_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
           
       if pattern_val:
         
-        # TODO: Move to util?
-        # Replaces default pattern with user specified pattern
         for child in restriction:
           if child.attrib and child.attrib != pattern_tag:
               restriction.remove(child)
@@ -243,7 +241,14 @@ def build_string_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
           build_min_inclusive(restriction, minv_val) 
           
         if maxv_val:     
-          build_max_inclusive(restriction, maxv_val)      
+          build_max_inclusive(restriction, maxv_val)
+          
+      if pattern_val:
+        
+        if 'restriction' not in locals():          
+          restriction = build_restriction(parent_et, base_type)
+        
+        build_pattern(restriction, pattern_val)              
      
 
 def build_primitive_type(root: ET.Element, type: []):
@@ -388,11 +393,9 @@ def build_structure_type(root: ET.Element, type: []):
       build_record_type(root, jce)     
       
       
-def build_types(multi_root : dict):
+def build_types(root : ET.Element):
     global jadn_types_dict
     for jadn_type in jadn_types_dict:
-      
-      root = get_root_et(multi_root, jadn_type[0])
       
       jadn_type_name = jadn_type[1]
 
@@ -415,14 +418,6 @@ def build_types(multi_root : dict):
       structures_jadn_type = structures.get(jadn_type_name, None)
       if structures_jadn_type != None:
         build_structure_type(root, jadn_type) 
-  
-
-def build_global_elements(root : ET.Element, jadn_exports):
-  root_et_dict = {}
-  for export in jadn_exports:
-    root_et_dict[export] = build_element(root, export)
-    
-  return root_et_dict
 
 
 def create_jadn_xsd(jadn_file_name: str):
@@ -443,15 +438,12 @@ def create_jadn_xsd(jadn_file_name: str):
 
     # TODO: Move to another schema and import
     build_base_types(schema_et)
-
-    multi_root = {}
-    multi_root["schema"] = schema_et
+    
+    build_types(schema_et)    
     
     if jadn_exports:
-      global_roots = build_global_elements(schema_et, jadn_exports)    
-      multi_root.update(global_roots)
-    
-    build_types(multi_root)    
+      for export in jadn_exports:
+        build_element(schema_et, export, export)    
     
     write_filename = get_file_name_only(jadn_file_name)
     write_filename = write_filename + ".xsd"
