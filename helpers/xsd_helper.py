@@ -101,7 +101,8 @@ def build_element(parent_et_tag: ET.Element, name: str, type: str = None, min_oc
         elem_et.set('minOccurs', min_occurs)
 
     if max_occurs:
-        elem_et.set('maxOccurs', max_occurs)
+        xsd_val = check_for_unbounded(max_occurs)
+        elem_et.set('maxOccurs', xsd_val)
 
     if is_unique or is_set:
         unique_et = ET.SubElement(elem_et, unique_tag, name=name + '-Unique')

@@ -170,13 +170,13 @@ def get_ktype(opts: [], type: str = ARRAYOF_CONST):
         
     return ktype
 
-# USED, BUT SHOULD BE REPLACED WITH GET OPTION VAL
+
 def get_vtype(opts: [], type: str = ARRAYOF_CONST):
     vtype = None
     
-    if type == ARRAYOF_CONST:
-        vtype = opts[0].replace("*", "", 1)
-    elif type == MAPOF_CONST:
-        vtype = opts[1].replace("*", "", 1)
+    for opt in opts:
+        if opt[0] == "*":
+            vtype = opt.replace("*", "", 1)
+            break
         
     return vtype

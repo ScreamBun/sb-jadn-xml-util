@@ -1,0 +1,623 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="Binary">
+		<xs:restriction base="xs:byte" />
+	</xs:simpleType>
+	<xs:simpleType name="Boolean">
+		<xs:restriction base="xs:boolean" />
+	</xs:simpleType>
+	<xs:simpleType name="Integer">
+		<xs:restriction base="xs:integer" />
+	</xs:simpleType>
+	<xs:simpleType name="Number">
+		<xs:restriction base="xs:decimal" />
+	</xs:simpleType>
+	<xs:simpleType name="String">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+	<xs:simpleType name="Enumerated">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Enumerated-Value1" />
+			<xs:enumeration value="Enumerated-Value2" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Choice">
+		<xs:choice>
+			<xs:element name="Choice-Element" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="f16">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="4" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="f32">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="6" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="date">
+		<xs:restriction base="xs:date" />
+	</xs:simpleType>
+	<xs:simpleType name="time">
+		<xs:restriction base="xs:time" />
+	</xs:simpleType>
+	<xs:simpleType name="date-time">
+		<xs:restriction base="xs:dateTime" />
+	</xs:simpleType>
+	<xs:simpleType name="email">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="idn-email">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="hostname">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="idn-hostname">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ipv4">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))[.]((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))[.]((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))[.]((25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([1-9][0-9])|([0-9]))" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ipv6">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((([0-9A-Fa-f]{1,4}:){1,6}:)|(([0-9A-Fa-f]{1,4}:){7}))([0-9A-Fa-f]{1,4})" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="uri">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="uri-reference">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="uri-template">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="iri">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="&lt;(.*)&gt;" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="iri-reference">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="&lt;(.*)&gt;" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="regex">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\*." />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="eui">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\\b[01]+\\b" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ipv4-addr">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\\b[01]+\\b" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ipv6-addr">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\\b[01]+\\b" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ArrayOf">
+		<xs:restriction base="String" />
+	</xs:simpleType>
+	<xs:simpleType name="MapOf">
+		<xs:restriction base="String" />
+	</xs:simpleType>
+	<xs:complexType name="Array">
+		<xs:sequence>
+			<xs:element name="Array-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Array-Element" type="String" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Map">
+		<xs:sequence>
+			<xs:element name="Map-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Map-Element" type="String" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Record">
+		<xs:sequence>
+			<xs:element name="Record" type="String" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OpenC2-Command">
+		<xs:sequence>
+			<xs:element name="action" type="Action" />
+			<xs:element name="target" type="Target" />
+			<xs:element name="args" type="Args" minOccurs="0" />
+			<xs:element name="actuator" type="Actuator" minOccurs="0" />
+			<xs:element name="command_id" type="Command-ID" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OpenC2-Response">
+		<xs:sequence>
+			<xs:element name="OpenC2-Response-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="status" type="Status-Code" />
+						<xs:element name="status_text" type="String" minOccurs="0" />
+						<xs:element name="results" type="Results" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Action">
+		<xs:annotation>
+			<xs:documentation>Actions available to this Profile</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="query" />
+			<xs:enumeration value="investigate" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Target">
+		<xs:choice>
+			<xs:element name="features" type="Features" />
+			<xs:element name="th" type="AP-Target$th" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Args">
+		<xs:sequence>
+			<xs:element name="Args-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="start_time" type="Date-Time" minOccurs="0" />
+						<xs:element name="stop_time" type="Date-Time" minOccurs="0" />
+						<xs:element name="duration" type="Duration" minOccurs="0" />
+						<xs:element name="response_requested" type="Response-Type" minOccurs="0" />
+						<xs:element name="th" type="AP-Args" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Actuator">
+		<xs:choice>
+			<xs:element name="th" type="AP-Specifiers$th" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Results">
+		<xs:annotation>
+			<xs:documentation>Response Results</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Results-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="versions" type="Version" minOccurs="0" maxOccurs="10" />
+						<xs:element name="profiles" type="Nsid" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="pairs" type="Pairs" minOccurs="0" />
+						<xs:element name="rate_limit" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="Number">
+									<xs:minInclusive value="0.0" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="th" type="AP-Results$th" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Pairs">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="query: features, /huntbooks, /datasources" />
+			<xs:enumeration value="investigate: /hunt" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AP-Args">
+		<xs:annotation>
+			<xs:documentation>TH command arguments defined in this profile</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AP-Args-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="huntargs" type="Huntargs" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Huntargs">
+		<xs:annotation>
+			<xs:documentation>Arguments defined by the huntbook. May be a variety of types, handled by the hunting actuator.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Huntargs-Elements" minOccurs="2" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="string_arg" type="String" minOccurs="0" />
+						<xs:element name="integer_arg" type="Integer" minOccurs="0" />
+						<xs:element name="time_arg" type="Huntargs$Time-arg" minOccurs="0" />
+						<xs:element name="stix" type="Huntargs$Stix" minOccurs="0" />
+						<xs:element name="timerange" type="Stix-Timerange" minOccurs="0" />
+						<xs:element name="path" type="Path-Format" minOccurs="0" />
+						<xs:element name="datasource">
+							<xs:simpleType>
+								<xs:restriction base="String">
+									<xs:minLength value="1" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="hunt_process" type="Hunt-Process" minOccurs="0" />
+						<xs:element name="ipv4_address" type="IPv4-Addr" minOccurs="0" />
+						<xs:element name="ipv6_address" type="IPv6-Addr" minOccurs="0" />
+						<xs:element name="ipv4_network" type="IPv4-Net" minOccurs="0" />
+						<xs:element name="ipv6_network" type="IPv6-Net" minOccurs="0" />
+						<xs:element name="endpoint" type="String" minOccurs="0" />
+						<xs:element name="directory" type="String" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Hunt-Process">
+		<xs:annotation>
+			<xs:documentation>Identification of process to be targeted by hunt activity</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="name" type="String" minOccurs="0" />
+			<xs:element name="uuid" type="String" minOccurs="0" />
+			<xs:element name="pid" type="Integer" minOccurs="0" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Stix-Timerange">
+		<xs:annotation>
+			<xs:documentation>Identification of process to be targeted by hunt activity</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="timerange_absolute" type="Timerange-Abs" minOccurs="0" />
+			<xs:element name="timerange_relative" type="Timerange-Rel" minOccurs="0" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Path-Format">
+		<xs:annotation>
+			<xs:documentation>Path referenced by hunt activity: choose format</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="path_absolute" type="String" minOccurs="0" />
+			<xs:element name="path_relative" type="String" minOccurs="0" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Time-Unit">
+		<xs:annotation>
+			<xs:documentation>Units referenced by relative time arguments</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Days" />
+			<xs:enumeration value="Hours" />
+			<xs:enumeration value="Minutes" />
+			<xs:enumeration value="Seconds" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Timerange-Abs">
+		<xs:sequence>
+			<xs:element name="hunt_start_time" type="String" minOccurs="1" />
+			<xs:element name="hunt_stop_time" type="String" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Timerange-Rel">
+		<xs:sequence>
+			<xs:element name="number" type="Integer" minOccurs="1" />
+			<xs:element name="time_unit" type="Time-Unit" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StixObject">
+		<xs:annotation>
+			<xs:documentation>Stix cyber observables used in threat hunting. link to STIX table HERE</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StixObject-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Huntargs$Time-arg">
+		<xs:annotation>
+			<xs:documentation>time arguments supplied as huntargs</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Huntargs$Time-arg-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Date-Time" type="Date-Time" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Huntargs$Stix">
+		<xs:annotation>
+			<xs:documentation>stix arguments supplied as huntargs</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Huntargs$Stix-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="StixObject" type="StixObject" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Status-Code">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Processing" />
+			<xs:enumeration value="OK" />
+			<xs:enumeration value="Created" />
+			<xs:enumeration value="Bad Request" />
+			<xs:enumeration value="Unauthorized" />
+			<xs:enumeration value="Forbidden" />
+			<xs:enumeration value="Not Found" />
+			<xs:enumeration value="Internal Error" />
+			<xs:enumeration value="Not Implemented" />
+			<xs:enumeration value="Service Unavailable" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AP-Target$th">
+		<xs:annotation>
+			<xs:documentation>TH targets defined in this profile</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="hunt" type="String" />
+			<xs:element name="huntbooks" type="Huntbook-Specifiers$th" />
+			<xs:element name="datasources" type="Datasource-Specifiers$th" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="AP-Specifiers$th">
+		<xs:annotation>
+			<xs:documentation>TH actuator specifiers (may be empty)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AP-Specifiers$th-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Huntbook-Specifiers$th">
+		<xs:annotation>
+			<xs:documentation>TH Huntbook specifiers</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Huntbook-Specifiers$th-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="named" type="String" minOccurs="0" />
+						<xs:element name="full" type="Boolean" />
+						<xs:element name="titles" type="Boolean" minOccurs="0" />
+						<xs:element name="args" type="String" minOccurs="0" />
+						<xs:element name="returns" type="String" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Datasource-Specifiers$th">
+		<xs:annotation>
+			<xs:documentation>TH Datasource specifiers</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Datasource-Specifiers$th-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="named" type="String" minOccurs="0" />
+						<xs:element name="full" type="Boolean" />
+						<xs:element name="titles" type="Boolean" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AP-Results$th">
+		<xs:annotation>
+			<xs:documentation>TH results defined in this profile</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AP-Results$th-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="huntbooks" type="Ap-results$Huntbooks$th" minOccurs="0" />
+						<xs:element name="datasources" type="Ap-results$Datasources$th" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Ap-results$Huntbooks$th">
+		<xs:annotation>
+			<xs:documentation>Huntbook names returned by query huntbooks</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Ap-results$Huntbooks$th-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="String" type="String" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Ap-results$Datasources$th">
+		<xs:annotation>
+			<xs:documentation>Datasource identifiers returned by query datasources</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Ap-results$Datasources$th-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="String" type="String" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Features">
+		<xs:annotation>
+			<xs:documentation>An array of zero to ten names used to query a Consume for its supported capabilities.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Features-Elements" minOccurs="0" maxOccurs="10">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Feature" type="Feature">
+							<xs:unique name="Feature-Unique">
+								<xs:selector xpath="Feature" />
+								<xs:field xpath="." />
+							</xs:unique>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IPv4-Net">
+		<xs:annotation>
+			<xs:documentation>IPv4 address and prefix length</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IPv4-Net-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ipv4_addr" type="IPv4-Addr" />
+						<xs:element name="prefix_length" type="Integer" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IPv6-Net">
+		<xs:annotation>
+			<xs:documentation>IPv6 address and prefix length</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="IPv6-Net-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ipv6_addr" type="IPv6-Addr" />
+						<xs:element name="prefix_length" type="Integer" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Date-Time">
+		<xs:annotation>
+			<xs:documentation>Date and Time</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="Integer">
+			<xs:minInclusive value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Duration">
+		<xs:annotation>
+			<xs:documentation>A length of time</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="Integer">
+			<xs:minInclusive value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Feature">
+		<xs:annotation>
+			<xs:documentation>Specifies the results to be returned from a query features Command</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="versions" />
+			<xs:enumeration value="profiles" />
+			<xs:enumeration value="pairs" />
+			<xs:enumeration value="rate_limit" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IPv4-Addr">
+		<xs:annotation>
+			<xs:documentation>32 bit IPv4 address as defined in [[RFC0791]](#rfc0791)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ipv4-addr">
+			<xs:annotation>
+				<xs:documentation>IPv4 address as specified in RFC 791 Section 3.1</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IPv6-Addr">
+		<xs:annotation>
+			<xs:documentation>128 bit IPv6 address as defined in [[RFC8200]](#rfc8200)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ipv6-addr">
+			<xs:annotation>
+				<xs:documentation>IPv6 address as specified in RFC 8200 Section 3</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Nsid">
+		<xs:annotation>
+			<xs:documentation>A short identifier that refers to a namespace.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="String">
+			<xs:minLength value="1" />
+			<xs:maxLength value="16" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Response-Type">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none" />
+			<xs:enumeration value="ack" />
+			<xs:enumeration value="status" />
+			<xs:enumeration value="complete" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Command-ID">
+		<xs:annotation>
+			<xs:documentation>Command Identifier</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="String">
+			<xs:pattern value="^\S{0,36}$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Version">
+		<xs:annotation>
+			<xs:documentation>Major.Minor version number</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="String" />
+	</xs:simpleType>
+	<xs:element name="OpenC2-Command" type="OpenC2-Command" />
+	<xs:element name="OpenC2-Response" type="OpenC2-Response" />
+</xs:schema>

@@ -46,9 +46,7 @@
     [4, "response_requested", "Response-Type", ["[0"], ""],
     [1036, "th", "AP-Args", ["[0"], ""]
   ]],
-    ["Actuator", "Choice", [], "", [
-    [1036, "th", "AP-Specifiers", ["<"], "TH-defined actuator specifiers"]
-  ]],
+    ["Actuator", "Choice", [], "", []],
     ["Results", "Map", ["{1"], "Response Results", [
     [1, "versions", "Version", ["q", "[0", "]10"], "List of OpenC2 language versions supported by this Actuator"],
     [2, "profiles", "Nsid", ["q", "[0", "]0"], "List of profiles supported by this Actuator"],
@@ -169,9 +167,6 @@
     ["IPv4-Addr", "Binary", ["/ipv4-addr"], "32 bit IPv4 address as defined in [[RFC0791]](#rfc0791)"],
     ["IPv6-Addr", "Binary", ["/ipv6-addr"], "128 bit IPv6 address as defined in [[RFC8200]](#rfc8200)"],
     ["Port", "Integer", ["{0", "}65535"], "Transport Protocol Port Number, [[RFC6335]](#rfc6335)"],
-
-
-  ["AP-Specifiers", "Map", [], "TH actuator specifiers (may be empty)."],
   ["Huntflow-Specifiers", "Map", ["{0"], "TH Huntflow specifiers.", [
     [1, "path", "String", ["[0"], "Return huntflows at and below this filesystem location (absolute path)."],
     [2, "tags", "Tags", ["[0"], "Return huntflows with these keywords."],

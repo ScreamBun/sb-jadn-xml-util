@@ -159,14 +159,20 @@
 			<xs:element name="target" type="Target" />
 			<xs:element name="args" type="Args" minOccurs="0" />
 			<xs:element name="actuator" type="Actuator" minOccurs="0" />
-			<xs:element name="command_id" type="Command-ID" minOccurs="0" />
+			<xs:element name="command_id" type="String" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="OpenC2-Response">
 		<xs:sequence>
-			<xs:element name="status" type="Status-Code" />
-			<xs:element name="status_text" type="String" minOccurs="0" />
-			<xs:element name="results" type="Results" minOccurs="0" />
+			<xs:element name="OpenC2-Response-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="status" type="Status-Code" />
+						<xs:element name="status_text" type="String" minOccurs="0" />
+						<xs:element name="results" type="Results" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:simpleType name="Action">
@@ -194,9 +200,12 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Target">
+		<xs:annotation>
+			<xs:documentation>OpenC2 Target datatypes</xs:documentation>
+		</xs:annotation>
 		<xs:choice>
 			<xs:element name="artifact" type="Artifact" />
-			<xs:element name="command" type="Command-ID" />
+			<xs:element name="command" type="String" />
 			<xs:element name="device" type="Device" />
 			<xs:element name="domain_name" type="Domain-Name" />
 			<xs:element name="email_addr" type="Email-Addr" />
@@ -215,9 +224,6 @@
 			<xs:element name="uri" type="URI" />
 		</xs:choice>
 	</xs:complexType>
-	<xs:complexType name="Actuator">
-		<xs:choice />
-	</xs:complexType>
 	<xs:complexType name="Args">
 		<xs:sequence>
 			<xs:element name="Args-Elements" minOccurs="1" maxOccurs="unbounded">
@@ -232,25 +238,20 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="Actuator">
+		<xs:choice>
+			<xs:element name="placeholder" type="String" />
+		</xs:choice>
+	</xs:complexType>
 	<xs:complexType name="Results">
-		<xs:annotation>
-			<xs:documentation>Response Results</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Results-Elements" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="versions" type="Versions" minOccurs="0" />
-						<xs:element name="profiles" type="Profiles" minOccurs="0" />
+						<xs:element name="versions" type="Version" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="profiles" type="Nsid" minOccurs="0" />
 						<xs:element name="pairs" type="Action-Targets" minOccurs="0" />
-						<xs:element name="rate_limit" minOccurs="0">
-							<xs:simpleType>
-								<xs:restriction base="Number">
-									<xs:minInclusive value="0.0" />
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:element>
-						<xs:element name="args" type="Enumerated" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="rate_limit" type="Number" minOccurs="0" />
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -258,7 +259,7 @@
 	</xs:complexType>
 	<xs:complexType name="Action-Targets">
 		<xs:annotation>
-			<xs:documentation>Map of all actions to all targets</xs:documentation>
+			<xs:documentation>Map of each action supported by this actuator to the list of targets applicable to that action</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Action-Targets-Elements" minOccurs="1" maxOccurs="unbounded">
@@ -273,7 +274,7 @@
 	</xs:complexType>
 	<xs:complexType name="Targets">
 		<xs:annotation>
-			<xs:documentation>List of all Target types</xs:documentation>
+			<xs:documentation>List of JSON Pointers to Target types</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Targets-Elements" minOccurs="1" maxOccurs="unbounded">
@@ -294,14 +295,13 @@
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Processing" />
 			<xs:enumeration value="OK" />
-			<xs:enumeration value="Created" />
-			<xs:enumeration value="Bad Request" />
+			<xs:enumeration value="BadRequest" />
 			<xs:enumeration value="Unauthorized" />
 			<xs:enumeration value="Forbidden" />
-			<xs:enumeration value="Not Found" />
-			<xs:enumeration value="Internal Error" />
-			<xs:enumeration value="Not Implemented" />
-			<xs:enumeration value="Service Unavailable" />
+			<xs:enumeration value="NotFound" />
+			<xs:enumeration value="InternalError" />
+			<xs:enumeration value="NotImplemented" />
+			<xs:enumeration value="ServiceUnavailable" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Artifact">
@@ -326,7 +326,7 @@
 	</xs:complexType>
 	<xs:simpleType name="Domain-Name">
 		<xs:annotation>
-			<xs:documentation>[RFC1034], Section 3.5</xs:documentation>
+			<xs:documentation>[[RFC1034]](#rfc1034), Section 3.5</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="hostname">
 			<xs:annotation>
@@ -336,7 +336,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="Email-Addr">
 		<xs:annotation>
-			<xs:documentation>Email address - [RFC5322], Section 3.4.1</xs:documentation>
+			<xs:documentation>Email address, [[RFC5322]](#rfc5322), Section 3.4.1</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="email">
 			<xs:annotation>
@@ -349,7 +349,7 @@
 			<xs:documentation>An array of zero to ten names used to query an Actuator for its supported capabilities.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="Features-Elements" maxOccurs="10">
+			<xs:element name="Features-Elements" minOccurs="0" maxOccurs="10">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="Feature" type="Feature">
@@ -378,7 +378,7 @@
 	</xs:complexType>
 	<xs:simpleType name="IDN-Domain-Name">
 		<xs:annotation>
-			<xs:documentation>Internationalized Domain Name - [RFC5890], Section 2.3.2.3</xs:documentation>
+			<xs:documentation>Internationalized Domain Name, [[RFC5890]](#rfc5890), Section 2.3.2.3.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="idn-hostname">
 			<xs:annotation>
@@ -388,7 +388,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="IDN-Email-Addr">
 		<xs:annotation>
-			<xs:documentation>Internationalized email address - [RFC6531]</xs:documentation>
+			<xs:documentation>Internationalized email address, [[RFC6531]](#rfc6531)</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="idn-email">
 			<xs:annotation>
@@ -397,9 +397,6 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="IPv4-Net">
-		<xs:annotation>
-			<xs:documentation>IPv4 address and prefix length</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="IPv4-Net-Elements" maxOccurs="unbounded">
 				<xs:complexType>
@@ -421,9 +418,6 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="IPv6-Net">
-		<xs:annotation>
-			<xs:documentation>IPv6 address and prefix length</xs:documentation>
-		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="IPv6-Net-Elements" maxOccurs="unbounded">
 				<xs:complexType>
@@ -446,7 +440,7 @@
 	</xs:complexType>
 	<xs:simpleType name="IRI">
 		<xs:annotation>
-			<xs:documentation>Internationalized Resource Identifier, [RFC3987]</xs:documentation>
+			<xs:documentation>Internationalized Resource Identifier, [[RFC3987]](#rfc3987).</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="iri">
 			<xs:annotation>
@@ -456,7 +450,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="MAC-Addr">
 		<xs:annotation>
-			<xs:documentation>Media Access Control / Extended Unique Identifier address - EUI-48 or EUI-64 as defined in [EUI]</xs:documentation>
+			<xs:documentation>Media Access Control / Extended Unique Identifier address - EUI-48 or EUI-64 as defined in [[EUI]](#eui).</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="eui">
 			<xs:annotation>
@@ -507,7 +501,7 @@
 	</xs:complexType>
 	<xs:simpleType name="URI">
 		<xs:annotation>
-			<xs:documentation>Uniform Resource Identifier, [RFC3986]</xs:documentation>
+			<xs:documentation>Uniform Resource Identifier, [[RFC3986]](#rfc3986).</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="uri">
 			<xs:annotation>
@@ -540,12 +534,11 @@
 			<xs:enumeration value="profiles" />
 			<xs:enumeration value="pairs" />
 			<xs:enumeration value="rate_limit" />
-			<xs:enumeration value="args" />
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Hashes">
 		<xs:annotation>
-			<xs:documentation>Cryptographic hash values</xs:documentation>
+			<xs:documentation>Cryptographic Hash values</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="Hashes-Elements" minOccurs="1" maxOccurs="unbounded">
@@ -561,7 +554,7 @@
 	</xs:complexType>
 	<xs:simpleType name="Hostname">
 		<xs:annotation>
-			<xs:documentation>Internet host name as specified in [RFC1123]</xs:documentation>
+			<xs:documentation>Internet host name as specified in [[RFC1123]](#rfc1123)</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="hostname">
 			<xs:annotation>
@@ -571,7 +564,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="IDN-Hostname">
 		<xs:annotation>
-			<xs:documentation>Internationalized Internet host name as specified in [RFC5890], Section 2.3.2.3</xs:documentation>
+			<xs:documentation>Internationalized Internet host name as specified in [[RFC5890]](#rfc5890), Section 2.3.2.3.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="idn-hostname">
 			<xs:annotation>
@@ -581,7 +574,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="IPv4-Addr">
 		<xs:annotation>
-			<xs:documentation>32 bit IPv4 address as defined in [RFC0791]</xs:documentation>
+			<xs:documentation>32 bit IPv4 address as defined in [[RFC0791]](#rfc0791)</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="ipv4-addr">
 			<xs:annotation>
@@ -591,7 +584,7 @@
 	</xs:simpleType>
 	<xs:simpleType name="IPv6-Addr">
 		<xs:annotation>
-			<xs:documentation>128 bit IPv6 address as defined in [RFC8200]</xs:documentation>
+			<xs:documentation>128 bit IPv6 address as defined in [[RFC8200]](#rfc8200)</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="ipv6-addr">
 			<xs:annotation>
@@ -610,6 +603,15 @@
 			<xs:enumeration value="sctp" />
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="Nsid">
+		<xs:annotation>
+			<xs:documentation>A short identifier that refers to a namespace.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="String">
+			<xs:minLength value="1" />
+			<xs:maxLength value="16" />
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="Payload">
 		<xs:choice>
 			<xs:element name="bin" type="Binary" />
@@ -618,7 +620,7 @@
 	</xs:complexType>
 	<xs:simpleType name="Port">
 		<xs:annotation>
-			<xs:documentation>Transport Protocol Port Number, [RFC6335]</xs:documentation>
+			<xs:documentation>Transport Protocol Port Number, [[RFC6335]](#rfc6335)</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="Integer">
 			<xs:minInclusive value="0" />
@@ -633,67 +635,11 @@
 			<xs:enumeration value="complete" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:complexType name="Versions">
-		<xs:annotation>
-			<xs:documentation>List of OpenC2 language versions</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="Versions-Elements" minOccurs="0" maxOccurs="10">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="Version" type="Version">
-							<xs:unique name="Version-Unique">
-								<xs:selector xpath="Version" />
-								<xs:field xpath="." />
-							</xs:unique>
-						</xs:element>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="Profiles">
-		<xs:annotation>
-			<xs:documentation>List of OpenC2 profiles</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="Profiles-Elements" minOccurs="0" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="Namespace" type="Namespace">
-							<xs:unique name="Namespace-Unique">
-								<xs:selector xpath="Namespace" />
-								<xs:field xpath="." />
-							</xs:unique>
-						</xs:element>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 	<xs:simpleType name="Version">
 		<xs:annotation>
 			<xs:documentation>Major.Minor version number</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="String" />
-	</xs:simpleType>
-	<xs:simpleType name="Namespace">
-		<xs:annotation>
-			<xs:documentation>Unique name of an Actuator Profile</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="uri">
-			<xs:annotation>
-				<xs:documentation>JSON Schema Section 7.3.5</xs:documentation>
-			</xs:annotation>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="Command-ID">
-		<xs:annotation>
-			<xs:documentation>Command Identifier</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="String">
-			<xs:pattern value="^\S{0,36}$" />
-		</xs:restriction>
 	</xs:simpleType>
 	<xs:element name="OpenC2-Command" type="OpenC2-Command" />
 	<xs:element name="OpenC2-Response" type="OpenC2-Response" />

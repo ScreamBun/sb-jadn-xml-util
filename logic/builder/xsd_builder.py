@@ -65,11 +65,13 @@ def build_base_types(root: ET.Element):
     
     # string formats with regex
     string_base_types_w_reg = find_items_by_val(FORMAT_OPTIONS_FROZ_DICT, STRING_CONST)
-    for string_type_key, string_type_value in string_base_types_w_reg.items():
-      if string_type_value[3]:
-        string_base_type = build_simple_type(root, string_type_key)
-        string_base_restriction = build_restriction(string_base_type, xs_string)
-        build_pattern(string_base_restriction, string_type_value[3])   
+    binary_base_types_w_reg = find_items_by_val(FORMAT_OPTIONS_FROZ_DICT, BINARY_CONST)
+    string_binary_base_types_w_reg = {**string_base_types_w_reg, **binary_base_types_w_reg}
+    for type_key, type_value in string_binary_base_types_w_reg.items():
+      if type_value[3]:
+        base_type = build_simple_type(root, type_key)
+        base_restriction = build_restriction(base_type, xs_string)
+        build_pattern(base_restriction, type_value[3])   
                   
     for struct_key, struct_value in structures.items():
       if struct_key is ARRAYOF_CONST or struct_key is MAPOF_CONST:
@@ -126,6 +128,35 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
           if field_type == STRING_CONST:
             build_string_type_opts(field_type_et, active_jadn_opts, field_type)         
 
+def build_binary_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):  
+  if jadn_opts:
+    
+    format_val = get_opt_type_val(FORMAT_CONST, jadn_opts) 
+    minv_val = get_opt_type_val(MINV_CONST, jadn_opts)
+    maxv_val = get_opt_type_val(MAXV_CONST, jadn_opts)
+
+    if format_val:
+      frozen_format_opt = FORMAT_OPTIONS_FROZ_DICT.get(format_val)
+      restriction = build_restriction(parent_et, format_val)
+      build_documention(restriction, frozen_format_opt[4])
+      
+      if minv_val:     
+        build_min_length(restriction, minv_val)       
+        
+      if maxv_val:     
+        build_max_length(restriction, maxv_val)         
+
+    else:
+                  
+      if minv_val or maxv_val:
+        restriction = build_restriction(parent_et, base_type)
+                
+        if minv_val:     
+          build_min_length(restriction, minv_val)       
+          
+        if maxv_val:     
+          build_max_length(restriction, maxv_val)   
+
 
 def build_integer_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):  
   if jadn_opts:
@@ -175,7 +206,7 @@ def build_number_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
     if format_val:
       frozen_format_opt = FORMAT_OPTIONS_FROZ_DICT.get(format_val)
       restriction = build_restriction(parent_et, format_val)
-      build_documention(restriction, frozen_format_opt[5])
+      build_documention(restriction, frozen_format_opt[4])
       
       if minf_val:     
         build_min_inclusive(restriction, minf_val)       
@@ -238,10 +269,10 @@ def build_string_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
         restriction = build_restriction(parent_et, base_type)
                 
         if minv_val:     
-          build_min_inclusive(restriction, minv_val) 
+          build_min_length(restriction, minv_val) 
           
         if maxv_val:     
-          build_max_inclusive(restriction, maxv_val)
+          build_max_length(restriction, maxv_val)
           
       if pattern_val:
         
@@ -265,6 +296,9 @@ def build_primitive_type(root: ET.Element, type: []):
       active_jadn_opts = get_active_type_option_vals(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), jadn_types_dict)
       
       if active_jadn_opts:
+        
+        if jce.get(BASE_TYPE) == BINARY_CONST:
+          build_binary_type_opts(simple_type, active_jadn_opts, jce.get(BASE_TYPE))  
       
         if jce.get(BASE_TYPE) == INTEGER_CONST:
           build_integer_type_opts(simple_type, active_jadn_opts, jce.get(BASE_TYPE))  

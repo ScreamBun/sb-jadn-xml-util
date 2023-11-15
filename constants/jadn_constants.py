@@ -78,6 +78,8 @@ URI = "uri"
 URI_REFERENCE = "uri-reference"
 URI_TEMPLATE = "uri-template"
 
+BINARY_REG_CONST = "\\\\b[01]+\\\\b"
+
 # Patterns
 #TODO: Need an offical email regex
 EMAIL_REG_CONST = "[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}"
@@ -121,11 +123,11 @@ FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
     JSON_POINTER:     [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.7"],    
     REL_JSON_POINTER: [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.7"],    
     REGEX:            [STRING_CONST,  "",            "",           REG_REG_CONST,          "JSON Schema Section 7.3.8"],
-    EUI :             [BINARY_CONST,  "",            "",           "",                     "IEEE Extended Unique Identifier (MAC Address)"],
+    EUI :             [BINARY_CONST,  "",            "",           BINARY_REG_CONST,                     "IEEE Extended Unique Identifier (MAC Address)"],
     F16 :             [NUMBER_CONST,  "",            "",           "",                     "float16: IEEE 754 Half-Precision Float (#7.25)."],
     F32 :             [NUMBER_CONST,  "",            "",           "",                     "float32: IEEE 754 Single-Precision Float (#7.26)."],
-    IPV4_ADDR :       [BINARY_CONST,  "",            "",           "",                     "IPv4 address as specified in RFC 791 Section 3.1"],
-    IPV6_ADDR :       [BINARY_CONST,  "",            "",           "",                     "IPv6 address as specified in RFC 8200 Section 3"],
+    IPV4_ADDR :       [BINARY_CONST,  "32",          "32",         BINARY_REG_CONST,       "IPv4 address as specified in RFC 791 Section 3.1"],
+    IPV6_ADDR :       [BINARY_CONST,  "32",          "32",         BINARY_REG_CONST,       "IPv6 address as specified in RFC 8200 Section 3"],
     IPV4_NET :        [ARRAY_CONST,   "",            "",           "",                     "Binary IPv4 address and Integer prefix length as specified in RFC 4632 Section 3.1"],
     IPV6_NET :        [ARRAY_CONST,   "",            "",           "",                     "Binary IPv6 address and Integer prefix length as specified in RFC 4291 Section 2.3"],
     I8 :              [INTEGER_CONST, "-128",        "127",        "",                     "Signed 8 bit integer, value must be between -128 and 127."],
