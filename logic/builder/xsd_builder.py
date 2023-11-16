@@ -1,6 +1,6 @@
-from datetime import date
 import xml.etree.ElementTree as ET
 from constants.jadn_constants import *
+from lxml import etree
 from helpers.jadn_helper import *
 
 from constants.xsd_constants import *
@@ -93,7 +93,7 @@ def build_base_types(root: ET.Element):
         build_element(xsd_seq_2, struct_key + '-Element', type=STRING_CONST)
       
 def build_fields(xsd_seq: ET.Element, jce: dict):
-    for field in jce[FIELDS]:
+    for field in (jce.get(FIELDS) or []):
       field_index = field[0]
       field_name = field[1]
       field_type = field[2]
@@ -107,12 +107,14 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
       
       if field_opts:
         
-        #TODO: dir, key?
-        
         field_type_et = add_id_to_element(field_type_et, field_opts)        
         field_type_et = add_minoccurs_to_element(field_type_et, field_opts)
         field_type_et = add_maxoccurs_to_element(field_type_et, field_opts)       
-        field_type_et = add_ref_to_element(field_type_et, field_opts)       
+        
+        #TODO: key, link, not using yet?
+        # field_type_et = add_ref_to_element(field_type_et, field_opts)       
+        
+        #TODO: dir?
         
         global jadn_types_dict
         active_jadn_opts = get_active_type_option_vals(field_opts, field_type, jadn_types_dict)
@@ -409,6 +411,7 @@ def build_record_type(root: ET.Element, jce: dict):
     
     xsd_complex_type = build_complex_type(root, jce[TYPE_NAME])
     xsd_seq = build_sequence(xsd_complex_type)
+    
     build_fields(xsd_seq, jce)    
 
 
@@ -455,34 +458,46 @@ def build_types(root : ET.Element):
 
 
 def create_jadn_xsd(jadn_file_name: str):
-    schema_et = ET.Element(schema_tag)
-    jadn_dict = read_type_data_from_file(jadn_file_name)
-    
-    jadn_info = None
-    jadn_exports = None
-    
-    if jadn_dict.get('info'):
-      jadn_info= jadn_dict['info']
+    try:
+ 
+      schema_et = ET.Element(schema_tag)
+      jadn_dict = read_type_data_from_file(jadn_file_name)
       
-      if jadn_info.get('exports'):
-        jadn_exports = jadn_info['exports']
+      jadn_info = None
+      jadn_exports = None
+      
+      if jadn_dict.get('info'):
+        jadn_info= jadn_dict['info']
         
-    global jadn_types_dict        
-    jadn_types_dict = jadn_dict['types']
+        if jadn_info.get('exports'):
+          jadn_exports = jadn_info['exports']
+          
+      global jadn_types_dict        
+      jadn_types_dict = jadn_dict['types']
 
-    # TODO: Move to another schema and import
-    build_base_types(schema_et)
+      # TODO: Move to another schema and import
+      build_base_types(schema_et)
+      
+      build_types(schema_et)    
+      
+      if jadn_exports:
+        for export in jadn_exports:
+          build_element(schema_et, export, export)    
+      
+      # TODO: XSD Validation?
+      
+      # TODO: Move to XML validation
+      # doc = etree.parse(schema_et)
+      # xmlschema.assertValid(doc)
+      
+      write_filename = get_file_name_only(jadn_file_name)
+      write_filename = write_filename + ".xsd"
+      write_to_file(schema_et, write_filename) 
+      
+    except RuntimeError as e:
+      print("Error create_jadn_xsd: " + e.message)
+      raise e      
     
-    build_types(schema_et)    
-    
-    if jadn_exports:
-      for export in jadn_exports:
-        build_element(schema_et, export, export)    
-    
-    write_filename = get_file_name_only(jadn_file_name)
-    write_filename = write_filename + ".xsd"
-    write_to_file(schema_et, write_filename) 
-   
    
 if __name__=="__main__":    
    create_jadn_xsd()

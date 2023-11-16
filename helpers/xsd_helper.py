@@ -53,17 +53,18 @@ def add_maxoccurs_to_element(et_tag: ET.Element, field_opts: [] = [], val: str =
     return et_tag
 
 
-def add_ref_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 
-    if val:  
-        et_tag.set('ref', val)
-    else:    
-        id = FIELD_OPTIONS_FROZ_DICT.get(LINK_CONST)
-        val = get_field_option_val(field_opts, id)
-        
-        if val:  
-            et_tag.set('ref', val)
+# def add_ref_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 
     
-    return et_tag
+#     if val:  
+#         et_tag.set('ref', val)
+#     else:    
+#         id = FIELD_OPTIONS_FROZ_DICT.get(LINK_CONST)
+#         val = get_field_option_val(field_opts, id)
+        
+#         if val:  
+#             et_tag.set('ref', val)
+    
+#     return et_tag
 
 
 def build_choice(parent_et_tag: ET.Element):

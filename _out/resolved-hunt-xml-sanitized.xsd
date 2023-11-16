@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<xs:simpleType name="Binary">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="http://jadn.conversion.attr">
+	<xs:simpleType name="Binary" jadn:attr="base">
 		<xs:restriction base="xs:byte" />
 	</xs:simpleType>
 	<xs:simpleType name="Boolean">
@@ -203,7 +203,9 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Actuator">
-		<xs:choice />
+		<xs:choice>
+			<xs:element name="th" type="AP-Specifiers" />
+		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="Results">
 		<xs:annotation>
@@ -542,6 +544,18 @@
 			<xs:maxInclusive value="65535" />
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="AP-Specifiers">
+		<xs:annotation>
+			<xs:documentation>TH actuator specifiers (may be empty).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AP-Specifiers-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="Huntflow-Specifiers">
 		<xs:annotation>
 			<xs:documentation>TH Huntflow specifiers.</xs:documentation>
@@ -820,27 +834,9 @@
 	</xs:complexType>
 	<xs:complexType name="artifact">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^artifact$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^artifact--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="mime_type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^(application|audio|font|image|message|model|multipart|text|video)/[a-zA-Z0-9.+_-]+" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
+			<xs:element name="mime_type" type="String" />
 			<xs:element name="payload_bin" type="Binary" minOccurs="0" />
 			<xs:element name="url" type="url" />
 			<xs:element name="hashes" type="hashes" minOccurs="0" />
@@ -855,20 +851,8 @@
 	</xs:complexType>
 	<xs:complexType name="autonomous-system">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^autonomous-system$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^autonomous-system--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
 			<xs:element name="number" type="Integer" minOccurs="1" />
 			<xs:element name="name" type="String" minOccurs="0" />
 			<xs:element name="rir" type="String" minOccurs="0" />
@@ -881,28 +865,10 @@
 	</xs:complexType>
 	<xs:complexType name="directory">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^directory$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^directory--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
 			<xs:element name="path" type="String" />
-			<xs:element name="path_enc">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[a-zA-Z0-9/\\.+_:-]{2,250}$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="path_enc" type="String" />
 			<xs:element name="ctime" type="timestamp" />
 			<xs:element name="mtime" type="timestamp" />
 			<xs:element name="atime" type="timestamp" />
@@ -922,20 +888,8 @@
 	</xs:complexType>
 	<xs:complexType name="domain-name">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^domain-name$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^domain-name--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
 			<xs:element name="domain_name" type="String" />
 			<xs:element name="resolves_to_refs" minOccurs="0">
 				<xs:simpleType>
@@ -953,20 +907,8 @@
 	</xs:complexType>
 	<xs:complexType name="email-addr">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^email-addr$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^email-addr--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
 			<xs:element name="email_address" type="String" minOccurs="1" />
 			<xs:element name="display_name" type="String" minOccurs="0" />
 			<xs:element name="belongs_to_ref" type="String" minOccurs="0" />
@@ -979,20 +921,8 @@
 	</xs:complexType>
 	<xs:complexType name="email-message">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^email-message$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^email-message--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
 			<xs:element name="date" type="timestamp" minOccurs="0" />
 			<xs:element name="content_type" type="String" minOccurs="0" />
 			<xs:element name="from_ref" type="String" minOccurs="0" />
@@ -1035,20 +965,8 @@
 	</xs:complexType>
 	<xs:complexType name="file">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^file$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^file--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
 			<xs:element name="extensions" type="String" minOccurs="0" />
 			<xs:element name="hashes" type="hashes" minOccurs="0" />
 			<xs:element name="size" minOccurs="0">
@@ -1059,13 +977,7 @@
 				</xs:simpleType>
 			</xs:element>
 			<xs:element name="name" type="String" />
-			<xs:element name="name_enc" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[a-zA-Z0-9/\\.+_:-]{2,250}$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="name_enc" type="String" minOccurs="0" />
 			<xs:element name="magic_number_hex" type="Hex" minOccurs="0" />
 			<xs:element name="mime_type" type="String" minOccurs="0" />
 			<xs:element name="ctime" type="timestamp" minOccurs="0" />
@@ -1087,29 +999,11 @@
 			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="ipv4-addr2">
+	<xs:complexType name="ipv4-addr">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^ipv4-addr$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^ipv4-addr--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="ipv4_addr" minOccurs="1">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))?$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
+			<xs:element name="ipv4_addr" type="String" minOccurs="1" />
 			<xs:element name="resolves_to_refs" minOccurs="0">
 				<xs:simpleType>
 					<xs:restriction base="String">
@@ -1131,29 +1025,11 @@
 			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="ipv6-addr2">
+	<xs:complexType name="ipv6-addr">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^ipv6-addr$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^ipv6-addr--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="ipv6_addr" minOccurs="1">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(\\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))?$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
+			<xs:element name="ipv6_addr" type="String" minOccurs="1" />
 			<xs:element name="resolves_to_refs">
 				<xs:simpleType>
 					<xs:restriction base="String">
@@ -1177,27 +1053,9 @@
 	</xs:complexType>
 	<xs:complexType name="mac-addr">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^mac-addr$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^mac-addr--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="mac_address_value" minOccurs="1">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
+			<xs:element name="mac_address_value" type="String" minOccurs="1" />
 			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
 			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
 			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
@@ -1207,20 +1065,8 @@
 	</xs:complexType>
 	<xs:complexType name="mutex">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^mutex$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^mutex--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
 			<xs:element name="name" type="String" />
 			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
 			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
@@ -1231,35 +1077,11 @@
 	</xs:complexType>
 	<xs:complexType name="network-traffic">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^network-traffic$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^network-traffic--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
 			<xs:element name="extensions" type="network_traffic_extensions_dictionary" minOccurs="0" />
-			<xs:element name="start">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="stop">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="start" type="String" />
+			<xs:element name="stop" type="String" />
 			<xs:element name="is_active" type="Boolean" />
 			<xs:element name="src_port">
 				<xs:simpleType>
@@ -1308,20 +1130,8 @@
 	</xs:complexType>
 	<xs:complexType name="process">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^process$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^process--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
 			<xs:element name="extensions" type="process_extensions_dictionary" minOccurs="0" />
 			<xs:element name="is_hidden" type="Boolean" minOccurs="0" />
 			<xs:element name="pid" type="Integer" minOccurs="0" />
@@ -1355,13 +1165,7 @@
 	</xs:complexType>
 	<xs:complexType name="software">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^software$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
 			<xs:element name="id" type="String" />
 			<xs:element name="name">
 				<xs:simpleType>
@@ -1370,13 +1174,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="cpe" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="cpe" type="String" minOccurs="0" />
 			<xs:element name="swid">
 				<xs:simpleType>
 					<xs:restriction base="String">
@@ -1414,20 +1212,8 @@
 	</xs:complexType>
 	<xs:complexType name="user-account">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^user-account$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^user-account--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
 			<xs:element name="user_account_extensions" type="user_account_extensions_dictionary" minOccurs="0" />
 			<xs:element name="user_id" type="String" minOccurs="0" />
 			<xs:element name="credential" type="String" minOccurs="0" />
@@ -1452,27 +1238,9 @@
 	</xs:complexType>
 	<xs:complexType name="url">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^url$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^url" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="url_value">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
+			<xs:element name="url_value" type="String" />
 			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
 			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
 			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
@@ -1482,27 +1250,9 @@
 	</xs:complexType>
 	<xs:complexType name="windows-registry-key">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^windows-registry-key$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^windows-registry-key--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="key">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
+			<xs:element name="key" type="String" />
 			<xs:element name="registry_values" type="windows_registry_value_type" minOccurs="0" />
 			<xs:element name="modified_time" type="timestamp" minOccurs="0" />
 			<xs:element name="creator_user_ref" type="String" minOccurs="0" />
@@ -1516,20 +1266,8 @@
 	</xs:complexType>
 	<xs:complexType name="x509-certificate">
 		<xs:sequence>
-			<xs:element name="type">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^x509-certificate$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="id">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^x509-certificate--" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="type" type="String" />
+			<xs:element name="id" type="String" />
 			<xs:element name="is_self_signed" type="Boolean" minOccurs="0" />
 			<xs:element name="hashes" type="hashes" minOccurs="0" />
 			<xs:element name="version" type="String" minOccurs="0" />
@@ -1598,19 +1336,11 @@
 		<xs:annotation>
 			<xs:documentation>Specifies any other header fields (except for date, received_lines, content_type, from_ref, sender_ref, to_refs, cc_refs, bcc_refs, and subject) found in the email message, as a dictionary.</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="String">
-			<xs:pattern value="" />
-		</xs:restriction>
+		<xs:restriction base="String" />
 	</xs:simpleType>
 	<xs:complexType name="email_additional_header_value">
 		<xs:choice>
-			<xs:element name="String_Value">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="[a-zA-Z0-9_-]{0,250}^$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="String_Value" type="String" />
 			<xs:element name="String_Array">
 				<xs:simpleType>
 					<xs:restriction base="String">
@@ -1703,62 +1433,14 @@
 	</xs:complexType>
 	<xs:complexType name="hashes">
 		<xs:sequence>
-			<xs:element name="MD5" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[a-fA-F0-9]{32}$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="SHA-1" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[a-fA-F0-9]{40}$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="SHA-256" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[a-fA-F0-9]{64}$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="SHA-512" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[a-fA-F0-9]{128}$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="SHA3-256" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[a-fA-F0-9]{64}$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="SHA3-512" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[a-fA-F0-9]{128}$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="SSDEEP" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[a-zA-Z0-9/+:.]{1,128}$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="TLSH" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^[a-zA-Z0-9]{70}$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="MD5" type="String" minOccurs="0" />
+			<xs:element name="SHA-1" type="String" minOccurs="0" />
+			<xs:element name="SHA-256" type="String" minOccurs="0" />
+			<xs:element name="SHA-512" type="String" minOccurs="0" />
+			<xs:element name="SHA3-256" type="String" minOccurs="0" />
+			<xs:element name="SHA3-512" type="String" minOccurs="0" />
+			<xs:element name="SSDEEP" type="String" minOccurs="0" />
+			<xs:element name="TLSH" type="String" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="network_traffic_extensions_dictionary">
@@ -1825,13 +1507,7 @@
 	</xs:simpleType>
 	<xs:complexType name="socket_option">
 		<xs:sequence>
-			<xs:element name="socket_option">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^(SO|ICMP|ICMP6|IP|IPV6|MCAST|TCP|IRLMP)(_[A-Z]+)+$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="socket_option" type="String" />
 			<xs:element name="option_value" type="Integer" />
 		</xs:sequence>
 	</xs:complexType>
@@ -2040,19 +1716,11 @@
 		<xs:annotation>
 			<xs:documentation>Represents identifiers across the CTI specifications. The format consists of the name of the top-level object being identified, followed by two dashes (--), followed by a UUIDv4.</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="String">
-			<xs:pattern value="^[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$" />
-		</xs:restriction>
+		<xs:restriction base="String" />
 	</xs:simpleType>
 	<xs:complexType name="extensions">
 		<xs:sequence>
-			<xs:element name="extension">
-				<xs:simpleType>
-					<xs:restriction base="String">
-						<xs:pattern value="^([a-z][a-z0-9]*)+(-[a-z0-9]+)*\\-ext$" />
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
+			<xs:element name="extension" type="String" />
 			<xs:element name="extension_definition" type="extension" />
 		</xs:sequence>
 	</xs:complexType>
@@ -2099,14 +1767,10 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="Hex">
-		<xs:restriction base="String">
-			<xs:pattern value="^([a-fA-F0-9]{2})+$" />
-		</xs:restriction>
+		<xs:restriction base="String" />
 	</xs:simpleType>
 	<xs:simpleType name="timestamp">
-		<xs:restriction base="String">
-			<xs:pattern value="^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" />
-		</xs:restriction>
+		<xs:restriction base="String" />
 	</xs:simpleType>
 	<xs:complexType name="Features">
 		<xs:annotation>
@@ -2206,9 +1870,7 @@
 		<xs:annotation>
 			<xs:documentation>Command Identifier</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="String">
-			<xs:pattern value="^\S{0,36}$" />
-		</xs:restriction>
+		<xs:restriction base="String" />
 	</xs:simpleType>
 	<xs:simpleType name="Version">
 		<xs:annotation>

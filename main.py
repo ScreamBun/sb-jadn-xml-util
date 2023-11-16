@@ -29,7 +29,8 @@ if __name__=="__main__":
     print("Pick your script (1 or 2): ")
     print("1: JADN XSD Converter")
     print("2: XML Validator")
-    program_input = input()
+    # program_input = input()
+    program_input = "1"
     
     if program_input == "1":
         print("Converting JADN Schemas found under _data/schemas...")
