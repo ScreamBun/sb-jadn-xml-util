@@ -123,7 +123,7 @@ FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
     JSON_POINTER:     [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.7"],    
     REL_JSON_POINTER: [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.7"],    
     REGEX:            [STRING_CONST,  "",            "",           REG_REG_CONST,          "JSON Schema Section 7.3.8"],
-    EUI :             [BINARY_CONST,  "",            "",           BINARY_REG_CONST,                     "IEEE Extended Unique Identifier (MAC Address)"],
+    EUI :             [BINARY_CONST,  "",            "",           BINARY_REG_CONST,       "IEEE Extended Unique Identifier (MAC Address)"],
     F16 :             [NUMBER_CONST,  "",            "",           "",                     "float16: IEEE 754 Half-Precision Float (#7.25)."],
     F32 :             [NUMBER_CONST,  "",            "",           "",                     "float32: IEEE 754 Single-Precision Float (#7.26)."],
     IPV4_ADDR :       [BINARY_CONST,  "32",          "32",         BINARY_REG_CONST,       "IPv4 address as specified in RFC 791 Section 3.1"],
@@ -141,6 +141,7 @@ SELECTOR_TYPES = (ENUMERATED_CONST, CHOICE_CONST)
 STRUCTURED_TYPES = (ARRAY_CONST, ARRAYOF_CONST, MAP_CONST, MAPOF_CONST, RECORD_CONST)
 FIELD_TYPES = (ENUMERATED_CONST, CHOICE_CONST, ARRAY_CONST, MAP_CONST, RECORD_CONST)  # Types that have defined fields
 CORE_TYPES = PRIMITIVE_TYPES + SELECTOR_TYPES + STRUCTURED_TYPES
+ALL_TYPES = PRIMITIVE_TYPES + SELECTOR_TYPES + STRUCTURED_TYPES + FIELD_TYPES
 
 # Option Tags/Keys
 #   JADN TypeOptions and FieldOptions contain a list of strings, each of which is an option.

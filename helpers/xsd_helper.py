@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 from constants.jadn_constants import *
-from helpers.jadn_helper import get_field_option_val
+from helpers.jadn_helper import get_base_type, get_field_option_val
 
 from constants.xsd_constants import *
             
@@ -96,6 +96,11 @@ def build_element(parent_et_tag: ET.Element, name: str, type: str = None, min_oc
     elem_et = ET.SubElement(parent_et_tag, element_tag, name=name) 
 
     if type:
+        
+        is_base_type = get_base_type(type)
+        if is_base_type:
+            type = jadn_prefix + type
+        
         elem_et.set('type', type)
 
     if min_occurs:
@@ -147,6 +152,18 @@ def build_group(parent_et_tag: ET.Element, name: str = None, minOccurs: str = No
     return group
 
 
+def build_import(parent_et_tag: ET.Element, schema_loc: str, namespace: str):
+    import_et = ET.SubElement(parent_et_tag, import_tag)
+    
+    if schema_loc:
+        import_et.set('schemaLocation', schema_loc)   
+        
+    if namespace:
+        import_et.set('namespace', namespace)           
+
+    return import_et
+
+
 def build_max_length(parent_et_tag: ET.Element, value: str):
     max_length = ET.SubElement(parent_et_tag, max_length_tag)
     
@@ -191,8 +208,13 @@ def build_pattern(parent_et_tag: ET.Element, restriction_pattern: str):
 
 def build_restriction(parent_et_tag: ET.Element, base: str):
     restriction = None
+    
+    is_base_type = get_base_type(base)
+    if is_base_type:
+        base = jadn_prefix + base      
+    
     if "element" in parent_et_tag.tag:
-        simple_type_tag = build_simple_type(parent_et_tag)
+        simple_type_tag = build_simple_type(parent_et_tag)      
         restriction = ET.SubElement(simple_type_tag, restriction_tag, base=base)
     else:
         restriction = ET.SubElement(parent_et_tag, restriction_tag, base=base)

@@ -1,4 +1,4 @@
-from constants.jadn_constants import ALLOWED_TYPE_OPTIONS, ARRAYOF_CONST, MAPOF_CONST, MAXV_CONST, MINV_CONST, TYPE_OPTIONS_FROZ_DICT
+from constants.jadn_constants import *
 
 
 def get_root_et(multi_root: dict, name: str):
@@ -48,6 +48,15 @@ def get_all_jadn_descendants(match_name: str, data_to_search: [], family_tree: [
                                 get_all_jadn_descendants(field[2], data_to_search, family_tree)  
     
     return family_tree
+
+
+def get_base_type(type: str):
+    is_found = None
+    for item in ALL_TYPES:
+        if item == type:
+            is_found = item
+            break
+    return is_found
 
 
 def get_type_option_code(human_name: str):

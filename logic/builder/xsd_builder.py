@@ -139,7 +139,7 @@ def build_binary_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
 
     if format_val:
       frozen_format_opt = FORMAT_OPTIONS_FROZ_DICT.get(format_val)
-      restriction = build_restriction(parent_et, format_val)
+      restriction = build_restriction(parent_et, jadn_prefix + format_val)
       build_documention(restriction, frozen_format_opt[4])
       
       if minv_val:     
@@ -207,7 +207,7 @@ def build_number_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
     
     if format_val:
       frozen_format_opt = FORMAT_OPTIONS_FROZ_DICT.get(format_val)
-      restriction = build_restriction(parent_et, format_val)
+      restriction = build_restriction(parent_et, jadn_prefix + format_val)
       build_documention(restriction, frozen_format_opt[4])
       
       if minf_val:     
@@ -238,7 +238,7 @@ def build_string_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
     
     if format_val:
       frozen_format_opt = FORMAT_OPTIONS_FROZ_DICT.get(format_val)
-      restriction = build_restriction(parent_et, format_val)           
+      restriction = build_restriction(parent_et, jadn_prefix + format_val)           
       
       build_documention(restriction, frozen_format_opt[4])      
       
@@ -461,6 +461,9 @@ def create_jadn_xsd(jadn_file_name: str):
     try:
  
       schema_et = ET.Element(schema_tag)
+      schema_et.set('xmlns:jadn', jadn_namespace)    
+      build_import(schema_et, jadn_base_type_file_loc, jadn_namespace)
+      
       jadn_dict = read_type_data_from_file(jadn_file_name)
       
       jadn_info = None
@@ -476,7 +479,7 @@ def create_jadn_xsd(jadn_file_name: str):
       jadn_types_dict = jadn_dict['types']
 
       # TODO: Move to another schema and import
-      build_base_types(schema_et)
+      # build_base_types(schema_et)
       
       build_types(schema_et)    
       

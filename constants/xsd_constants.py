@@ -2,6 +2,10 @@ from enum import Enum
 
 
 schema_loc = "{http://www.w3.org/2001/XMLSchema}"
+# jadn_namespace = "http://docs.oasis-open.org/openc2/ns/jadn/v1.0"
+jadn_prefix = "jadn:"
+jadn_namespace = "jadn_base_types"
+jadn_base_type_file_loc = "../_data/xsd/jadn_base_types.xsd"
 
 # XSD
 schema_tag = f"{schema_loc}schema"
@@ -15,6 +19,7 @@ enumeration_tag = f"{schema_loc}enumeration"
 field_tag = f"{schema_loc}field"
 fraction_digits_tag = f"{schema_loc}fractionDigits"
 group_tag = f"{schema_loc}group"
+import_tag = f"{schema_loc}import"
 max_length_tag = f"{schema_loc}maxLength"
 min_length_tag = f"{schema_loc}minLength"
 max_inclusive_tag = f"{schema_loc}maxInclusive"
