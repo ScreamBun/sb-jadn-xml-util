@@ -1,0 +1,2070 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
+	<xs:complexType name="OpenC2-Command">
+		<xs:sequence>
+			<xs:element name="action" type="Action" />
+			<xs:element name="target" type="Target" />
+			<xs:element name="args" type="Args" minOccurs="0" />
+			<xs:element name="actuator" type="Actuator" minOccurs="0" />
+			<xs:element name="command_id" type="Command-ID" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OpenC2-Response">
+		<xs:sequence>
+			<xs:element name="OpenC2-Response-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="status" type="Status-Code" />
+						<xs:element name="status_text" type="jadn:String" minOccurs="0" />
+						<xs:element name="results" type="Results" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Action">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="query" />
+			<xs:enumeration value="investigate" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Target">
+		<xs:choice>
+			<xs:element name="features" type="Features" />
+			<xs:element name="th" type="AP-Target" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Args">
+		<xs:sequence>
+			<xs:element name="Args-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="start_time" type="Date-Time" minOccurs="0" />
+						<xs:element name="stop_time" type="Date-Time" minOccurs="0" />
+						<xs:element name="duration" type="Duration" minOccurs="0" />
+						<xs:element name="response_requested" type="Response-Type" minOccurs="0" />
+						<xs:element name="th" type="AP-Args" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Actuator">
+		<xs:choice />
+	</xs:complexType>
+	<xs:complexType name="Results">
+		<xs:annotation>
+			<xs:documentation>Response Results</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Results-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="versions" type="Version" minOccurs="0" maxOccurs="10" />
+						<xs:element name="profiles" type="Nsid" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="pairs" type="Pairs" minOccurs="0" />
+						<xs:element name="rate_limit" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="jadn:Number">
+									<xs:minInclusive value="0.0" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="args" type="jadn:String" minOccurs="0" />
+						<xs:element name="th" type="AP-Results" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Pairs">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="query: features, /huntflows, /datasources" />
+			<xs:enumeration value="investigate: /hunt" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AP-Target">
+		<xs:annotation>
+			<xs:documentation>TH targets defined in this profile.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="hunt" type="jadn:String" />
+			<xs:element name="huntflows" type="Huntflow-Specifiers" />
+			<xs:element name="datasources" type="jadn:String" minOccurs="0" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="AP-Args">
+		<xs:annotation>
+			<xs:documentation>TH command arguments defined in this profile.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AP-Args-Elements" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="huntargs" type="Huntargs" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Huntargs">
+		<xs:sequence>
+			<xs:element name="string_args" type="jadn:String" minOccurs="0" />
+			<xs:element name="integer_args" type="jadn:Integer" minOccurs="0" />
+			<xs:element name="typed_args" type="Typed-Arguments" minOccurs="0" />
+			<xs:element name="native_oc2" type="OC2-Data" minOccurs="0" />
+			<xs:element name="stix" type="STIX-Cybersecurity-Observables" minOccurs="0" />
+			<xs:element name="stix_extensions" type="jadn:String" minOccurs="0" />
+			<xs:element name="timeranges" type="Timeranges" minOccurs="0" />
+			<xs:element name="datasources" type="Datasource-Array" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OC2-Data">
+		<xs:annotation>
+			<xs:documentation>OC2-Data is an array of one or more types defined in the OpenC2 language spec</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="OC2-Data-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Language-Spec-Types" type="Language-Spec-Types" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Language-Spec-Types">
+		<xs:sequence>
+			<xs:element name="artifact" type="Artifact" minOccurs="0" />
+			<xs:element name="device" type="Device" minOccurs="0" />
+			<xs:element name="domain_name" type="Domain-Name" minOccurs="0" />
+			<xs:element name="email-address" type="Email-Addr" minOccurs="0" />
+			<xs:element name="file" type="File" minOccurs="0" />
+			<xs:element name="hashes" type="Hashes" minOccurs="0" />
+			<xs:element name="hostname" type="Hostname" minOccurs="0" />
+			<xs:element name="idn_domain_name" type="IDN-Domain-Name" minOccurs="0" />
+			<xs:element name="idn_email_address" type="IDN-Email-Addr" minOccurs="0" />
+			<xs:element name="ipv4_address" type="IPv4-Addr" minOccurs="0" />
+			<xs:element name="ipv6_address" type="IPv6-Addr" minOccurs="0" />
+			<xs:element name="ipv4_network" type="IPv4-Net" minOccurs="0" />
+			<xs:element name="ipv6_network" type="IPv6-Net" minOccurs="0" />
+			<xs:element name="ipv4_connection" type="IPv4-Connection" minOccurs="0" />
+			<xs:element name="ipv6_connection" type="IPv6-Connection" minOccurs="0" />
+			<xs:element name="iri" type="IRI" minOccurs="0" />
+			<xs:element name="mac_address" type="MAC-Addr" minOccurs="0" />
+			<xs:element name="port" type="Port" minOccurs="0" />
+			<xs:element name="process" type="Process" minOccurs="0" />
+			<xs:element name="uri" type="URI" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Artifact">
+		<xs:sequence>
+			<xs:element name="mime_type" type="jadn:String" minOccurs="0" />
+			<xs:element name="payload" type="Payload" minOccurs="0" />
+			<xs:element name="hashes" type="Hashes" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Device">
+		<xs:sequence>
+			<xs:element name="Device-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="hostname" type="Hostname" minOccurs="0" />
+						<xs:element name="idn_hostname" type="IDN-Hostname" minOccurs="0" />
+						<xs:element name="device_id" type="jadn:String" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Domain-Name">
+		<xs:annotation>
+			<xs:documentation>[[RFC1034]](#rfc1034), Section 3.5</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:hostname">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.3</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Email-Addr">
+		<xs:annotation>
+			<xs:documentation>Email address, [[RFC5322]](#rfc5322), Section 3.4.1</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:email">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.2</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="File">
+		<xs:sequence>
+			<xs:element name="File-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="name" type="jadn:String" minOccurs="0" />
+						<xs:element name="path" type="jadn:String" minOccurs="0" />
+						<xs:element name="hashes" type="Hashes" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="IDN-Domain-Name">
+		<xs:annotation>
+			<xs:documentation>Internationalized Domain Name, [[RFC5890]](#rfc5890), Section 2.3.2.3.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:idn-hostname">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.3</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IDN-Email-Addr">
+		<xs:annotation>
+			<xs:documentation>Internationalized email address, [[RFC6531]](#rfc6531)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:idn-email">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.2</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="IPv4-Net">
+		<xs:sequence>
+			<xs:element name="IPv4-Net-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ipv4_addr" type="IPv4-Addr" />
+						<xs:element name="prefix_length" type="jadn:Integer" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IPv4-Connection">
+		<xs:sequence>
+			<xs:element name="src_addr" type="IPv4-Net" minOccurs="0" />
+			<xs:element name="src_port" type="Port" minOccurs="0" />
+			<xs:element name="dst_addr" type="IPv4-Net" minOccurs="0" />
+			<xs:element name="dst_port" type="Port" minOccurs="0" />
+			<xs:element name="protocol" type="L4-Protocol" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IPv6-Net">
+		<xs:sequence>
+			<xs:element name="IPv6-Net-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ipv6_addr" type="IPv6-Addr" />
+						<xs:element name="prefix_length" type="jadn:Integer" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IPv6-Connection">
+		<xs:sequence>
+			<xs:element name="src_addr" type="IPv6-Net" minOccurs="0" />
+			<xs:element name="src_port" type="Port" minOccurs="0" />
+			<xs:element name="dst_addr" type="IPv6-Net" minOccurs="0" />
+			<xs:element name="dst_port" type="Port" minOccurs="0" />
+			<xs:element name="protocol" type="L4-Protocol" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="IRI">
+		<xs:annotation>
+			<xs:documentation>Internationalized Resource Identifier, [[RFC3987]](#rfc3987).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:iri">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.5</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MAC-Addr">
+		<xs:annotation>
+			<xs:documentation>Media Access Control / Extended Unique Identifier address - EUI-48 or EUI-64 as defined in [[EUI]](#eui).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:eui">
+			<xs:annotation>
+				<xs:documentation>IEEE Extended Unique Identifier (MAC Address)</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Process">
+		<xs:sequence>
+			<xs:element name="Process-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pid" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="jadn:Integer">
+									<xs:minInclusive value="0" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="name" type="jadn:String" minOccurs="0" />
+						<xs:element name="cwd" type="jadn:String" minOccurs="0" />
+						<xs:element name="executable" type="File" minOccurs="0" />
+						<xs:element name="parent" type="Process" minOccurs="0" />
+						<xs:element name="command_line" type="jadn:String" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="URI">
+		<xs:annotation>
+			<xs:documentation>Uniform Resource Identifier, [[RFC3986]](#rfc3986).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:uri">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.5</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Hashes">
+		<xs:annotation>
+			<xs:documentation>Cryptographic Hash values</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Hashes-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="md5" type="jadn:Binary" minOccurs="0" />
+						<xs:element name="sha1" type="jadn:Binary" minOccurs="0" />
+						<xs:element name="sha256" type="jadn:Binary" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Hostname">
+		<xs:annotation>
+			<xs:documentation>Internet host name as specified in [[RFC1123]](#rfc1123)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:hostname">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.3</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IDN-Hostname">
+		<xs:annotation>
+			<xs:documentation>Internationalized Internet host name as specified in [[RFC5890]](#rfc5890), Section 2.3.2.3.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:idn-hostname">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.3</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IPv4-Addr">
+		<xs:annotation>
+			<xs:documentation>32 bit IPv4 address as defined in [[RFC0791]](#rfc0791)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:ipv4-addr">
+			<xs:annotation>
+				<xs:documentation>IPv4 address as specified in RFC 791 Section 3.1</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="IPv6-Addr">
+		<xs:annotation>
+			<xs:documentation>128 bit IPv6 address as defined in [[RFC8200]](#rfc8200)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:ipv6-addr">
+			<xs:annotation>
+				<xs:documentation>IPv6 address as specified in RFC 8200 Section 3</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Port">
+		<xs:annotation>
+			<xs:documentation>Transport Protocol Port Number, [[RFC6335]](#rfc6335)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:Integer">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="65535" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Huntflow-Specifiers">
+		<xs:annotation>
+			<xs:documentation>TH Huntflow specifiers.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Huntflow-Specifiers-Elements" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="path" type="jadn:String" minOccurs="0" />
+						<xs:element name="tags" type="Tags" minOccurs="0" />
+						<xs:element name="arg_types" type="Specified-Arg-Types" minOccurs="0" />
+						<xs:element name="arg_names" type="Specified-Arg-Names" minOccurs="0" />
+						<xs:element name="format_types" type="Return-Type" minOccurs="0" />
+						<xs:element name="return_format" type="Huntflow-Sections" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Specified-Arg-Types">
+		<xs:annotation>
+			<xs:documentation>Return huntflows that take these argument types.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Specified-Arg-Types-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Arg-Type" type="Arg-Type" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Specified-Arg-Names">
+		<xs:annotation>
+			<xs:documentation>Return huntflows that take arguments with these names.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Specified-Arg-Names-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Arg-Name" type="Arg-Name" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AP-Results">
+		<xs:annotation>
+			<xs:documentation>TH results defined in this profile.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AP-Results-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="huntflow_info" type="Huntflow-Info" minOccurs="0" />
+						<xs:element name="datasources" type="Datasource-Array" minOccurs="0" />
+						<xs:element name="inv_returns" type="Inv-Returns" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Inv-Returns">
+		<xs:annotation>
+			<xs:documentation>Array of returns from threat hunt investigations.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Inv-Returns-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Inv-Return" type="Inv-Return" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Inv-Return">
+		<xs:sequence>
+			<xs:element name="string_returns" type="jadn:String" minOccurs="0" />
+			<xs:element name="stix_sco" type="STIX-Cybersecurity-Observables" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Timeranges">
+		<xs:annotation>
+			<xs:documentation>a timerange used in the execution of a hunt.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Timeranges-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Timerange" type="Timerange" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Timerange">
+		<xs:annotation>
+			<xs:documentation>Identification of process to be targeted by Threat Hunting activity.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="timerange_absolute" type="Timerange-Abs" minOccurs="0" />
+			<xs:element name="timerange_relative" type="Timerange-Rel" minOccurs="0" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Time-Unit">
+		<xs:annotation>
+			<xs:documentation>Time Unit Keywords.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Days" />
+			<xs:enumeration value="Hours" />
+			<xs:enumeration value="Minutes" />
+			<xs:enumeration value="Seconds" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Timerange-Abs">
+		<xs:sequence>
+			<xs:element name="hunt_start_time" type="timestamp" />
+			<xs:element name="hunt_stop_time" type="timestamp" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Timerange-Rel">
+		<xs:sequence>
+			<xs:element name="number" type="jadn:Integer" minOccurs="1" />
+			<xs:element name="time_unit" type="Time-Unit" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Return-Type">
+		<xs:sequence>
+			<xs:element name="var_name" type="Arg-Name" minOccurs="1" />
+			<xs:element name="var_type" type="Arg-Type" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Datasource">
+		<xs:sequence>
+			<xs:element name="ds_name" type="jadn:String" minOccurs="1" />
+			<xs:element name="ds_tags" type="Tags" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Huntflow-Sections">
+		<xs:annotation>
+			<xs:documentation>For each huntflow returned, include these data items.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Huntflow-Sections-Elements" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Huntflow-Section" type="Huntflow-Section" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Huntflow-Section">
+		<xs:annotation>
+			<xs:documentation>Data format to be returned by Query Huntflows. If none specified, return all.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="path" />
+			<xs:enumeration value="uniqueId" />
+			<xs:enumeration value="version" />
+			<xs:enumeration value="args_required" />
+			<xs:enumeration value="expected_returns" />
+			<xs:enumeration value="script" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Huntflow-Info">
+		<xs:sequence>
+			<xs:element name="path" type="jadn:String" minOccurs="0" />
+			<xs:element name="uniqueId" type="jadn:Integer" minOccurs="0" />
+			<xs:element name="version" type="jadn:String" minOccurs="0" />
+			<xs:element name="args_required" type="Typed-Arguments" minOccurs="0" />
+			<xs:element name="expected_returns" type="Typed-Arguments" minOccurs="0" />
+			<xs:element name="script" type="jadn:String" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Datasource-Array">
+		<xs:annotation>
+			<xs:documentation>An Array of Datasources, with multiple uses in Threathunting</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Datasource-Array-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Datasource" type="Datasource" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Tags">
+		<xs:annotation>
+			<xs:documentation>Tags applied for search or filter purposes.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Tags-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="String" type="jadn:String" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Typed-Arguments">
+		<xs:annotation>
+			<xs:documentation>Argument names and types tied to a specific Huntflow.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Typed-Arguments-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Arg-Name" type="Arg-Name" />
+						<xs:element name="Arg-Type" type="Arg-Type" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Arg-Type">
+		<xs:annotation>
+			<xs:documentation>Argument types used by a Huntflow. Follow STIX naming conventions, with lowercase characters and hyphens replacing spaces. Common types include process, file, and network-traffic.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:minLength value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Arg-Name">
+		<xs:annotation>
+			<xs:documentation>Argument names used by a Huntflow. Follow C variable naming conventions. Examples include name, src_port, and x_unique_id.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:minLength value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="STIX-Cybersecurity-Observables">
+		<xs:annotation>
+			<xs:documentation>An Array of Cybersecurity Observables in STIX formatting</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="STIX-Cybersecurity-Observables-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SCO" type="SCO" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SCO">
+		<xs:annotation>
+			<xs:documentation>Availiable Cybersecurity Observables in the STIX language</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="Artifact" type="artifact" />
+			<xs:element name="Autonomous-System" type="autonomous-system" />
+			<xs:element name="Directory" type="directory" />
+			<xs:element name="Domain-Name" type="domain-name" />
+			<xs:element name="Email-Addr" type="email-addr" />
+			<xs:element name="Email-Message" type="email-message" />
+			<xs:element name="File" type="file" />
+			<xs:element name="IPv4-Addr" type="ipv4-addr" />
+			<xs:element name="IPv6-Addr" type="ipv6-addr" />
+			<xs:element name="Mac-Addr" type="mac-addr" />
+			<xs:element name="Mutex" type="mutex" />
+			<xs:element name="Network-Traffic" type="network-traffic" />
+			<xs:element name="Process" type="process" />
+			<xs:element name="Software" type="software" />
+			<xs:element name="URL" type="url" />
+			<xs:element name="User-Account" type="user-account" />
+			<xs:element name="Windows-Registry-Key" type="windows-registry-key" />
+			<xs:element name="X509-Certificate" type="x509-certificate" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="artifact">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^artifact$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^artifact--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="mime_type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^(application|audio|font|image|message|model|multipart|text|video)/[a-zA-Z0-9.+_-]+" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="payload_bin" type="jadn:Binary" minOccurs="0" />
+			<xs:element name="url" type="url" />
+			<xs:element name="hashes" type="hashes" minOccurs="0" />
+			<xs:element name="encryption_algorithm" type="encryption_algorithm_enum" minOccurs="0" />
+			<xs:element name="decryption_key" type="jadn:String" minOccurs="0" />
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="autonomous-system">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^autonomous-system$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^autonomous-system--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="number" type="jadn:Integer" minOccurs="1" />
+			<xs:element name="name" type="jadn:String" minOccurs="0" />
+			<xs:element name="rir" type="jadn:String" minOccurs="0" />
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="directory">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^directory$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^directory--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="path" type="jadn:String" />
+			<xs:element name="path_enc">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[a-zA-Z0-9/\\.+_:-]{2,250}$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ctime" type="timestamp" />
+			<xs:element name="mtime" type="timestamp" />
+			<xs:element name="atime" type="timestamp" />
+			<xs:element name="contains_refs">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="domain-name">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^domain-name$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^domain-name--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="domain_name" type="jadn:String" />
+			<xs:element name="resolves_to_refs" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="email-addr">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^email-addr$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^email-addr--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="email_address" type="jadn:String" minOccurs="1" />
+			<xs:element name="display_name" type="jadn:String" minOccurs="0" />
+			<xs:element name="belongs_to_ref" type="jadn:String" minOccurs="0" />
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="email-message">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^email-message$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^email-message--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="date" type="timestamp" minOccurs="0" />
+			<xs:element name="content_type" type="jadn:String" minOccurs="0" />
+			<xs:element name="from_ref" type="jadn:String" minOccurs="0" />
+			<xs:element name="sender_ref" type="spec_version" minOccurs="0" />
+			<xs:element name="to_refs" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="cc_refs" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="bcc_refs" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="message_id" type="jadn:String" minOccurs="0" />
+			<xs:element name="subject" type="jadn:String" minOccurs="0" />
+			<xs:element name="received_lines" type="jadn:String" minOccurs="0" />
+			<xs:element name="additional_header_fields" type="email-additional-header-fields" minOccurs="0" />
+			<xs:element name="raw_email_ref" type="jadn:String" minOccurs="0" />
+			<xs:element name="is_multipart" type="jadn:Boolean" />
+			<xs:element name="body_multipart" type="mime-part-type" minOccurs="0" />
+			<xs:element name="body" type="jadn:String" minOccurs="0" />
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="file">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^file$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^file--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="extensions" type="jadn:String" minOccurs="0" />
+			<xs:element name="hashes" type="hashes" minOccurs="0" />
+			<xs:element name="size" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:Integer">
+						<xs:minInclusive value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="name" type="jadn:String" />
+			<xs:element name="name_enc" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[a-zA-Z0-9/\\.+_:-]{2,250}$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="magic_number_hex" type="Hex" minOccurs="0" />
+			<xs:element name="mime_type" type="jadn:String" minOccurs="0" />
+			<xs:element name="ctime" type="timestamp" minOccurs="0" />
+			<xs:element name="mtime" type="timestamp" minOccurs="0" />
+			<xs:element name="atime" type="timestamp" minOccurs="0" />
+			<xs:element name="parent_directory" type="jadn:String" minOccurs="0" />
+			<xs:element name="contains_refs" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="content_ref" type="jadn:String" minOccurs="0" />
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ipv4-addr">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^ipv4-addr$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^ipv4-addr--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ipv4_addr" minOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))?$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="resolves_to_refs" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="belongs_to_refs" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ipv6-addr">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^ipv6-addr$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^ipv6-addr--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ipv6_addr" minOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(\\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))?$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="resolves_to_refs">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="belongs_to_refs">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="mac-addr">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^mac-addr$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^mac-addr--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="mac_address_value" minOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="mutex">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^mutex$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^mutex--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="name" type="jadn:String" />
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="network-traffic">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^network-traffic$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^network-traffic--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="extensions" type="network_traffic_extensions_dictionary" minOccurs="0" />
+			<xs:element name="start">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="stop">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="is_active" type="jadn:Boolean" />
+			<xs:element name="src_port">
+				<xs:simpleType>
+					<xs:restriction base="jadn:Integer">
+						<xs:minInclusive value="0" />
+						<xs:maxInclusive value="65535" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="dst_port" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:Integer">
+						<xs:minInclusive value="0" />
+						<xs:maxInclusive value="65535" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="protocols">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="src_byte_count" type="jadn:Integer" minOccurs="0" />
+			<xs:element name="dst_byte_count" type="jadn:Integer" minOccurs="0" />
+			<xs:element name="src_packets" type="jadn:Integer" minOccurs="0" />
+			<xs:element name="dst_packets" type="jadn:Integer" minOccurs="0" />
+			<xs:element name="ipfix" type="ipfix_choice" minOccurs="0" />
+			<xs:element name="src_payload_ref" type="jadn:String" minOccurs="0" />
+			<xs:element name="dst_payload_ref" type="jadn:String" minOccurs="0" />
+			<xs:element name="encapsulates_refs">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="encapsulated_by_ref" type="jadn:String" minOccurs="0" />
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="process">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^process$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^process--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="extensions" type="process_extensions_dictionary" minOccurs="0" />
+			<xs:element name="is_hidden" type="jadn:Boolean" minOccurs="0" />
+			<xs:element name="pid" type="jadn:Integer" minOccurs="0" />
+			<xs:element name="created_time" type="timestamp" minOccurs="0" />
+			<xs:element name="cwd" type="jadn:String" minOccurs="0" />
+			<xs:element name="command_line" type="jadn:String" minOccurs="0" />
+			<xs:element name="environment_variables" type="jadn:String" minOccurs="0" />
+			<xs:element name="opened_connection_refs" type="jadn:String" minOccurs="0" />
+			<xs:element name="creator_user_ref" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="image_ref" type="jadn:String" minOccurs="0" />
+			<xs:element name="parent_ref" type="jadn:String" minOccurs="0" />
+			<xs:element name="child_refs" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="software">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^software$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id" type="jadn:String" />
+			<xs:element name="name">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="cpe" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="cpe:2\\.3:[aho\\*\\-](:(((\\?*|\\*?)([a-zA-Z0-9\\-\\._]|(\\\\[\\\\\\*\\?!\&quot;#$$%&amp;'\\(\\)\\+,/:;&lt;=&gt;@\\[\\]\\^`\\{\\|}~]))+(\\?*|\\*?))|[\\*\\-])){5}(:(([a-zA-Z]{2,3}(-([a-zA-Z]{2}|[0-9]{3}))?)|[\\*\\-]))(:(((\\?*|\\*?)([a-zA-Z0-9\\-\\._]|(\\\\[\\\\\\*\\?!\&quot;#$$%&amp;'\\(\\)\\+,/:;&lt;=&gt;@\\[\\]\\^`\\{\\|}~]))+(\\?*|\\*?))|[\\*\\-])){4}" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="swid">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="languages">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="vendor">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="version">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="user-account">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^user-account$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^user-account--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="user_account_extensions" type="user_account_extensions_dictionary" minOccurs="0" />
+			<xs:element name="user_id" type="jadn:String" minOccurs="0" />
+			<xs:element name="credential" type="jadn:String" minOccurs="0" />
+			<xs:element name="account_login" type="jadn:String" minOccurs="0" />
+			<xs:element name="account_type" type="jadn:String" minOccurs="0" />
+			<xs:element name="display_name" type="jadn:String" minOccurs="0" />
+			<xs:element name="is_service_account" type="jadn:Boolean" minOccurs="0" />
+			<xs:element name="is_privileged" type="jadn:Boolean" minOccurs="0" />
+			<xs:element name="can_escalate_privs" type="jadn:Boolean" minOccurs="0" />
+			<xs:element name="is_disabled" type="jadn:Boolean" minOccurs="0" />
+			<xs:element name="account_created" type="timestamp" minOccurs="0" />
+			<xs:element name="account_expires" type="timestamp" minOccurs="0" />
+			<xs:element name="credential_last_changed" type="timestamp" minOccurs="0" />
+			<xs:element name="account_first_login" type="timestamp" minOccurs="0" />
+			<xs:element name="account_last_login" type="timestamp" minOccurs="0" />
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="url">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^url$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^url" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="url_value">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="windows-registry-key">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^windows-registry-key$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^windows-registry-key--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="key">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^((?!((^|, )(HKLM|HKCC|HKCR|HKCU|HKU|hklm|hkcc|hkcr|hkcu|hku))+$).)*$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="registry_values" type="windows_registry_value_type" minOccurs="0" />
+			<xs:element name="modified_time" type="timestamp" minOccurs="0" />
+			<xs:element name="creator_user_ref" type="jadn:String" minOccurs="0" />
+			<xs:element name="number_of_subkeys" type="jadn:Integer" minOccurs="0" />
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="x509-certificate">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^x509-certificate$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="id">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^x509-certificate--" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="is_self_signed" type="jadn:Boolean" minOccurs="0" />
+			<xs:element name="hashes" type="hashes" minOccurs="0" />
+			<xs:element name="version" type="jadn:String" minOccurs="0" />
+			<xs:element name="serial_number" type="jadn:String" minOccurs="0" />
+			<xs:element name="signature_algorithm" type="jadn:String" minOccurs="0" />
+			<xs:element name="issuer" type="jadn:String" minOccurs="0" />
+			<xs:element name="validity_not_before" type="timestamp" minOccurs="0" />
+			<xs:element name="validity_not_after" type="timestamp" minOccurs="0" />
+			<xs:element name="subject" type="spec_version" minOccurs="0" />
+			<xs:element name="subject_public_key_algorithm" type="jadn:String" minOccurs="0" />
+			<xs:element name="subject_public_key_modulus" type="jadn:String" minOccurs="0" />
+			<xs:element name="subject_public_key_extensions" type="jadn:Integer" minOccurs="0" />
+			<xs:element name="x509_v3_extensions" type="x509_v3_extensions_type" minOccurs="0" />
+			<xs:element name="spec_version" type="spec_version" minOccurs="0" />
+			<xs:element name="object_marking_refs" type="object_marking_refs" minOccurs="0" />
+			<xs:element name="granular_markings" type="granular_markings" minOccurs="0" />
+			<xs:element name="defanged" type="defanged" minOccurs="0" />
+			<xs:element name="core_extensions" type="extensions" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="encryption_algorithm_enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AES-256-GCM" />
+			<xs:enumeration value="ChaCha20-Poly1305" />
+			<xs:enumeration value="mime-type-indicated" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="mime-part-type">
+		<xs:sequence>
+			<xs:element name="body" type="jadn:String" minOccurs="0" />
+			<xs:element name="body_raw_ref" type="jadn:String" minOccurs="0" />
+			<xs:element name="content_type" type="jadn:String" minOccurs="0" />
+			<xs:element name="content_disposition" type="jadn:String" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="email-additional-header-fields">
+		<xs:annotation>
+			<xs:documentation>Specifies any other header fields (except for date, received_lines, content_type, from_ref, sender_ref, to_refs, cc_refs, bcc_refs, and subject) found in the email message, as a dictionary.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="email-additional-header-fields-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="email_additional_header_field" type="email_additional_header_field" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="email_additional_header_field">
+		<xs:annotation>
+			<xs:documentation>Specifies any other header fields (except for date, received_lines, content_type, from_ref, sender_ref, to_refs, cc_refs, bcc_refs, and subject) found in the email message, as a dictionary.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="email_additional_header_field-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="email_additional_header_fieldname" type="email_additional_header_fieldname" />
+						<xs:element name="email_additional_header_value" type="email_additional_header_value" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="email_additional_header_fieldname">
+		<xs:annotation>
+			<xs:documentation>Specifies any other header fields (except for date, received_lines, content_type, from_ref, sender_ref, to_refs, cc_refs, bcc_refs, and subject) found in the email message, as a dictionary.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^((?!((^|, )(date|received_lines|content_type|from_ref|sender_ref|to_refs|cc_refs|bcc_refs|subject))+$).)*$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="email_additional_header_value">
+		<xs:choice>
+			<xs:element name="String_Value">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="[a-zA-Z0-9_-]{0,250}^$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="String_Array">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="2" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="windows_registry_value_type">
+		<xs:sequence>
+			<xs:element name="name" type="jadn:String" minOccurs="0" />
+			<xs:element name="data" type="jadn:String" minOccurs="0" />
+			<xs:element name="registry_data_type" type="win_registry_data_type" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="win_registry_data_type">
+		<xs:annotation>
+			<xs:documentation>Specifies the registry (REG_*) data type used in the registry value.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="REG_NONE" />
+			<xs:enumeration value="REG_SZ" />
+			<xs:enumeration value="REG_EXPAND_SZ" />
+			<xs:enumeration value="REG_BINARY" />
+			<xs:enumeration value="REG_DWORD" />
+			<xs:enumeration value="REG_DWORD_BIG_ENDIAN" />
+			<xs:enumeration value="REG_DWORD_LITTLE_ENDIAN" />
+			<xs:enumeration value="REG_LINK" />
+			<xs:enumeration value="REG_MULTI_SZ" />
+			<xs:enumeration value="REG_RESOURCE_LIST" />
+			<xs:enumeration value="REG_FULL_RESOURCE_DESCRIPTION" />
+			<xs:enumeration value="REG_RESOURCE_REQUIREMENTS_LIST" />
+			<xs:enumeration value="REG_QWORD" />
+			<xs:enumeration value="REG_INVALID_TYPE" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="x509_v3_extensions_type">
+		<xs:sequence>
+			<xs:element name="basic_constraints" type="jadn:String" minOccurs="0" />
+			<xs:element name="name_constraints" type="jadn:String" minOccurs="0" />
+			<xs:element name="policy_constraints" type="jadn:String" minOccurs="0" />
+			<xs:element name="key_usage" type="jadn:String" minOccurs="0" />
+			<xs:element name="extend_key_usage" type="jadn:String" minOccurs="0" />
+			<xs:element name="subject_key_identifier" type="jadn:String" minOccurs="0" />
+			<xs:element name="authority_key_identifier" type="jadn:String" minOccurs="0" />
+			<xs:element name="subject_alternative_name" type="jadn:String" minOccurs="0" />
+			<xs:element name="issuer_alternative_name" type="jadn:String" minOccurs="0" />
+			<xs:element name="subject_directory_attributes" type="jadn:String" minOccurs="0" />
+			<xs:element name="crt_distribution_points" type="jadn:String" minOccurs="0" />
+			<xs:element name="inhibit_any_policy" type="jadn:String" minOccurs="0" />
+			<xs:element name="private_key_usage_period_not_before" type="timestamp" minOccurs="0" />
+			<xs:element name="private_key_usage_period_not_after" type="timestamp" minOccurs="0" />
+			<xs:element name="certificate_policies" type="jadn:String" minOccurs="0" />
+			<xs:element name="policy_mappings" type="jadn:String" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="file_extensions_dictionary">
+		<xs:sequence>
+			<xs:element name="ntfs_ext" type="ntfs_ext" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ntfs_ext">
+		<xs:sequence>
+			<xs:element name="sid" type="jadn:String" minOccurs="0" />
+			<xs:element name="alternate_data_streams" type="ntfs_atlternate_data_stream" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ntfs_atlternate_data_stream">
+		<xs:sequence>
+			<xs:element name="name" type="jadn:String" />
+			<xs:element name="hashes" type="hashes" minOccurs="0" />
+			<xs:element name="size" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:Integer">
+						<xs:minInclusive value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ipfix_choice">
+		<xs:annotation>
+			<xs:documentation>Specifies any IP Flow Information Export (IPFIX) data for the traffic.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="ipfix_string" type="jadn:String" />
+			<xs:element name="ipfix_integer" type="jadn:Integer" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="hashes">
+		<xs:sequence>
+			<xs:element name="MD5" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[a-fA-F0-9]{32}$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SHA-1" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[a-fA-F0-9]{40}$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SHA-256" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[a-fA-F0-9]{64}$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SHA-512" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[a-fA-F0-9]{128}$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SHA3-256" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[a-fA-F0-9]{64}$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SHA3-512" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[a-fA-F0-9]{128}$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="SSDEEP" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[a-zA-Z0-9/+:.]{1,128}$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="TLSH" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^[a-zA-Z0-9]{70}$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="network_traffic_extensions_dictionary">
+		<xs:sequence>
+			<xs:element name="http_request_ext" type="http_request_ext" minOccurs="0" />
+			<xs:element name="icmp_ext" type="icmp_ext" minOccurs="0" />
+			<xs:element name="socket_ext" type="socket_ext" minOccurs="0" />
+			<xs:element name="tcp_ext" type="tcp_ext" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="http_request_ext">
+		<xs:sequence>
+			<xs:element name="request_method" type="jadn:String" />
+			<xs:element name="request_value" type="jadn:String" />
+			<xs:element name="request_version" type="jadn:String" minOccurs="0" />
+			<xs:element name="request_header" type="jadn:String" minOccurs="0" />
+			<xs:element name="message_body_length" type="jadn:String" minOccurs="0" />
+			<xs:element name="message_body_data_ref" type="jadn:String" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="icmp_ext">
+		<xs:sequence>
+			<xs:element name="icmp_type_hex" type="Hex" />
+			<xs:element name="icmp_code_hex" type="Hex" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="socket_ext">
+		<xs:sequence>
+			<xs:element name="address_family" type="address_family" />
+			<xs:element name="is_blocking" type="jadn:Boolean" minOccurs="0" />
+			<xs:element name="is_listening" type="jadn:String" minOccurs="0" />
+			<xs:element name="options" type="socket_option" minOccurs="0" />
+			<xs:element name="socket_type" type="socket_type" minOccurs="0" />
+			<xs:element name="socket_descriptor" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:Integer">
+						<xs:minInclusive value="0" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="socket_handle" type="jadn:Integer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="tcp_ext">
+		<xs:sequence>
+			<xs:element name="src_flags_hex" type="Hex" />
+			<xs:element name="dst_flags_hex" type="Hex" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="address_family">
+		<xs:annotation>
+			<xs:documentation>Specifies the current status of the service. windows-service-status-enum</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AF_UNSPEC" />
+			<xs:enumeration value="AF_INET" />
+			<xs:enumeration value="AF_IPX" />
+			<xs:enumeration value="AF_APPLETALK" />
+			<xs:enumeration value="AF_NETBIOS" />
+			<xs:enumeration value="AF_INET6" />
+			<xs:enumeration value="AF_IRDA" />
+			<xs:enumeration value="AF_BTH" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="socket_option">
+		<xs:sequence>
+			<xs:element name="socket_option">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^(SO|ICMP|ICMP6|IP|IPV6|MCAST|TCP|IRLMP)(_[A-Z]+)+$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="option_value" type="jadn:Integer" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="socket_type">
+		<xs:annotation>
+			<xs:documentation>Specifies the type of the socket.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SOCK_STREAM" />
+			<xs:enumeration value="SOCK_DGRAM" />
+			<xs:enumeration value="SOCK_RAW" />
+			<xs:enumeration value="SOCK_RDM" />
+			<xs:enumeration value="SOCK_SEQPACKET" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="user_account_extensions_dictionary">
+		<xs:sequence>
+			<xs:element name="unix_account_ext" type="unix_account_ext" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="unix_account_ext">
+		<xs:sequence>
+			<xs:element name="gid" type="jadn:Number" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="process_extensions_dictionary">
+		<xs:sequence>
+			<xs:element name="windows_proccess_extension" type="windows_proccess_extension" minOccurs="0" />
+			<xs:element name="windows_service_ext" type="windows_service_ext" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="windows_proccess_extension">
+		<xs:sequence>
+			<xs:element name="aslr_enabled" type="jadn:Boolean" minOccurs="0" />
+			<xs:element name="dep_enabled" type="jadn:Boolean" minOccurs="0" />
+			<xs:element name="priority" type="jadn:String" minOccurs="0" />
+			<xs:element name="owner_sid" type="jadn:String" minOccurs="0" />
+			<xs:element name="window_title" type="jadn:String" minOccurs="0" />
+			<xs:element name="startup_info" type="startup_info_dictionary" minOccurs="0" />
+			<xs:element name="integrity_level" type="windows_integrity_level_enum" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="startup_info_dictionary">
+		<xs:sequence>
+			<xs:element name="startup_info_dictionary-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="lpDesktop" type="jadn:String" minOccurs="0" />
+						<xs:element name="lpTitle" type="jadn:String" minOccurs="0" />
+						<xs:element name="dwFillAttribute" type="jadn:String" minOccurs="0" />
+						<xs:element name="dwFlags" type="jadn:String" minOccurs="0" />
+						<xs:element name="wShowWindow" type="jadn:String" minOccurs="0" />
+						<xs:element name="hStdInput" type="jadn:String" minOccurs="0" />
+						<xs:element name="hStdOutput" type="jadn:String" minOccurs="0" />
+						<xs:element name="hStdError" type="jadn:String" minOccurs="0" />
+						<xs:element name="lpReserved" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="jadn:String">
+									<xs:minLength value="0" />
+									<xs:maxLength value="0" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="lpReserved2" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="jadn:String">
+									<xs:minLength value="0" />
+									<xs:maxLength value="0" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="cb" type="jadn:Integer" minOccurs="0" />
+						<xs:element name="dwX" type="jadn:Integer" minOccurs="0" />
+						<xs:element name="dwY" type="jadn:Integer" minOccurs="0" />
+						<xs:element name="dwXSize" type="jadn:Integer" minOccurs="0" />
+						<xs:element name="dwYSize" type="jadn:Integer" minOccurs="0" />
+						<xs:element name="dwXCountChars" type="jadn:Integer" minOccurs="0" />
+						<xs:element name="dwYCountChars" type="jadn:Integer" minOccurs="0" />
+						<xs:element name="cbReserved2" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="jadn:Integer">
+									<xs:minInclusive value="0" />
+									<xs:maxInclusive value="0" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="windows_integrity_level_enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="low" />
+			<xs:enumeration value="medium" />
+			<xs:enumeration value="high" />
+			<xs:enumeration value="system" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="service_status">
+		<xs:annotation>
+			<xs:documentation>Specifies the current status of the service. windows-service-status-enum</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SERVICE_CONTINUE_PENDING" />
+			<xs:enumeration value="SERVICE_PAUSE_PENDING" />
+			<xs:enumeration value="SERVICE_PAUSED" />
+			<xs:enumeration value="SERVICE_RUNNING" />
+			<xs:enumeration value="SERVICE_START_PENDING" />
+			<xs:enumeration value="SERVICE_STOP_PENDING" />
+			<xs:enumeration value="SERVICE_STOPPED" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="service_type">
+		<xs:annotation>
+			<xs:documentation>Specifies the type of the service. windows-service-enum</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SERVICE_KERNEL_DRIVER" />
+			<xs:enumeration value="SERVICE_FILE_SYSTEM_DRIVER" />
+			<xs:enumeration value="SERVICE_WIN32_OWN_PROCESS" />
+			<xs:enumeration value="SERVICE_WIN32_SHARE_PROCESS" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="windows_service_ext">
+		<xs:sequence>
+			<xs:element name="service_name" type="jadn:String" minOccurs="0" />
+			<xs:element name="descriptions" minOccurs="0">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="display_name" type="jadn:String" minOccurs="0" />
+			<xs:element name="group_name" type="jadn:String" minOccurs="0" />
+			<xs:element name="start_type" type="start_type" minOccurs="0" />
+			<xs:element name="service_dll_refs" type="jadn:String" minOccurs="0" />
+			<xs:element name="service_type" type="service_type" minOccurs="0" />
+			<xs:element name="service_status" type="service_status" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="start_type">
+		<xs:annotation>
+			<xs:documentation>Specifies the start options defined for the service. windows-service-start-enum</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SERVICE_AUTO_START" />
+			<xs:enumeration value="SERVICE_BOOT_START" />
+			<xs:enumeration value="SERVICE_DEMAND_START" />
+			<xs:enumeration value="SERVICE_DISABLED" />
+			<xs:enumeration value="SERVICE_SYSTEM_ALERT" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="spec_version">
+		<xs:annotation>
+			<xs:documentation>The version of the STIX specification used to represent the content in this cyber-observable.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="2.0" />
+			<xs:enumeration value="2.1" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="object_marking_refs">
+		<xs:annotation>
+			<xs:documentation>The list of marking-definition objects to be applied to this object.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="object_marking_refs-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="identifier" type="identifier" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="granular_marking">
+		<xs:sequence>
+			<xs:element name="selectors" type="identifier" minOccurs="1" />
+			<xs:element name="lang" type="jadn:String" />
+			<xs:element name="pattern" type="identifier" minOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="granular_markings">
+		<xs:annotation>
+			<xs:documentation>The set of granular markings that apply to this object.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="granular_markings-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="granular_marking" type="granular_marking" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="defanged">
+		<xs:annotation>
+			<xs:documentation>Defines whether or not the data contained within the object has been defanged.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:Boolean" />
+	</xs:simpleType>
+	<xs:simpleType name="identifier">
+		<xs:annotation>
+			<xs:documentation>Represents identifiers across the CTI specifications. The format consists of the name of the top-level object being identified, followed by two dashes (--), followed by a UUIDv4.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="extensions">
+		<xs:sequence>
+			<xs:element name="extension">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="^([a-z][a-z0-9]*)+(-[a-z0-9]+)*\\-ext$" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="extension_definition" type="extension" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="properties">
+		<xs:annotation>
+			<xs:documentation>Rules for custom properties</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="properties-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="binary" type="jadn:Binary" minOccurs="0" />
+						<xs:element name="hex" type="Hex" minOccurs="0" />
+						<xs:element name="array" minOccurs="0">
+							<xs:simpleType>
+								<xs:restriction base="jadn:String">
+									<xs:minLength value="1" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="string" type="jadn:String" minOccurs="0" />
+						<xs:element name="integer" type="jadn:Integer" minOccurs="0" />
+						<xs:element name="boolean" type="jadn:Boolean" minOccurs="0" />
+						<xs:element name="number" type="jadn:Number" minOccurs="0" />
+						<xs:element name="object" type="extensions" minOccurs="0" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="extension">
+		<xs:sequence>
+			<xs:element name="extension_type" type="extension_type_enum" />
+			<xs:element name="properties" type="properties" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="extension_type_enum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="new-sdo" />
+			<xs:enumeration value="new-sco" />
+			<xs:enumeration value="new-sro" />
+			<xs:enumeration value="property-extension" />
+			<xs:enumeration value="toplevel-property-extension" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Hex">
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^([a-fA-F0-9]{2})+$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="timestamp">
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Features">
+		<xs:annotation>
+			<xs:documentation>An array of zero to ten names used to query a Consume for its supported capabilities.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Features-Elements" minOccurs="0" maxOccurs="10">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Feature" type="Feature">
+							<xs:unique name="Feature-Unique">
+								<xs:selector xpath="Feature" />
+								<xs:field xpath="." />
+							</xs:unique>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Date-Time">
+		<xs:annotation>
+			<xs:documentation>Date and Time</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:Integer">
+			<xs:minInclusive value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Duration">
+		<xs:annotation>
+			<xs:documentation>A length of time</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:Integer">
+			<xs:minInclusive value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Feature">
+		<xs:annotation>
+			<xs:documentation>Specifies the results to be returned from a query features Command</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="versions" />
+			<xs:enumeration value="profiles" />
+			<xs:enumeration value="pairs" />
+			<xs:enumeration value="rate_limit" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="L4-Protocol">
+		<xs:annotation>
+			<xs:documentation>Value of the protocol (IPv4) or next header (IPv6) field in an IP packet. Any IANA value, [RFC5237]</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="icmp" />
+			<xs:enumeration value="tcp" />
+			<xs:enumeration value="udp" />
+			<xs:enumeration value="sctp" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Payload">
+		<xs:choice>
+			<xs:element name="bin" type="jadn:Binary" />
+			<xs:element name="url" type="URI" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Nsid">
+		<xs:annotation>
+			<xs:documentation>A short identifier that refers to a namespace.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:minLength value="1" />
+			<xs:maxLength value="16" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Response-Type">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none" />
+			<xs:enumeration value="ack" />
+			<xs:enumeration value="status" />
+			<xs:enumeration value="complete" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Status-Code">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Processing" />
+			<xs:enumeration value="OK" />
+			<xs:enumeration value="Created" />
+			<xs:enumeration value="Bad Request" />
+			<xs:enumeration value="Unauthorized" />
+			<xs:enumeration value="Forbidden" />
+			<xs:enumeration value="Not Found" />
+			<xs:enumeration value="Internal Error" />
+			<xs:enumeration value="Not Implemented" />
+			<xs:enumeration value="Service Unavailable" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Command-ID">
+		<xs:annotation>
+			<xs:documentation>Command Identifier</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^\S{0,36}$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Version">
+		<xs:annotation>
+			<xs:documentation>Major.Minor version number</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String" />
+	</xs:simpleType>
+	<xs:element name="OpenC2-Command" type="OpenC2-Command" />
+	<xs:element name="OpenC2-Response" type="OpenC2-Response" />
+	<xs:element name="SCO" type="SCO" />
+</xs:schema>

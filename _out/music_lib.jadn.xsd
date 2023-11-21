@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
+	<xs:complexType name="Library">
+		<xs:sequence>
+			<xs:element name="Library-Elements" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Barcode" type="Barcode" />
+						<xs:element name="Album" type="Album" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Barcode">
+		<xs:annotation>
+			<xs:documentation>A UPC-A barcode is 12 digits</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="\d{12}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Album">
+		<xs:sequence>
+			<xs:element name="artist" type="Artist" />
+			<xs:element name="title" type="jadn:String" />
+			<xs:element name="pub_data" type="Publication-Data" />
+			<xs:element name="tracks" type="Track" maxOccurs="unbounded" />
+			<xs:element name="cover_art" type="Cover-Art" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Artist">
+		<xs:sequence>
+			<xs:element name="artist_name" type="jadn:String" />
+			<xs:element name="instruments" type="Instrument" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Instrument">
+		<xs:annotation>
+			<xs:documentation>collection of instruments (non-exhaustive)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="vocals" />
+			<xs:enumeration value="guitar" />
+			<xs:enumeration value="bass" />
+			<xs:enumeration value="drums" />
+			<xs:enumeration value="keyboards" />
+			<xs:enumeration value="percussion" />
+			<xs:enumeration value="brass" />
+			<xs:enumeration value="woodwinds" />
+			<xs:enumeration value="harmonica" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Publication-Data">
+		<xs:sequence>
+			<xs:element name="label" type="jadn:String" />
+			<xs:element name="rel_date">
+				<xs:simpleType>
+					<xs:restriction base="jadn:date">
+						<xs:annotation>
+							<xs:documentation>JSON Schema Section 7.3.1</xs:documentation>
+						</xs:annotation>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Track">
+		<xs:sequence>
+			<xs:element name="t_number" type="jadn:Number" />
+			<xs:element name="title" type="jadn:String" />
+			<xs:element name="length">
+				<xs:simpleType>
+					<xs:restriction base="jadn:time">
+						<xs:annotation>
+							<xs:documentation>JSON Schema Section 7.3.1</xs:documentation>
+						</xs:annotation>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="featured" type="Artist" />
+			<xs:element name="audio" type="Audio" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Audio">
+		<xs:sequence>
+			<xs:element name="a_format" type="Audio-Format" />
+			<xs:element name="a_content" type="jadn:Binary" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Audio-Format">
+		<xs:annotation>
+			<xs:documentation>can only be one, but can extend list</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MP3" />
+			<xs:enumeration value="OGG" />
+			<xs:enumeration value="FLAC" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Cover-Art">
+		<xs:sequence>
+			<xs:element name="i_format" type="Image-Format" />
+			<xs:element name="i_content" type="jadn:Binary" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Image-Format">
+		<xs:annotation>
+			<xs:documentation>can only be one, but can extend list</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PNG" />
+			<xs:enumeration value="JPG" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Library" type="Library" />
+	<xs:element name="Album" type="Album" />
+	<xs:element name="Track" type="Track" />
+</xs:schema>

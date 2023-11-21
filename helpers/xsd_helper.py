@@ -86,8 +86,10 @@ def build_complex_type(parent_et_tag: ET.Element, name: str = None):
 
 
 def build_documention(parent_et_tag: ET.Element, documenttion_str: str):
-    annotation = ET.SubElement(parent_et_tag, annotation_tag)
-    documentation = ET.SubElement(annotation, documentation_tag).text = documenttion_str
+    annotation = None
+    if documenttion_str:
+        annotation = ET.SubElement(parent_et_tag, annotation_tag)
+        documentation = ET.SubElement(annotation, documentation_tag).text = documenttion_str
 
     return annotation
 

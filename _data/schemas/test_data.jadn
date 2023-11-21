@@ -1,9 +1,5 @@
 {
-  "info": {
-    "exports": ["TestBinary"]
-  },
   "types": [
-    ["TestBinary", "Binary", ["/eui", "{3", "}5"], ""]
+    ["Integer-Name", "Integer", ["/u\\d+"], "Test"]
   ]
 }
-

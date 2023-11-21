@@ -143,10 +143,10 @@ def build_binary_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
       build_documention(restriction, frozen_format_opt[4])
       
       if minv_val:     
-        build_min_length(restriction, minv_val)       
+        build_min_inclusive(restriction, minv_val)       
         
       if maxv_val:     
-        build_max_length(restriction, maxv_val)         
+        build_max_inclusive(restriction, maxv_val)         
 
     else:
                   
@@ -154,10 +154,10 @@ def build_binary_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
         restriction = build_restriction(parent_et, base_type)
                 
         if minv_val:     
-          build_min_length(restriction, minv_val)       
+          build_min_inclusive(restriction, minv_val)       
           
         if maxv_val:     
-          build_max_length(restriction, maxv_val)   
+          build_max_inclusive(restriction, maxv_val)   
 
 
 def build_integer_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):  
@@ -170,11 +170,11 @@ def build_integer_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str
         if format_val == frozen_format_opt_name:
           
           if format_val == DURATION:
-            restriction = build_restriction(parent_et, xs_duration)
+            restriction = build_restriction(parent_et, jadn_prefix + format_val)
           else:
-            restriction = build_restriction(parent_et, primitives.get(base_type))
+            restriction = build_restriction(parent_et, jadn_prefix + base_type)
             
-          build_documention(restriction, FORMAT_OPTIONS_FROZ_DICT.get(frozen_format_opt_name)[3])
+          build_documention(restriction, FORMAT_OPTIONS_FROZ_DICT.get(frozen_format_opt_name)[4])
           
           # Min
           if FORMAT_OPTIONS_FROZ_DICT.get(frozen_format_opt_name)[1]:
@@ -182,7 +182,10 @@ def build_integer_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str
             
           # Max
           if FORMAT_OPTIONS_FROZ_DICT.get(frozen_format_opt_name)[2]:
-            build_max_inclusive(restriction, FORMAT_OPTIONS_FROZ_DICT.get(frozen_format_opt_name)[2])                                
+            build_max_inclusive(restriction, FORMAT_OPTIONS_FROZ_DICT.get(frozen_format_opt_name)[2])  
+            
+          if format_val == UNSIGNED_BITS:
+            build_pattern(restriction, BINARY_REG_CONST)                              
     
     else:                
       minv_val = get_opt_type_val(MINV_CONST, jadn_opts)

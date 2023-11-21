@@ -1,14 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
 	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
-	<xs:simpleType name="TestBinary">
-		<xs:restriction base="jadn:eui">
+	<xs:simpleType name="Integer-Name">
+		<xs:annotation>
+			<xs:documentation>Test</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:Integer">
 			<xs:annotation>
-				<xs:documentation>IEEE Extended Unique Identifier (MAC Address)</xs:documentation>
+				<xs:documentation>Unsigned integer or bit field of &lt;n&gt; bits, value must be between 0 and 2^&lt;n&gt; - 1.</xs:documentation>
 			</xs:annotation>
-			<xs:minLength value="3" />
-			<xs:maxLength value="5" />
+			<xs:pattern value="\\b[01]+\\b" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:element name="TestBinary" type="TestBinary" />
 </xs:schema>

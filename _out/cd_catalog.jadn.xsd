@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
+	<xs:complexType name="CATALOG">
+		<xs:sequence>
+			<xs:element name="CATALOG-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CD" type="CD" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CD">
+		<xs:sequence>
+			<xs:element name="TITLE" type="TITLE" />
+			<xs:element name="ARTIST" type="ARTIST" />
+			<xs:element name="COUNTRY" type="COUNTRY" />
+			<xs:element name="COMPANY" type="COMPANY" />
+			<xs:element name="PRICE" type="PRICE" />
+			<xs:element name="YEAR" type="YEAR" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="TITLE">
+		<xs:restriction base="jadn:String" />
+	</xs:simpleType>
+	<xs:simpleType name="ARTIST">
+		<xs:restriction base="jadn:String" />
+	</xs:simpleType>
+	<xs:simpleType name="COUNTRY">
+		<xs:restriction base="jadn:String" />
+	</xs:simpleType>
+	<xs:simpleType name="COMPANY">
+		<xs:restriction base="jadn:String" />
+	</xs:simpleType>
+	<xs:simpleType name="PRICE">
+		<xs:restriction base="jadn:Number" />
+	</xs:simpleType>
+	<xs:simpleType name="YEAR">
+		<xs:restriction base="jadn:Integer" />
+	</xs:simpleType>
+	<xs:element name="CATALOG" type="CATALOG" />
+</xs:schema>
