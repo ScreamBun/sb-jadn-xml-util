@@ -1,21 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
 	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
-	<xs:simpleType name="Enumerated-Name">
+	<xs:complexType name="Choice-Name">
 		<xs:annotation>
 			<xs:documentation>test</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="jadn:String">
-			<xs:enumeration id="enumeration_1" value="field_value_1">
-				<xs:annotation>
-					<xs:documentation>test</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-			<xs:enumeration id="enumeration_2" value="field_value_2">
-				<xs:annotation>
-					<xs:documentation>test</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-		</xs:restriction>
-	</xs:simpleType>
+		<xs:choice>
+			<xs:element id="field_1" name="field_value_1" type="jadn:String" />
+			<xs:element id="field_2" name="field_value_2" type="jadn:String" />
+		</xs:choice>
+	</xs:complexType>
 </xs:schema>

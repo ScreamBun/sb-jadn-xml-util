@@ -103,11 +103,11 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
       if field_type == ARRAYOF_CONST:
         field_type = get_vtype(field_opts)
         
-      field_type_et = build_element(xsd_seq, field_name, field_type)
+      field_type_et = build_element(xsd_seq, field_name, id=field_index, type=field_type)
       
       if field_opts:
         
-        field_type_et = add_id_to_element(field_type_et, field_opts)        
+        # field_type_et = add_id_to_element(field_type_et, field_opts)        
         field_type_et = add_minoccurs_to_element(field_type_et, field_opts)
         field_type_et = add_maxoccurs_to_element(field_type_et, field_opts)       
         
@@ -329,8 +329,23 @@ def build_enumeration_type(root: ET.Element, type: []):
 
     if jce[TYPE_DESCRIPTION]:
       build_documention(xsd_simple_type, jce[TYPE_DESCRIPTION])
+      
+    xsd_restriction = None  
+    if jce[TYPE_OPTIONS]:
+      global jadn_types_dict
+      jadn_opts = get_active_type_option_vals(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), jadn_types_dict) 
+      
+      if jadn_opts:     
+        enum_val = get_opt_type_val(ENUM_CONST, jadn_opts) 
+        pointer_val = get_opt_type_val(POINTER_CONST, jadn_opts)
+      
+        if enum_val:
+          xsd_restriction = build_restriction(xsd_simple_type, enum_val)   
+        elif pointer_val:
+          xsd_restriction = build_restriction(xsd_simple_type, pointer_val)   
 
-    xsd_restriction = build_restriction(xsd_simple_type, STRING_CONST)
+    if xsd_restriction == None:
+      xsd_restriction = build_restriction(xsd_simple_type, STRING_CONST)
 
     for field in jce[FIELDS]:
       field_id = field[0]

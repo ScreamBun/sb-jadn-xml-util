@@ -94,8 +94,14 @@ def build_documention(parent_et_tag: ET.Element, documenttion_str: str):
     return annotation
 
 
-def build_element(parent_et_tag: ET.Element, name: str, type: str = None, min_occurs: str = None, max_occurs: str = None, is_unique: str = False, is_set: str = False):
-    elem_et = ET.SubElement(parent_et_tag, element_tag, name=name) 
+def build_element(parent_et_tag: ET.Element, name: str, id: str= None, type: str = None, min_occurs: str = None, max_occurs: str = None, is_unique: str = False, is_set: str = False):
+    elem_et = ET.SubElement(parent_et_tag, element_tag) 
+
+    if id:
+        elem_et.set('id', 'field_' + str(id))
+        
+    if name:
+        elem_et.set('name', name)        
 
     if type:
         
