@@ -1,5 +1,8 @@
 {
   "types": [
-    ["Integer-Name", "Integer", ["/u\\d+"], "Test"]
+    ["Enumerated-Name", "Enumerated", [], "test", [
+        [1, "field_value_1", "test"],
+        [2, "field_value_2", "test"]
+      ]]
   ]
 }

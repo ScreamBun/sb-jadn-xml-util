@@ -120,8 +120,18 @@ def build_element(parent_et_tag: ET.Element, name: str, type: str = None, min_oc
     return elem_et
 
 
-def build_enumeration(parent_et_tag: ET.Element, value: str):
-    enumeration = ET.SubElement(parent_et_tag, enumeration_tag, value=value)
+def build_enumeration(parent_et_tag: ET.Element, id: str, value: str, description: str = None):
+    enumeration = ET.SubElement(parent_et_tag, enumeration_tag)
+    
+    if id:
+        id_txt = "enumeration_" + str(id)
+        enumeration.set('id', id_txt)
+    
+    if value:
+        enumeration.set('value', value)  
+    
+    if description:
+           enumeration = build_documention(enumeration, description)
 
     return enumeration
 

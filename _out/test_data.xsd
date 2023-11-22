@@ -1,15 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
 	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
-	<xs:simpleType name="Integer-Name">
+	<xs:simpleType name="Enumerated-Name">
 		<xs:annotation>
-			<xs:documentation>Test</xs:documentation>
+			<xs:documentation>test</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="jadn:Integer">
-			<xs:annotation>
-				<xs:documentation>Unsigned integer or bit field of &lt;n&gt; bits, value must be between 0 and 2^&lt;n&gt; - 1.</xs:documentation>
-			</xs:annotation>
-			<xs:pattern value="\\b[01]+\\b" />
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="enumeration_1" value="field_value_1">
+				<xs:annotation>
+					<xs:documentation>test</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="enumeration_2" value="field_value_2">
+				<xs:annotation>
+					<xs:documentation>test</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

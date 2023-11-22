@@ -330,11 +330,14 @@ def build_enumeration_type(root: ET.Element, type: []):
     if jce[TYPE_DESCRIPTION]:
       build_documention(xsd_simple_type, jce[TYPE_DESCRIPTION])
 
-    xsd_restriction = build_restriction(xsd_simple_type, xs_string)
+    xsd_restriction = build_restriction(xsd_simple_type, STRING_CONST)
 
     for field in jce[FIELDS]:
+      field_id = field[0]
       field_value = field[1]
-      build_enumeration(xsd_restriction, field_value)
+      field_description = safe_list_get(field, 2,  None)
+      
+      build_enumeration(xsd_restriction, field_id, field_value, field_description)
 
 
 def build_choice_type(root: ET.Element, type: []):
