@@ -4,7 +4,7 @@ Extended Dict Utils
 import copy
 
 from typing import Any, List, MutableMapping, Type
-from .general import safe_cast
+from jadnxml.utils.general import safe_cast
 __all__ = ["ObjectDict", "FrozenDict", "QueryDict"]
 
 

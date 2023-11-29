@@ -1,6 +1,3 @@
-# from constants.jadn_constants import *
-
-
 from jadnxml.constants.jadn_constants import ALL_TYPES, ALLOWED_TYPE_OPTIONS, ARRAYOF_CONST, MAPOF_CONST, TYPE_OPTIONS_FROZ_DICT
 
 
