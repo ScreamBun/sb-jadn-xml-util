@@ -479,6 +479,8 @@ def build_types(root : ET.Element):
         
         
 def convert_xsd_from_dict(jadn_dict: dict): 
+  xml_str = None
+  
   try:
   
     # TODO: jadn validation?
@@ -503,15 +505,15 @@ def convert_xsd_from_dict(jadn_dict: dict):
     
     if jadn_exports:
       for export in jadn_exports:
-        build_element(schema_et, export, export)    
-    
-    # return_data = str(schema_et)
+        build_element(schema_et, export, export)  
+        
+    xml_str = ET.tostring(schema_et, encoding='unicode')            
     
   except RuntimeError as e:
     print("Error convert_xsd_from_dict: " + e.message)
     raise e  
 
-  return schema_et        
+  return xml_str
 
 
 def convert_to_xsd_from_file(jadn_file_name: str):
