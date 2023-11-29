@@ -507,6 +507,7 @@ def convert_xsd_from_dict(jadn_dict: dict):
       for export in jadn_exports:
         build_element(schema_et, export, export)  
         
+    ET.indent(schema_et, space="\t", level=0)        
     xml_str = ET.tostring(schema_et, encoding='unicode')            
     
   except RuntimeError as e:
