@@ -1,11 +1,11 @@
 import xml.etree.ElementTree as ET
-from constants.jadn_constants import *
-from lxml import etree
-from helpers.jadn_helper import *
+from jadnxml.helpers.jadn_helper import get_active_type_option_vals, get_opt_type_val, get_type_option_val, get_vtype
+from jadnxml.helpers.xsd_helper import add_maxoccurs_to_element, add_minoccurs_to_element, build_choice, build_complex_type, build_documention, build_element, build_enumeration, build_fraction_digits, build_import, build_max_inclusive, build_max_length, build_min_inclusive, build_min_length, build_pattern, build_restriction, build_sequence, build_simple_type
 
-from constants.xsd_constants import *
-from utils.utils import *
-from helpers.xsd_helper import *
+from jadnxml.constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, BINARY_CONST, BINARY_REG_CONST, DATE, DATE_TIME, DURATION, ENUM_CONST, F16, F16_DIGITS, F32, F32_DIGITS, FIELDS, FORMAT_CONST, FORMAT_OPTIONS_FROZ_DICT, INTEGER_CONST, KTYPE_CONST, MAP_CONST, MAPOF_CONST, MAXF_CONST, MAXV_CONST, MINF_CONST, MINV_CONST, NUMBER_CONST, PATTERN_CONST, POINTER_CONST, PRIMITIVE_TYPES, RECORD_CONST, SELECTOR_TYPES, SET_CONST, STRING_CONST, STRUCTURED_TYPES, TIME, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS, UNIQUE_CONST, UNSIGNED_BITS, VTYPE_CONST
+from jadnxml.constants.xsd_constants import xs_string, xs_decimal, xs_date, xs_time, xs_dateTime, max_occurs_unbounded, jadn_prefix, pattern_tag, enumerations, primitives, specializations, structures, schema_tag, jadn_namespace, jadn_base_type_file_loc
+from jadnxml.utils.utils import find_items_by_val, get_file_name_only, read_type_data_from_file, safe_list_get, write_to_file
+
 
 
 jadn_types_dict: {} = {}
@@ -73,7 +73,7 @@ def build_base_types(root: ET.Element):
         base_restriction = build_restriction(base_type, xs_string)
         build_pattern(base_restriction, type_value[3])   
                   
-    for struct_key, struct_value in structures.items():
+    for struct_key, struct_value in STRUCTURED_TYPES.items():
       if struct_key is ARRAYOF_CONST or struct_key is MAPOF_CONST:
         # ArrayOf and MapOf
         xsd_simp_type = build_simple_type(root, struct_key)  
@@ -476,52 +476,56 @@ def build_types(root : ET.Element):
       structures_jadn_type = structures.get(jadn_type_name, None)
       if structures_jadn_type != None:
         build_structure_type(root, jadn_type) 
+        
+        
+def convert_xsd_from_dict(jadn_dict: dict): 
+  try:
+  
+    # TODO: jadn validation?
+
+    schema_et = ET.Element(schema_tag)
+    schema_et.set('xmlns:jadn', jadn_namespace)    
+    build_import(schema_et, jadn_base_type_file_loc, jadn_namespace)
+    
+    jadn_info = None
+    jadn_exports = None
+    
+    if jadn_dict.get('info'):
+      jadn_info= jadn_dict['info']
+      
+      if jadn_info.get('exports'):
+        jadn_exports = jadn_info['exports']
+        
+    global jadn_types_dict        
+    jadn_types_dict = jadn_dict['types']
+    
+    build_types(schema_et)    
+    
+    if jadn_exports:
+      for export in jadn_exports:
+        build_element(schema_et, export, export)    
+    
+    # return_data = str(schema_et)
+    
+  except RuntimeError as e:
+    print("Error convert_xsd_from_dict: " + e.message)
+    raise e  
+
+  return schema_et        
 
 
-def create_jadn_xsd(jadn_file_name: str):
+def convert_to_xsd_from_file(jadn_file_name: str):
     try:
- 
-      schema_et = ET.Element(schema_tag)
-      schema_et.set('xmlns:jadn', jadn_namespace)    
-      build_import(schema_et, jadn_base_type_file_loc, jadn_namespace)
       
       jadn_dict = read_type_data_from_file(jadn_file_name)
-      
-      jadn_info = None
-      jadn_exports = None
-      
-      if jadn_dict.get('info'):
-        jadn_info= jadn_dict['info']
-        
-        if jadn_info.get('exports'):
-          jadn_exports = jadn_info['exports']
-          
-      global jadn_types_dict        
-      jadn_types_dict = jadn_dict['types']
-
-      # TODO: Move to another schema and import
-      # build_base_types(schema_et)
-      
-      build_types(schema_et)    
-      
-      if jadn_exports:
-        for export in jadn_exports:
-          build_element(schema_et, export, export)    
-      
-      # TODO: XSD Validation?
-      
-      # TODO: Move to XML validation
-      # doc = etree.parse(schema_et)
-      # xmlschema.assertValid(doc)
+      schema_et = convert_xsd_from_dict(jadn_dict)
       
       write_filename = get_file_name_only(jadn_file_name)
       write_filename = write_filename + ".xsd"
       write_to_file(schema_et, write_filename) 
       
     except RuntimeError as e:
-      print("Error create_jadn_xsd: " + e.message)
-      raise e      
+      print("Error convert_to_xsd_from_file: " + e.message)
+      raise e   
     
-   
-if __name__=="__main__":    
-   create_jadn_xsd()
+    return True   

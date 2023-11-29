@@ -90,6 +90,7 @@ def write_to_file(root: ET.Element, filename: str):
               xml_declaration=True,encoding='utf-8',
               method="xml")    
     
+    
 def read_type_data_from_file(filename):
   f = open('./_data/schemas/' + filename) 
   data = json.load(f)

@@ -1,5 +1,4 @@
-from lxml import etree
-from utils.utils import get_xml_file, get_xsd_file
+from jadnxml.utils.utils import get_xml_file, get_xsd_file
 
 # Ref: https://github.com/usnistgov/OSCAL/blob/main/src/utils/oscal-content-validator.py
 

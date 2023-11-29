@@ -1,8 +1,7 @@
 import xml.etree.ElementTree as ET
-from constants.jadn_constants import *
-from helpers.jadn_helper import get_base_type, get_field_option_val
-
-from constants.xsd_constants import *
+from jadnxml.constants.jadn_constants import FIELD_OPTIONS_FROZ_DICT, MAXC_CONST, MINC_CONST, TAGID_CONST 
+from jadnxml.helpers.jadn_helper import get_base_type, get_field_option_val
+from jadnxml.constants.xsd_constants import choice_tag, complexType_tag, annotation_tag, documentation_tag, element_tag, jadn_prefix, unique_tag, selector_tag, field_tag, enumeration_tag, fraction_digits_tag, group_tag, import_tag, max_length_tag, min_length_tag, max_inclusive_tag, min_inclusive_tag, pattern_tag, restriction_tag, sequence_tag, simple_type_tag
             
 
 def add_id_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 

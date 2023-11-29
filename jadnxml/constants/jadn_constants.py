@@ -1,5 +1,5 @@
 # Core datatypesVTYPE_CONST
-from utils.ext_dict import FrozenDict
+from jadnxml.utils.ext_dict import FrozenDict
 
 # Type Constants
 # Primitives

@@ -1,7 +1,8 @@
 import glob
 import os
-from logic.builder.xsd_builder import create_jadn_xsd
-from utils.utils import get_filename_from_path
+
+from jadnxml.builder.xsd_builder import convert_to_xsd_from_file
+from jadnxml.utils.utils import get_filename_from_path
 
 
 if __name__=="__main__":
@@ -50,7 +51,7 @@ if __name__=="__main__":
         
         for filename in files_to_convert:
             print(f"Converting {filename} to a JADN XSD... ")
-            create_jadn_xsd(filename)
+            convert_to_xsd_from_file(filename)
             print(f"Converion complete for {filename}, see the _data/out directory to view the results")
 
         if len(files_to_convert) == 0:
