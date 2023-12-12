@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
  
 setup(
     name="jadn-xml",
-    version="1.0", 
+    version="1.1", 
     packages=["jadnxml", "jadnxml.builder", "jadnxml.constants", "jadnxml.helpers", "jadnxml.utils", "jadnxml.validation"],
     install_requires=[
         "requests",
