@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+	<xs:import schemaLocation="./jadn_base_types.xsd" namespace="jadn_base_types" />
+	<xs:complexType name="note">
+		<xs:sequence>
+			<xs:element id="field_1" name="to" type="jadn:String" minOccurs="1" />
+			<xs:element id="field_2" name="from" type="jadn:String" />
+			<xs:element id="field_3" name="heading" type="jadn:String" />
+			<xs:element id="field_4" name="body" type="jadn:String" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element id="field_note" name="note" type="note" />
+</xs:schema>

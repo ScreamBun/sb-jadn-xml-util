@@ -53,7 +53,7 @@ def get_filename_from_path(path: str):
 
 def get_xml_file(file_name):
     file_dir = os.path.dirname(os.path.realpath('__file__'))
-    print(file_dir)
+    # print(file_dir)
     xml_file_path = os.path.join(file_dir, './_data/xml/' + file_name)
     xml_file_path = os.path.abspath(os.path.realpath(xml_file_path))  
 
@@ -64,7 +64,7 @@ def get_xml_file(file_name):
 
 def get_xsd_file(file_name):
     file_dir = os.path.dirname(os.path.realpath('__file__'))
-    print(file_dir)
+    # print(file_dir)
     xsd_file_path = os.path.join(file_dir, './_data/xsd/' + file_name)
     xsd_file_path = os.path.abspath(os.path.realpath(xsd_file_path))   
 
@@ -84,7 +84,7 @@ def read_file(file_name):
 
 def write_to_file(root: ET.Element, filename: str):
     tree = ET.ElementTree(root)
-    ET.indent(tree, space="\t", level=0)
+    # ET.indent(tree, space="\t", level=0)
 
     tree.write("./_out/" + filename,
               xml_declaration=True,encoding='utf-8',

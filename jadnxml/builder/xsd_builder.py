@@ -1,3 +1,5 @@
+import sys
+import traceback
 import xml.etree.ElementTree as ET
 from jadnxml.helpers.jadn_helper import get_active_type_option_vals, get_opt_type_val, get_type_option_val, get_vtype
 from jadnxml.helpers.xsd_helper import add_maxoccurs_to_element, add_minoccurs_to_element, build_choice, build_complex_type, build_documention, build_element, build_enumeration, build_fraction_digits, build_import, build_max_inclusive, build_max_length, build_min_inclusive, build_min_length, build_pattern, build_restriction, build_sequence, build_simple_type
@@ -129,6 +131,7 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
             
           if field_type == STRING_CONST:
             build_string_type_opts(field_type_et, active_jadn_opts, field_type)         
+
 
 def build_binary_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):  
   if jadn_opts:
@@ -505,7 +508,7 @@ def convert_xsd_from_dict(jadn_dict: dict):
     
     if jadn_exports:
       for export in jadn_exports:
-        build_element(schema_et, export, export)  
+        build_element(schema_et, export, export, export)  
         
     ET.indent(schema_et, space="\t", level=0)        
     xml_str = ET.tostring(schema_et, encoding='unicode')            
@@ -514,14 +517,14 @@ def convert_xsd_from_dict(jadn_dict: dict):
     print("Error convert_xsd_from_dict: " + e.message)
     raise e  
 
-  return xml_str
+  return (xml_str, schema_et)
 
 
 def convert_to_xsd_from_file(jadn_file_name: str):
     try:
       
       jadn_dict = read_type_data_from_file(jadn_file_name)
-      schema_et = convert_xsd_from_dict(jadn_dict)
+      schmea_str, schema_et = convert_xsd_from_dict(jadn_dict)
       
       write_filename = get_file_name_only(jadn_file_name)
       write_filename = write_filename + ".xsd"
@@ -530,5 +533,10 @@ def convert_to_xsd_from_file(jadn_file_name: str):
     except RuntimeError as e:
       print("Error convert_to_xsd_from_file: " + e.message)
       raise e   
-    
+    except Exception as e:
+      err = traceback.format_exception(*sys.exc_info())
+      err_msg = err[3]
+      print("JADN to XSD Error: " + err_msg)
+      raise e 
+
     return True   
