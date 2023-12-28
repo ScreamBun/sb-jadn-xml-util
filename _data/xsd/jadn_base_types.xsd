@@ -22,7 +22,7 @@
 			<xs:element name="Enumerated-Elements" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element  name="Enumerated-ID" type="xs:integer" />
+						<xs:element name="Enumerated-ID" type="xs:integer" />
 						<xs:element name="Enumerated-Value" type="xs:string" />
 					</xs:sequence>
 				</xs:complexType>

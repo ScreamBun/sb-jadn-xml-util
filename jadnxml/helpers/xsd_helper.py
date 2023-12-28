@@ -97,7 +97,8 @@ def build_element(parent_et_tag: ET.Element, name: str, id: str= None, type: str
     elem_et = ET.SubElement(parent_et_tag, element_tag) 
 
     if id:
-        elem_et.set('id', 'field_' + str(id))
+        # elem_et.set('id', 'field_' + str(id))
+        elem_et.set('id', str(id))
         
     if name:
         elem_et.set('name', name)        

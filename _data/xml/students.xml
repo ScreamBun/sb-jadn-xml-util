@@ -1,6 +1,6 @@
 <?xml version = "1.0"?>
 
-<class>  
+<class xsi:noNamespaceSchemaLocation="../xsd/students.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <student rollno = "393">
       <firstname>Dinkar</firstname>    
       <lastname>Kad</lastname>

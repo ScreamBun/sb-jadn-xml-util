@@ -105,7 +105,8 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
       if field_type == ARRAYOF_CONST:
         field_type = get_vtype(field_opts)
         
-      field_type_et = build_element(xsd_seq, field_name, id=field_index, type=field_type)
+      id = jce[TYPE_NAME] + "_" + str(field_index)
+      field_type_et = build_element(xsd_seq, field_name, id=id.lower(), type=field_type)
       
       if field_opts:
         
@@ -383,6 +384,9 @@ def build_array_or_map(root: ET.Element, jce: dict):
     min_occurs = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MINV_CONST)
     max_occurs = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MAXV_CONST)
     
+    if not min_occurs:
+      min_occurs = "0"    
+    
     if not max_occurs:
       max_occurs = max_occurs_unbounded 
       
@@ -405,6 +409,9 @@ def build_arrayOf_or_mapOf_type(root: ET.Element, jce: dict):
     minv_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MINV_CONST)
     maxv_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MAXV_CONST)
     vtype_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), VTYPE_CONST)
+    
+    if not minv_opt:
+      minv_opt = "0"
     
     if not maxv_opt:
       maxv_opt = max_occurs_unbounded

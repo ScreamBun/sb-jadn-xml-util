@@ -1,0 +1,27 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+	<xs:import schemaLocation="jadn_base_types.xsd" namespace="jadn_base_types" />
+	<xs:complexType name="Class">
+		<xs:sequence>
+			<xs:element id="field_1" name="students" type="Student" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Student">
+		<xs:sequence>
+			<xs:element id="field_x" name="firstname" type="jadn:String" />
+			<xs:element id="field_2" name="lastname" type="jadn:String" />
+			<xs:element id="field_3" name="nickname" type="jadn:String" />
+			<xs:element id="field_4" name="grade" type="jadn:Integer" />
+			<xs:element id="field_5" name="email">
+				<xs:simpleType>
+					<xs:restriction base="jadn:email">
+						<xs:annotation>
+							<xs:documentation>JSON Schema Section 7.3.2</xs:documentation>
+						</xs:annotation>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="field_6" name="barcode" type="jadn:Binary" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element id="field_Class" name="Class" type="Class" />
+</xs:schema>
