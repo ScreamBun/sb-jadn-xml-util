@@ -146,10 +146,10 @@ def build_binary_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
       build_documention(restriction, frozen_format_opt[4])
       
       if minv_val:     
-        build_min_inclusive(restriction, minv_val)       
+        build_min_length(restriction, minv_val)       
         
       if maxv_val:     
-        build_max_inclusive(restriction, maxv_val)         
+        build_max_length(restriction, maxv_val)         
 
     else:
                   
@@ -157,10 +157,10 @@ def build_binary_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str)
         restriction = build_restriction(parent_et, base_type)
                 
         if minv_val:     
-          build_min_inclusive(restriction, minv_val)       
+          build_min_length(restriction, minv_val)       
           
         if maxv_val:     
-          build_max_inclusive(restriction, maxv_val)   
+          build_max_length(restriction, maxv_val)   
 
 
 def build_integer_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str):  

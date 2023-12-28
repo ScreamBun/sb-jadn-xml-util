@@ -1,19 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
 	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
-	<xs:complexType name="Array-Name">
-		<xs:annotation>
-			<xs:documentation>test</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="Array-Name-Elements" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element id="field_1" name="field_value_1" type="jadn:String" />
-						<xs:element id="field_2" name="field_value_2" type="jadn:String" />
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
+	<xs:simpleType name="Number-Name">
+		<xs:restriction base="jadn:Number">
+			<xs:minInclusive value="1.5" />
+			<xs:maxInclusive value="100.5" />
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>
