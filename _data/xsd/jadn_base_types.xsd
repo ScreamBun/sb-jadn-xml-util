@@ -134,15 +134,19 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="eui">
-		<xs:restriction base="xs:base64Binary">
+		<xs:restriction base="xs:hexBinary">
+			<xs:minLength value="12"></xs:minLength>	
+			<xs:maxLength value="12"></xs:maxLength>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="ipv4-addr">
-		<xs:restriction base="xs:base64Binary">
+		<xs:restriction base="xs:hexBinary">
+			<xs:maxLength value="8"></xs:maxLength>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="ipv6-addr">
-		<xs:restriction base="xs:base64Binary">
+		<xs:restriction base="xs:hexBinary">
+			<xs:maxLength value="32"></xs:maxLength>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="ArrayOf">

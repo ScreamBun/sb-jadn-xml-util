@@ -130,8 +130,9 @@ def build_enumeration(parent_et_tag: ET.Element, id: str, value: str, descriptio
     enumeration = ET.SubElement(parent_et_tag, enumeration_tag)
     
     if id:
-        id_txt = "enumeration_" + str(id)
-        enumeration.set('id', id_txt)
+        # id_txt = "enumeration_" + str(id)
+        enumeration.set('id', str(id))
+        # enumeration.set('id', id_txt)
     
     if value:
         enumeration.set('value', value)  
@@ -168,6 +169,11 @@ def build_group(parent_et_tag: ET.Element, name: str = None, minOccurs: str = No
         group.set('maxOccurs', maxOccurs)                    
 
     return group
+
+
+def build_element_id(parent_name: str, index: str):
+    id = parent_name + "_" + str(index)
+    return id.lower()
 
 
 def build_import(parent_et_tag: ET.Element, schema_loc: str, namespace: str):

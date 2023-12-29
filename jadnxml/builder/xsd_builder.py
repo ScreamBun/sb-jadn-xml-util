@@ -2,12 +2,11 @@ import sys
 import traceback
 import xml.etree.ElementTree as ET
 from jadnxml.helpers.jadn_helper import get_active_type_option_vals, get_opt_type_val, get_type_option_val, get_vtype
-from jadnxml.helpers.xsd_helper import add_maxoccurs_to_element, add_minoccurs_to_element, build_choice, build_complex_type, build_documention, build_element, build_enumeration, build_fraction_digits, build_import, build_max_inclusive, build_max_length, build_min_inclusive, build_min_length, build_pattern, build_restriction, build_sequence, build_simple_type
+from jadnxml.helpers.xsd_helper import add_maxoccurs_to_element, add_minoccurs_to_element, build_choice, build_complex_type, build_documention, build_element, build_element_id, build_enumeration, build_fraction_digits, build_import, build_max_inclusive, build_max_length, build_min_inclusive, build_min_length, build_pattern, build_restriction, build_sequence, build_simple_type
 
 from jadnxml.constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, BINARY_CONST, BINARY_REG_CONST, DATE, DATE_TIME, DURATION, ENUM_CONST, F16, F16_DIGITS, F32, F32_DIGITS, FIELDS, FORMAT_CONST, FORMAT_OPTIONS_FROZ_DICT, INTEGER_CONST, KTYPE_CONST, MAP_CONST, MAPOF_CONST, MAXF_CONST, MAXV_CONST, MINF_CONST, MINV_CONST, NUMBER_CONST, PATTERN_CONST, POINTER_CONST, PRIMITIVE_TYPES, RECORD_CONST, SELECTOR_TYPES, SET_CONST, STRING_CONST, STRUCTURED_TYPES, TIME, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS, UNIQUE_CONST, UNSIGNED_BITS, VTYPE_CONST
 from jadnxml.constants.xsd_constants import xs_string, xs_decimal, xs_date, xs_time, xs_dateTime, max_occurs_unbounded, jadn_prefix, pattern_tag, enumerations, primitives, specializations, structures, schema_tag, jadn_namespace, jadn_base_type_file_loc
 from jadnxml.utils.utils import find_items_by_val, get_file_name_only, read_type_data_from_file, safe_list_get, write_to_file
-
 
 
 jadn_types_dict: {} = {}
@@ -22,77 +21,77 @@ def get_common_elements(type: []):
     return common_elements
 
 
-def build_base_types(root: ET.Element):
-    print(f"Building Primitive Simple Types")
+# def build_base_types(root: ET.Element):
+#     print(f"Building Primitive Simple Types")
 
-    # Primitives
-    for prim_key, prim_value in primitives.items():
-      xsd_comp_type = build_simple_type(root, prim_key)  
-      build_restriction(xsd_comp_type, prim_value)
+#     # Primitives
+#     for prim_key, prim_value in primitives.items():
+#       xsd_comp_type = build_simple_type(root, prim_key)  
+#       build_restriction(xsd_comp_type, prim_value)
 
-    # Enumeration
-    for enum_key, enum_value in enumerations.items():
-      xsd_simp_type = build_simple_type(root, enum_key)
-      xsd_restriction = build_restriction(xsd_simp_type, xs_string)
-      build_enumeration(xsd_restriction, enum_key + '-Value1')      
-      build_enumeration(xsd_restriction, enum_key + '-Value2')      
+#     # Enumeration
+#     for enum_key, enum_value in enumerations.items():
+#       xsd_simp_type = build_simple_type(root, enum_key)
+#       xsd_restriction = build_restriction(xsd_simp_type, xs_string)
+#       build_enumeration(xsd_restriction, enum_key + '-Value1')      
+#       build_enumeration(xsd_restriction, enum_key + '-Value2')      
  
-    # Choice
-    for choice_key, choice_value in specializations.items():
-      xsd_comp_type = build_complex_type(root, choice_key) 
-      xsd_choice = build_choice(xsd_comp_type)
-      build_element(xsd_choice, choice_key + '-Element', type=None, min_occurs=None, max_occurs=None)
+#     # Choice
+#     for choice_key, choice_value in specializations.items():
+#       xsd_comp_type = build_complex_type(root, choice_key) 
+#       xsd_choice = build_choice(xsd_comp_type)
+#       build_element(xsd_choice, choice_key + '-Element', type=None, min_occurs=None, max_occurs=None)
       
-    # float16
-    xsd_f16_type = build_simple_type(root, F16)
-    xsd_f16_restriction = build_restriction(xsd_f16_type, xs_decimal)
-    build_fraction_digits(xsd_f16_restriction, F16_DIGITS)
+#     # float16
+#     xsd_f16_type = build_simple_type(root, F16)
+#     xsd_f16_restriction = build_restriction(xsd_f16_type, xs_decimal)
+#     build_fraction_digits(xsd_f16_restriction, F16_DIGITS)
     
-    # float32
-    xsd_f32_type = build_simple_type(root, F32)
-    xsd_f32_restriction = build_restriction(xsd_f32_type, xs_decimal)
-    build_fraction_digits(xsd_f32_restriction, F32_DIGITS)
+#     # float32
+#     xsd_f32_type = build_simple_type(root, F32)
+#     xsd_f32_restriction = build_restriction(xsd_f32_type, xs_decimal)
+#     build_fraction_digits(xsd_f32_restriction, F32_DIGITS)
 
-    # date
-    date_type = build_simple_type(root, DATE)
-    build_restriction(date_type, xs_date) 
+#     # date
+#     date_type = build_simple_type(root, DATE)
+#     build_restriction(date_type, xs_date) 
     
-    # time
-    time_type = build_simple_type(root, TIME)
-    build_restriction(time_type, xs_time)     
+#     # time
+#     time_type = build_simple_type(root, TIME)
+#     build_restriction(time_type, xs_time)     
     
-    # dateTime
-    date_time_type = build_simple_type(root, DATE_TIME)
-    build_restriction(date_time_type, xs_dateTime)         
+#     # dateTime
+#     date_time_type = build_simple_type(root, DATE_TIME)
+#     build_restriction(date_time_type, xs_dateTime)         
     
-    # string formats with regex
-    string_base_types_w_reg = find_items_by_val(FORMAT_OPTIONS_FROZ_DICT, STRING_CONST)
-    binary_base_types_w_reg = find_items_by_val(FORMAT_OPTIONS_FROZ_DICT, BINARY_CONST)
-    string_binary_base_types_w_reg = {**string_base_types_w_reg, **binary_base_types_w_reg}
-    for type_key, type_value in string_binary_base_types_w_reg.items():
-      if type_value[3]:
-        base_type = build_simple_type(root, type_key)
-        base_restriction = build_restriction(base_type, xs_string)
-        build_pattern(base_restriction, type_value[3])   
+#     # string formats with regex
+#     string_base_types_w_reg = find_items_by_val(FORMAT_OPTIONS_FROZ_DICT, STRING_CONST)
+#     binary_base_types_w_reg = find_items_by_val(FORMAT_OPTIONS_FROZ_DICT, BINARY_CONST)
+#     string_binary_base_types_w_reg = {**string_base_types_w_reg, **binary_base_types_w_reg}
+#     for type_key, type_value in string_binary_base_types_w_reg.items():
+#       if type_value[3]:
+#         base_type = build_simple_type(root, type_key)
+#         base_restriction = build_restriction(base_type, xs_string)
+#         build_pattern(base_restriction, type_value[3])   
                   
-    for struct_key, struct_value in STRUCTURED_TYPES.items():
-      if struct_key is ARRAYOF_CONST or struct_key is MAPOF_CONST:
-        # ArrayOf and MapOf
-        xsd_simp_type = build_simple_type(root, struct_key)  
-        build_restriction(xsd_simp_type, STRING_CONST) 
-      elif struct_key is RECORD_CONST:
-        # Record  
-        xsd_comp_type = build_complex_type(root, struct_key) 
-        xsd_seq = build_sequence(xsd_comp_type)
-        build_element(xsd_seq, struct_key, STRING_CONST) 
-      else:
-        # Array and Map
-        xsd_comp_type_1 = build_complex_type(root, struct_key)   
-        xsd_seq_1 = build_sequence(xsd_comp_type_1)
-        xsd_element_1 = build_element(xsd_seq_1, struct_key + '-Elements', type=None, min_occurs=None, max_occurs=max_occurs_unbounded)      
-        xsd_comp_type_2 = build_complex_type(xsd_element_1)
-        xsd_seq_2 = build_sequence(xsd_comp_type_2)  
-        build_element(xsd_seq_2, struct_key + '-Element', type=STRING_CONST)
+#     for struct_key, struct_value in STRUCTURED_TYPES.items():
+#       if struct_key is ARRAYOF_CONST or struct_key is MAPOF_CONST:
+#         # ArrayOf and MapOf
+#         xsd_simp_type = build_simple_type(root, struct_key)  
+#         build_restriction(xsd_simp_type, STRING_CONST) 
+#       elif struct_key is RECORD_CONST:
+#         # Record  
+#         xsd_comp_type = build_complex_type(root, struct_key) 
+#         xsd_seq = build_sequence(xsd_comp_type)
+#         build_element(xsd_seq, struct_key, STRING_CONST) 
+#       else:
+#         # Array and Map
+#         xsd_comp_type_1 = build_complex_type(root, struct_key)   
+#         xsd_seq_1 = build_sequence(xsd_comp_type_1)
+#         xsd_element_1 = build_element(xsd_seq_1, struct_key + '-Elements', type=None, min_occurs=None, max_occurs=max_occurs_unbounded)      
+#         xsd_comp_type_2 = build_complex_type(xsd_element_1)
+#         xsd_seq_2 = build_sequence(xsd_comp_type_2)  
+#         build_element(xsd_seq_2, struct_key + '-Element', type=STRING_CONST)
       
 def build_fields(xsd_seq: ET.Element, jce: dict):
     for field in (jce.get(FIELDS) or []):
@@ -105,8 +104,8 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
       if field_type == ARRAYOF_CONST:
         field_type = get_vtype(field_opts)
         
-      id = jce[TYPE_NAME] + "_" + str(field_index)
-      field_type_et = build_element(xsd_seq, field_name, id=id.lower(), type=field_type)
+      id = build_element_id(jce[TYPE_NAME], field_index)
+      field_type_et = build_element(xsd_seq, field_name, id=id, type=field_type)
       
       if field_opts:
         
@@ -352,11 +351,12 @@ def build_enumeration_type(root: ET.Element, type: []):
       xsd_restriction = build_restriction(xsd_simple_type, STRING_CONST)
 
     for field in jce[FIELDS]:
-      field_id = field[0]
+      field_index = field[0]
       field_value = field[1]
       field_description = safe_list_get(field, 2,  None)
       
-      build_enumeration(xsd_restriction, field_id, field_value, field_description)
+      id = build_element_id(jce[TYPE_NAME], field_index)
+      build_enumeration(xsd_restriction, id, field_value, field_description)
 
 
 def build_choice_type(root: ET.Element, type: []):
@@ -424,14 +424,19 @@ def build_arrayOf_or_mapOf_type(root: ET.Element, jce: dict):
       unique_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), UNIQUE_CONST)   
       set_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), SET_CONST)   
       # XSD 1.0 does not have order restrictions, also unordered is the default
-      # unordered_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), UNORDERED_CONST)   
-      build_element(xsd_seq_2, vtype_opt, vtype_opt, is_unique=unique_opt, is_set=set_opt)        
+      # unordered_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), UNORDERED_CONST)
+      
+      id = build_element_id(jce[TYPE_NAME], "1")
+      build_element(xsd_seq_2, vtype_opt, id, is_unique=unique_opt, is_set=set_opt)        
       
     elif jce.get(BASE_TYPE) == MAPOF_CONST:
       ktype_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), KTYPE_CONST)
       
-      build_element(xsd_seq_2, ktype_opt, ktype_opt)
-      build_element(xsd_seq_2, vtype_opt, vtype_opt)          
+      id_1 = build_element_id(jce[TYPE_NAME], "1")
+      build_element(xsd_seq_2, ktype_opt, id_1)
+
+      id_2 = build_element_id(jce[TYPE_NAME], "2")
+      build_element(xsd_seq_2, vtype_opt, id_2)          
     
     else:
       raise "Not an array, arrayOf, map or mapOf"  
