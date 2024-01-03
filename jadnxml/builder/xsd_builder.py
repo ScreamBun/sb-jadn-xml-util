@@ -104,7 +104,7 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
       if field_type == ARRAYOF_CONST:
         field_type = get_vtype(field_opts)
         
-      id = build_element_id(jce[TYPE_NAME], field_index)
+      id = build_element_id(jce[TYPE_NAME], field_name)
       field_type_et = build_element(xsd_seq, field_name, id=id, type=field_type)
       
       if field_opts:
@@ -426,16 +426,16 @@ def build_arrayOf_or_mapOf_type(root: ET.Element, jce: dict):
       # XSD 1.0 does not have order restrictions, also unordered is the default
       # unordered_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), UNORDERED_CONST)
       
-      id = build_element_id(jce[TYPE_NAME], "1")
+      id = build_element_id(jce[TYPE_NAME], jce[TYPE_NAME])
       build_element(xsd_seq_2, vtype_opt, id, is_unique=unique_opt, is_set=set_opt)        
       
     elif jce.get(BASE_TYPE) == MAPOF_CONST:
       ktype_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), KTYPE_CONST)
       
-      id_1 = build_element_id(jce[TYPE_NAME], "1")
+      id_1 = build_element_id(jce[TYPE_NAME], jce[TYPE_NAME])
       build_element(xsd_seq_2, ktype_opt, id_1)
 
-      id_2 = build_element_id(jce[TYPE_NAME], "2")
+      id_2 = build_element_id(jce[TYPE_NAME], jce[TYPE_NAME])
       build_element(xsd_seq_2, vtype_opt, id_2)          
     
     else:

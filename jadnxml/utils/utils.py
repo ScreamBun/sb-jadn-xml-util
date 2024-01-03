@@ -74,6 +74,12 @@ def get_xsd_file(file_name):
 
     return xmlschema
 
+# def get_xsd_file_path(file_name):
+#     with open(file_path) as f:
+#     data = f.read()
+
+#    return file_path
+
 
 def read_file(file_name):
   with open(file_name, 'r') as f:

@@ -23,17 +23,17 @@
 	</xs:simpleType>
 	<xs:complexType name="Album">
 		<xs:sequence>
-			<xs:element id="album_1" name="artist" type="Artist" />
-			<xs:element id="album_2" name="title" type="jadn:String" />
-			<xs:element id="album_3" name="pub_data" type="Publication-Data" />
-			<xs:element id="album_4" name="tracks" type="Track" maxOccurs="unbounded" />
-			<xs:element id="album_5" name="cover_art" type="Cover-Art" />
+			<xs:element id="album_artist" name="artist" type="Artist" />
+			<xs:element id="album_title" name="title" type="jadn:String" />
+			<xs:element id="album_pub_data" name="pub_data" type="Publication-Data" />
+			<xs:element id="album_tracks" name="tracks" type="Track" maxOccurs="unbounded" />
+			<xs:element id="album_cover_art" name="cover_art" type="Cover-Art" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Artist">
 		<xs:sequence>
-			<xs:element id="artist_1" name="artist_name" type="jadn:String" />
-			<xs:element id="artist_2" name="instruments" type="Instrument" maxOccurs="unbounded" />
+			<xs:element id="artist_artist_name" name="artist_name" type="jadn:String" />
+			<xs:element id="artist_instruments" name="instruments" type="Instrument" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:simpleType name="Instrument">
@@ -54,8 +54,8 @@
 	</xs:simpleType>
 	<xs:complexType name="Publication-Data">
 		<xs:sequence>
-			<xs:element id="publication-data_1" name="label" type="jadn:String" />
-			<xs:element id="publication-data_2" name="rel_date">
+			<xs:element id="publication-data_label" name="label" type="jadn:String" />
+			<xs:element id="publication-data_rel_date" name="rel_date">
 				<xs:simpleType>
 					<xs:restriction base="jadn:date">
 						<xs:annotation>
@@ -68,9 +68,9 @@
 	</xs:complexType>
 	<xs:complexType name="Track">
 		<xs:sequence>
-			<xs:element id="track_1" name="t_number" type="jadn:Number" />
-			<xs:element id="track_2" name="title" type="jadn:String" />
-			<xs:element id="track_3" name="length">
+			<xs:element id="track_t_number" name="t_number" type="jadn:Number" />
+			<xs:element id="track_title" name="title" type="jadn:String" />
+			<xs:element id="track_length" name="length">
 				<xs:simpleType>
 					<xs:restriction base="jadn:time">
 						<xs:annotation>
@@ -79,14 +79,14 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element id="track_4" name="featured" type="Artist" />
-			<xs:element id="track_5" name="audio" type="Audio" />
+			<xs:element id="track_featured" name="featured" type="Artist" />
+			<xs:element id="track_audio" name="audio" type="Audio" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Audio">
 		<xs:sequence>
-			<xs:element id="audio_1" name="a_format" type="Audio-Format" />
-			<xs:element id="audio_2" name="a_content" type="jadn:Binary" />
+			<xs:element id="audio_a_format" name="a_format" type="Audio-Format" />
+			<xs:element id="audio_a_content" name="a_content" type="jadn:Binary" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:simpleType name="Audio-Format">
@@ -101,8 +101,8 @@
 	</xs:simpleType>
 	<xs:complexType name="Cover-Art">
 		<xs:sequence>
-			<xs:element id="cover-art_1" name="i_format" type="Image-Format" />
-			<xs:element id="cover-art_2" name="i_content" type="jadn:Binary" />
+			<xs:element id="cover-art_i_format" name="i_format" type="Image-Format" />
+			<xs:element id="cover-art_i_content" name="i_content" type="jadn:Binary" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:simpleType name="Image-Format">
@@ -116,8 +116,8 @@
 	</xs:simpleType>
 	<xs:complexType name="Choice-Name">
 		<xs:choice>
-			<xs:element id="choice-name_1" name="field_value_1" type="jadn:String" />
-			<xs:element id="choice-name_2" name="field_value_2" type="jadn:String" />
+			<xs:element id="choice-name_field_value_1" name="field_value_1" type="jadn:String" />
+			<xs:element id="choice-name_field_value_2" name="field_value_2" type="jadn:String" />
 		</xs:choice>
 	</xs:complexType>
 	<xs:simpleType name="String-Name">

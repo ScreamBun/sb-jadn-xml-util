@@ -171,8 +171,8 @@ def build_group(parent_et_tag: ET.Element, name: str = None, minOccurs: str = No
     return group
 
 
-def build_element_id(parent_name: str, index: str):
-    id = parent_name + "_" + str(index)
+def build_element_id(parent_name: str, element_name: str):
+    id = parent_name + "_" + str(element_name)
     return id.lower()
 
 
