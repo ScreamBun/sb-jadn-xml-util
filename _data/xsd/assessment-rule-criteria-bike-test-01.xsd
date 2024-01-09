@@ -1,29 +1,77 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-   xmlns:jadn="jadn_base_types">
-	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
-	<xs:import schemaLocation="../_data/xsd/assessment-rule-condition.xsd" namespace="condition" />
-	<xs:complexType name="Rules">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+<!-- v 0.1.1 -->
+	<xs:simpleType name="TirePressureCriteria">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="-15"/>
+			<xs:maxInclusive value="120"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TireTempCriteria">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="30"/>
+			<xs:maxInclusive value="51"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:complexType name="Criteria">
 		<xs:sequence>
-			<xs:element name="Rules-Elements" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Criteria-Elements" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element id="element_Rule" name="Rule" />
+						<xs:element id="field_Criterion" name="Criterion" />
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="Rule" uuid="UUIDDatatype">
+	<xs:complexType name="Criterion">
 		<xs:sequence>
 			<xs:element id="element_1" name="name" type="TokenDatatype" minOccurs="0" maxOccurs="1" />
-			<xs:element id="element_2" name="title" type="TokenDatatype" minOccurs="1" maxOccurs="1" />
-			<xs:element id="element_3" name="description" type="StringDatatype" />
-			<xs:element id="element_4" name="conditions" type="condition:Conditions" minOccurs="0" />
-			<xs:element id="element_5" name="boolean-logic" type="StringDatatype" />
+			<xs:element id="element_2" name="description" type="TokenDatatype" />
+			<xs:element id="element_3" name="subject" type="TokenDatatype" />
+			<xs:element id="element_4" name="type" type="TokenDatatype" />
+			<xs:element id="element_5" name="pressure-criteria" type="TirePressureCriteria" minOccurs="0" maxOccurs="1" />
+			<xs:element id="element_6" name="temperature-criteria" type="TireTempCriteria" minOccurs="0" maxOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>
-	<xs:element id="element_Rules" name="Rules" type="Rules" />
-	<xs:element id="element_Rule" name="Rule" type="Rule" />
+	<xs:complexType name="Test">
+		<xs:choice>
+			<xs:element id="element_1_test" name="singleValue" type="xs:integer" />
+			<xs:element id="element_2_test" name="valueRange" type="Value-Range" />
+			<xs:element id="element_3_test" name="allowed" type="Allowed" />
+			<xs:element id="element_4_test" name="disallowed" type="Disallowed" />
+			<xs:element id="element_5_test" name="boolean" type="xs:boolean" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Value-Range">
+		<xs:sequence>
+			<xs:element id="element_1_range" name="minimum" type="xs:integer" minOccurs="0" maxOccurs="1" />
+			<xs:element id="element_2_range" name="maximum" type="xs:integer" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Allowed">
+		<xs:sequence>
+			<xs:element name="Allowed-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element id="element_String" name="StringDatatype" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Disallowed">
+		<xs:sequence>
+			<xs:element name="Disallowed-Elements" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element id="field_String" name="String" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element id="element_Criteria" name="Criteria" type="Criteria" />
+	<xs:element id="element_Criterion" name="Criterion" type="Criterion" />
 
    <xs:simpleType name="StringDatatype">
       <xs:annotation>

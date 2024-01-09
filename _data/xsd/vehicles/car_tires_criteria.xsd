@@ -1,11 +1,13 @@
-<xs:schema
+<xs:schema targetNamespace="http://example.com/vehicles"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:oscal="http://example.com/oscal"
   xmlns="http://example.com/vehicles"
-  targetNamespace="http://example.com/vehicles">
+  >
+    <xs:import schemaLocation="oscal_types.xsd" namespace="http://example.com/oscal" />
 
     <!--Criteria?-->
     <xs:complexType name="carTire">
-        <xs:attribute name="uuid" type="xs:string"></xs:attribute>
+        <xs:attribute name="uuid" type="oscal:UUIDDatatype"></xs:attribute>
         <xs:attribute name="brand" type="xs:string"></xs:attribute>
         <xs:attribute name="location" type="xs:string"></xs:attribute>
         <xs:attribute name="psi">

@@ -1,7 +1,6 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-   xmlns:jadn="jadn_base_types">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
 	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
-	<xs:import schemaLocation="../_data/xsd/assessment-rule-condition.xsd" namespace="condition" />
+	<xs:import schemaLocation="../_data/xsd/assessment-rule-criteria-bike-test-01.xsd" namespace="bike" />
 	<xs:complexType name="Rules">
 		<xs:sequence>
 			<xs:element name="Rules-Elements" minOccurs="0" maxOccurs="unbounded">
@@ -18,7 +17,7 @@
 			<xs:element id="element_1" name="name" type="TokenDatatype" minOccurs="0" maxOccurs="1" />
 			<xs:element id="element_2" name="title" type="TokenDatatype" minOccurs="1" maxOccurs="1" />
 			<xs:element id="element_3" name="description" type="StringDatatype" />
-			<xs:element id="element_4" name="conditions" type="condition:Conditions" minOccurs="0" />
+			<xs:element id="element_4" name="conditions" type="bike:Conditions" minOccurs="0" />
 			<xs:element id="element_5" name="boolean-logic" type="StringDatatype" />
 		</xs:sequence>
 	</xs:complexType>
