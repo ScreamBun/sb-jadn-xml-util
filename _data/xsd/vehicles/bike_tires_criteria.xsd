@@ -1,0 +1,28 @@
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://example.com/vehicles"
+  targetNamespace="http://example.com/vehicles">
+
+    <xs:complexType name="bikeTire">
+        <xs:attribute name="uuid" type="xs:string"></xs:attribute>
+        <xs:attribute name="brand" type="xs:string"></xs:attribute>
+        <xs:attribute name="location" type="xs:string"></xs:attribute>
+        <xs:attribute name="psi">
+            <xs:simpleType>
+                <xs:restriction base="xs:integer">
+                    <xs:minInclusive id="psi-min" value="30"/>
+                    <xs:maxInclusive id="psi-max" value="50"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="temp">
+            <xs:simpleType>
+                <xs:restriction base="xs:integer">
+                    <xs:minInclusive id="temp-min" value="25"/>
+                    <xs:maxInclusive id="temp-max" value="75"/>
+                </xs:restriction>
+            </xs:simpleType>            
+        </xs:attribute>
+    </xs:complexType> 
+
+</xs:schema>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"  vc:minVersion="1.1" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning">
+
+    <xs:simpleType name="SizeType">
+        <xs:restriction base="xs:integer">
+            <xs:assertion test="$value != 0"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

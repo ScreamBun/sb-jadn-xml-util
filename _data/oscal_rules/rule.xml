@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Rules xsi:noNamespaceSchemaLocation="./oscal_rule_v09.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Rules-Elements>
+        <rule>
+            <uuid></uuid>
+            <name></name>
+            <title></title>
+        </rule>
+    </Rules-Elements>
+</Rules>

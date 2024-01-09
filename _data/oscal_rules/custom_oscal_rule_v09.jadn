@@ -1,0 +1,72 @@
+{
+  "info": {
+    "package": "http://csrc.nist.gov/ns/oscal/1.1.1/link-goes-here.json",
+    "comment": "OSCAL Rule Model: JADN v09",
+    "exports": ["Rules", "Rule", "Condition", "Conditions"],
+    "config": {
+      "$MaxBinary": 255,
+      "$MaxString": 5555,
+      "$MaxElements": 555,
+      "$Sys": "$",
+      "$TypeName": "^[A-Za-z][-_$A-Za-z0-9]{0,63}$",
+      "$FieldName": "^[A-Za-z][-_A-Za-z0-9]{0,63}$",
+      "$NSID": "^[A-Za-z][A-Za-z0-9]{0,7}$"
+    }
+  },
+  "types": [
+    ["Rules", "ArrayOf", ["*rule", "{0"], ""],
+    ["Rule", "Record", [], "", [
+        [1, "uuid", "String", ["[1", "]1"], "Provides a globally unique means to identify a given rule instance."],
+        [2, "name", "String", ["[0", "]1"], "optional name of the rule, generally common use. may be same as title."],
+        [3, "title", "String", ["[1", "]1"], "name of the rule, generally official use. may be same as name."],
+        [4, "description", "String", [], "A textual summary of the rule to be applied."],
+        [5, "conditions", "Conditions", ["[0"], "One or more rule conditions"],
+        [6, "props", "ArrayOf", ["*Property", "[0", "]1"], ""]
+      ]],
+    ["conditions", "ArrayOf", ["*condition"], ""],
+    ["condition", "Record", [], "", [
+        [1, "uuid", "String", ["[1", "]1"], "Provides a globally unique means to identify a given rule condition."],
+        [2, "name", "String", ["[0", "]1"], "short name of the condition"],
+        [3, "description", "String", [], "A textual summary of a specific rule condition to be applied."],
+        [4, "criteria", "ArrayOf", ["*Criterion", "[0", "]1"], ""],
+        [5, "props", "ArrayOf", ["*Property", "[0", "]1"], ""],
+        [6, "links", "ArrayOf", ["*Link", "[0", "]1"], ""]
+      ]],
+    ["Criterion", "Choice", [], "", [
+        [1, "singleValue", "Integer", [], ""],
+        [2, "valueRange", "Value-Range", [], ""],
+        [3, "allowed", "Allowed", [], ""],
+        [4, "disallowed", "Disallowed", [], ""],
+        [5, "boolean", "Boolean", [], ""]
+      ]],
+    ["Value-Range", "Record", [], "", [
+        [1, "minimum", "Integer", ["[0", "]1"], ""],
+        [2, "maximum", "Integer", ["[0", "]1"], ""]
+      ]],
+    ["Allowed", "ArrayOf", ["*String", "}0"], ""],
+    ["Disallowed", "ArrayOf", ["*String", "}0"], ""],
+    ["Property", "Record", [], "An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair. (OSCAL type)", [
+        [1, "name", "String", [], "A textual label, within a namespace, that uniquely identifies a specific attribute, characteristic, or quality of the property's containing object."],
+        [2, "uuid", "String", ["[0"], "A unique identifier for a property."],
+        [3, "ns", "String", ["[0"], "A namespace qualifying the property's name. This allows different organizations to associate distinct semantics with the same name."],
+        [4, "value", "String", [], "Indicates the value of the attribute, characteristic, or quality."],
+        [5, "class", "String", ["[0"], "A textual label that provides a sub-type or characterization of the property's name."],
+        [6, "group", "String", ["[0"], "An identifier for relating distinct sets of properties."],
+        [7, "remarks", "String", ["[0"], "Additional commentary about the containing object."]
+      ]],
+    ["Link", "Record", [], "A reference to a local or remote resource, that has a specific relation to the containing object. (OSCAL type)", [
+        [1, "href", "String", [], "A resolvable URL reference to a resource."],
+        [2, "rel", "ref-choice", ["[0"], "Describes the type of relationship provided by the link's hypertext reference. This can be an indicator of the link's purpose."],
+        [3, "media-type", "String", ["[0"], "A label that indicates the nature of a resource, as a data serialization or format."],
+        [4, "resource-fragment", "String", ["[0"], "In case where the href points to a back-matter/resource, this value will indicate the URI fragment to append to any rlink associated with the resource. This value MUST be URI encoded."],
+        [5, "text", "String", ["[0"], "A textual label to associate with the link, which may be used for presentation in a tool."]
+      ]],
+    ["ref-choice", "Choice", [], "Describes the type of relationship provided by the link's hypertext reference. This can be an indicator of the link's purpose. (OSCAL type)", [
+        [1, "string", "String", [], ""],
+        [2, "ref-enum", "ref-enum", [], ""]
+      ]],
+    ["ref-enum", "Enumerated", [], "(OSCAL type)", [
+        [1, "reference", ""]
+      ]]
+  ]
+}

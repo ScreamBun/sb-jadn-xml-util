@@ -1,0 +1,20 @@
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:vh="http://example.com/vehicles"
+  targetNamespace="http://example.com/vehicles"
+  elementFormDefault="qualified">
+
+  <xs:include schemaLocation="car_rules.xsd"/>
+  <xs:include schemaLocation="bike_rules.xsd"/>  
+
+  <!--Rules?-->
+  <xs:element name="vehicles">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="vh:cars" />
+        <xs:element ref="vh:bikes" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

@@ -1,0 +1,123 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+	<xs:import schemaLocation="../xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
+	<xs:complexType name="Rules">
+		<xs:sequence>
+			<xs:element name="Rules-Elements" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element id="rules_1" name="rule" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Rule">
+		<xs:sequence>
+			<xs:element id="rule_1" name="uuid" type="jadn:String" minOccurs="1" maxOccurs="1" />
+			<xs:element id="rule_2" name="name" type="jadn:String" minOccurs="0" maxOccurs="1" />
+			<xs:element id="rule_3" name="title" type="jadn:String" minOccurs="1" maxOccurs="1" />
+			<xs:element id="rule_4" name="description" type="jadn:String" />
+			<xs:element id="rule_5" name="conditions" type="Conditions" minOccurs="0" />
+			<xs:element id="rule_6" name="props" type="Property" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Conditions">
+		<xs:sequence>
+			<xs:element name="Conditions-Elements" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element id="conditions_1" name="Condition" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Condition">
+		<xs:sequence>
+			<xs:element id="condition_1" name="uuid" type="jadn:String" minOccurs="1" maxOccurs="1" />
+			<xs:element id="condition_2" name="name" type="jadn:String" minOccurs="0" maxOccurs="1" />
+			<xs:element id="condition_3" name="description" type="jadn:String" />
+			<xs:element id="condition_4" name="criteria" type="Criterion" minOccurs="0" maxOccurs="1" />
+			<xs:element id="condition_5" name="props" type="Property" minOccurs="0" maxOccurs="1" />
+			<xs:element id="condition_6" name="links" type="Link" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Criterion">
+		<xs:choice>
+			<xs:element id="criterion_1" name="singleValue" type="jadn:Integer" />
+			<xs:element id="criterion_2" name="valueRange" type="Value-Range" />
+			<xs:element id="criterion_3" name="allowed" type="Allowed" />
+			<xs:element id="criterion_4" name="disallowed" type="Disallowed" />
+			<xs:element id="criterion_5" name="boolean" type="jadn:Boolean" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Value-Range">
+		<xs:sequence>
+			<xs:element id="value-range_1" name="minimum" type="jadn:Integer" minOccurs="0" maxOccurs="1" />
+			<xs:element id="value-range_2" name="maximum" type="jadn:Integer" minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Allowed">
+		<xs:sequence>
+			<xs:element name="Allowed-Elements" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element id="allowed_1" name="String" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Disallowed">
+		<xs:sequence>
+			<xs:element name="Disallowed-Elements" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element id="disallowed_1" name="String" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Property">
+		<xs:sequence>
+			<xs:element id="property_1" name="name" type="jadn:String" />
+			<xs:element id="property_2" name="uuid" type="jadn:String" minOccurs="0" />
+			<xs:element id="property_3" name="ns" type="jadn:String" minOccurs="0" />
+			<xs:element id="property_4" name="value" type="jadn:String" />
+			<xs:element id="property_5" name="class" type="jadn:String" minOccurs="0" />
+			<xs:element id="property_6" name="group" type="jadn:String" minOccurs="0" />
+			<xs:element id="property_7" name="remarks" type="jadn:String" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Link">
+		<xs:sequence>
+			<xs:element id="link_1" name="href" type="jadn:String" />
+			<xs:element id="link_2" name="rel" type="ref-choice" minOccurs="0" />
+			<xs:element id="link_3" name="media-type" type="jadn:String" minOccurs="0" />
+			<xs:element id="link_4" name="resource-fragment" type="jadn:String" minOccurs="0" />
+			<xs:element id="link_5" name="text" type="jadn:String" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ref-choice">
+		<xs:annotation>
+			<xs:documentation>Describes the type of relationship provided by the link's hypertext reference. This can be an indicator of the link's purpose. (OSCAL type)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="ref-choice_1" name="string" type="jadn:String" />
+			<xs:element id="ref-choice_2" name="ref-enum" type="ref-enum" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="ref-enum">
+		<xs:annotation>
+			<xs:documentation>(OSCAL type)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="ref-enum_1" value="reference" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element id="Rules" name="Rules" type="Rules" />
+	<xs:element id="Rule" name="Rule" type="Rule" />
+	<xs:element id="Condition" name="Condition" type="Condition" />
+	<xs:element id="Conditions" name="Conditions" type="Conditions" />
+</xs:schema>

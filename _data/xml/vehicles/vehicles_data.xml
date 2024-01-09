@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vh:vehicles xmlns:vh="http://example.com/vehicles"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://example.com/vehicles ../../xsd/vehicles/vehicles.xsd">
+  <vh:cars>
+    <vh:car uuid="112340" make="Porsche" model="911">
+        <carTire uuid="12341" location="left-front" brand="Goodyear" psi="55" temp="200" />
+        <carTire uuid="12342" location="right-front" brand="Goodyear" psi="53" temp="198" />
+        <carTire uuid="12343" location="left-back" brand="Goodyear" psi="54" temp="202" />
+        <carTire uuid="12344" location="right-back" brand="Goodyear" psi="55" temp="200" />
+    </vh:car>
+    <vh:car uuid="112341" make="Honda" model="Civic">
+        <carTire uuid="12331" location="left-front" brand="Michelin" psi="35" temp="175" />
+        <carTire uuid="12332" location="right-front" brand="Michelin" psi="29" temp="150" />
+        <carTire uuid="12333" location="left-back" brand="Michelin" psi="51" temp="178" />
+        <carTire uuid="12334" location="right-back" brand="Michelin" psi="52" temp="167" />
+    </vh:car>
+  </vh:cars>
+  <vh:bikes>
+    <vh:bike uuid="15331" make="Trek" model="Racer">
+        <bikeTire uuid="12731" location="front" brand="Continental" psi="15" temp="44" />
+        <bikeTire uuid="12732" location="back" brand="Continental" psi="44" temp="45" />
+    </vh:bike>
+    <vh:bike uuid="15332" make="Mongoose" model="Flatrock">
+        <bikeTire uuid="12831" location="front" brand="Maxxis" psi="35" temp="70" />
+        <bikeTire uuid="12832" location="back" brand="Maxxis" psi="35" temp="75" />
+    </vh:bike>
+  </vh:bikes>
+</vh:vehicles>

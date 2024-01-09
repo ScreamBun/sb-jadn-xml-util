@@ -1,0 +1,243 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+	<xs:import schemaLocation="jadn_base_types.xsd" namespace="jadn_base_types" />
+	<xs:complexType name="bike">
+		<xs:sequence> 
+			<xs:element id="person" name="person" type="person"></xs:element>
+			<xs:element id="bike_1" name="seat" type="seat" />
+			<xs:element id="bike_2" name="reflectors" type="reflector" minOccurs="0" />
+			<xs:element id="bike_3" name="peddles" type="peddle" maxOccurs="unbounded" />
+			<xs:element id="bike_4" name="tires" type="tire" />
+			<xs:element id="bike_5" name="bike_color" type="Colors" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="seat">
+		<xs:sequence>
+			<xs:element id="seat_1" name="type" type="Seat-Types" />
+			<xs:element id="seat_2" name="color" type="Seat-Colors" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="tire">
+		<xs:sequence>
+			<xs:element id="tire_1" name="psi">
+				<xs:simpleType>
+					<xs:restriction base="jadn:Integer">
+						<xs:minInclusive value="30" />
+						<xs:maxInclusive value="40" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="tire_2" name="temp">
+				<xs:simpleType>
+					<xs:restriction base="jadn:Integer">
+						<xs:minInclusive value="50" />
+						<xs:maxInclusive value="100" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="tire_3" name="placement" type="Tire-Placement" />
+			<xs:element id="tire_4" name="type" type="Tire-Type" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="peddle">
+		<xs:sequence>
+			<xs:element id="peddle_1" name="type" type="Peddle-Types" />
+			<xs:element id="peddle_2" name="color" type="jadn:String" />
+			<xs:element id="peddle_3" name="placement" type="Peddle-Placement" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="reflector">
+		<xs:sequence>
+			<xs:element id="reflector_1" name="color" type="jadn:String" />
+			<xs:element id="reflector_2" name="placement" type="Reflector-Placement" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Peddle-Placement">
+		<xs:choice>
+			<xs:element id="peddle-placement_1" name="right">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="right" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="peddle-placement_2" name="left">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="left" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Reflector-Placement">
+		<xs:choice>
+			<xs:element id="reflector-placement_1" name="front">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="front" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="reflector-placement_2" name="back">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="back" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Colors">
+		<xs:choice>
+			<xs:element id="colors_1" name="white">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="white" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="colors_2" name="black">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="black" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="colors_3" name="blue">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="blue" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="colors_4" name="yellow">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="yellow" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="colors_5" name="rainbow" type="jadn:String" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Peddle-Types">
+		<xs:choice>
+			<xs:element id="peddle-types_1" name="metal">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="metal" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="peddle-types_2" name="plastic">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="plastic" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Tire-Placement">
+		<xs:choice>
+			<xs:element id="tire-placement_1" name="front">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="front" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="tire-placement_2" name="back">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="back" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Tire-Type">
+		<xs:choice>
+			<xs:element id="tire-type_1" name="mountain">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="mountain" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="tire-type_2" name="city">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="city" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="tire-type_3" name="cross">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="cross" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Seat-Types">
+		<xs:choice>
+			<xs:element id="seat-types_1" name="standard">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="casual" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="seat-types_2" name="beach_cruiser">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="beach_cruiser" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="seat-types_3" name="racing">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="racing" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Seat-Colors">
+		<xs:choice>
+			<xs:element id="seat-colors_1" name="black">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="black" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="seat-colors_2" name="brown">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="brown" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element id="seat-colors_3" name="white">
+				<xs:simpleType>
+					<xs:restriction base="jadn:String">
+						<xs:pattern value="white" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="person">
+		<xs:choice>
+			<xs:element name="employee" type="xs:string"/>
+			<xs:element name="member" type="xs:string"/>
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:element id="bike" name="bike" type="bike" />
+</xs:schema>

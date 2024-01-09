@@ -1,0 +1,18 @@
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://example.com/vehicles"
+  targetNamespace="http://example.com/vehicles">
+
+    <xs:include schemaLocation="car_tires_criteria.xsd"/>   
+
+    <!--Criteria?-->
+    <xs:complexType name="carType">
+        <xs:sequence>
+            <xs:element name="carTire" type="carTire" minOccurs="4" maxOccurs="4" />
+        </xs:sequence>
+        <xs:attribute name="uuid" type="xs:string"></xs:attribute>
+        <xs:attribute name="make" type="xs:string"></xs:attribute>
+        <xs:attribute name="model" type="xs:string"></xs:attribute>
+    </xs:complexType>
+
+</xs:schema>
