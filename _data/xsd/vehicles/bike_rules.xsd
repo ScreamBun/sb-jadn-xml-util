@@ -4,10 +4,9 @@
   targetNamespace="http://example.com/vehicles"
   elementFormDefault="qualified">
 
-  <xs:include schemaLocation="bike_types_criteria.xsd" />
-  <xs:include schemaLocation="bike_tires_criteria.xsd"/>   
+  <xs:include schemaLocation="bike_criteria.xsd" />
 
-  <!--Rules?-->
+  <!--Bike Rules?-->
   <xs:element name="bikes">
     <xs:complexType>
       <xs:sequence>

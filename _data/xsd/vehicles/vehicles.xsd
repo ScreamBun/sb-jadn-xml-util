@@ -7,7 +7,7 @@
   <xs:include schemaLocation="car_rules.xsd"/>
   <xs:include schemaLocation="bike_rules.xsd"/>  
 
-  <!--Rules?-->
+  <!--Vechile Rules?-->
   <xs:element name="vehicles">
     <xs:complexType>
       <xs:sequence>
