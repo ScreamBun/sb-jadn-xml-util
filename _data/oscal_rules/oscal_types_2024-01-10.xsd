@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+   targetNamespace="http://example.com/oscal"
+   xmlns:oscal="http://example.com/oscal"
+   elementFormDefault="qualified">
+
+  	<!--Timestamp: 12 Jan 2024 10:30:15-->
+
+  <xs:simpleType name="StringDatatype">
+    <xs:annotation>
+       <xs:documentation>A non-empty string of Unicode characters with leading and trailing whitespace
+      disallowed. Whitespace is: U+9, U+10, U+32 or [ \n\t]+</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+       <xs:annotation>
+          <xs:documentation>The 'string' datatype restricts the XSD type by prohibiting leading 
+        and trailing whitespace, and something (not only whitespace) is required.</xs:documentation>
+       </xs:annotation>
+       <xs:whiteSpace value="preserve"/>
+       <xs:pattern value="\S(.*\S)?">
+          <xs:annotation>
+             <xs:documentation>This pattern ensures that leading and trailing whitespace is
+          disallowed. This helps to even the user experience between implementations
+          related to whitespace.</xs:documentation>
+          </xs:annotation>
+       </xs:pattern>
+    </xs:restriction>
+ </xs:simpleType>
+ <xs:simpleType name="TokenDatatype">
+    <xs:annotation>
+    <!--<xs:documentation>Matching XSD NCName, except whitespace is not collapsed.</xs:documentation> -->
+       <xs:documentation>A non-empty, non-colonized name as defined by XML Schema Part 2: Datatypes
+      Second Edition (https://www.w3.org/TR/xmlschema11-2/#NCName), with leading and trailing
+      whitespace disallowed.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="oscal:StringDatatype">
+       <xs:pattern value="(\p{L}|_)(\p{L}|\p{N}|[.\-_])*">
+          <xs:annotation>
+        <!--<xs:documentation>An XML initial character (but not colon), followed 
+          by any XML name character (but not colon).</xs:documentation> -->
+             <xs:documentation>A single token may not contain whitespace.
+        </xs:documentation>
+          </xs:annotation>
+       </xs:pattern>
+    </xs:restriction>
+ </xs:simpleType>
+ <xs:simpleType name="URIDatatype">
+    <xs:annotation>
+       <xs:documentation>A universal resource identifier (URI) formatted according to RFC3986.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:anyURI">
+       <xs:pattern value="[a-zA-Z][a-zA-Z0-9+\-.]+:.*\S">
+          <xs:annotation>
+             <xs:documentation>Requires a scheme with colon per RFC 3986.</xs:documentation>
+          </xs:annotation>
+       </xs:pattern>
+    </xs:restriction>
+ </xs:simpleType>
+ <xs:simpleType name="UUIDDatatype">
+    <xs:annotation>
+       <xs:documentation>A type 4 ('random' or 'pseudorandom') or type 5 UUID per RFC
+      4122.</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="oscal:StringDatatype">
+       <xs:pattern value="[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[45][0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}">
+          <xs:annotation>
+             <xs:documentation>A sequence of 8-4-4-4-12 hex digits, with extra
+          constraints in the 13th and 17-18th places for version 4 and 5
+        </xs:documentation>
+          </xs:annotation>
+       </xs:pattern>
+    </xs:restriction>
+ </xs:simpleType>
+
+</xs:schema>

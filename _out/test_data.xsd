@@ -6,8 +6,8 @@
 			<xs:element name="Library-Elements" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element id="library_1" name="Barcode" />
-						<xs:element id="library_2" name="Album" />
+						<xs:element id="library_library" name="Barcode" />
+						<xs:element id="library_library" name="Album" />
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>

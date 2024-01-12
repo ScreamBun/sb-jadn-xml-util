@@ -4,5 +4,16 @@
         "tests"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "XSLT.tasks.saxonJar": "/home/matt/Tools/saxon/saxon-he-12.4.jar",
+    "XSLT.resources.xsltPackages": [
+        { "name": "example.com.package1", 
+        "version": "2.0", 
+        "path": "included1.xsl"
+      },
+      { "name": "example.com.package2",
+        "version": "2.0", 
+        "path": "features/included2.xsl"
+      }        
+    ]
 }

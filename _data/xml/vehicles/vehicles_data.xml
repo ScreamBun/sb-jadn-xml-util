@@ -3,7 +3,7 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://example.com/vehicles ../../xsd/vehicles/vehicles.xsd">
   <vh:cars>
-    <vh:car uuid="74738ff5-5367-5958-9aee-98fffdcd1876" make="Porsche" model="911">
+    <vh:car urn="vehicles:cars:car:xyz" name="xyz" uuid="74738ff5-5367-5958-9aee-98fffdcd1876" make="Porsche" model="911">
         <carTire uuid="64738ff5-5367-5958-9aee-98fffdcd1871" location="left-front" brand="Goodyear" psi="55" temp="200" />
         <carTire uuid="64738ff5-5367-5958-9aee-98fffdcd1872" location="right-front" brand="Goodyear" psi="53" temp="198" />
         <carTire uuid="64738ff5-5367-5958-9aee-98fffdcd1873" location="left-back" brand="Goodyear" psi="54" temp="202" />

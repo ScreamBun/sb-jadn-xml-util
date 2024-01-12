@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CriteriaSet xmlns="http://example.com/criteria" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://example.com/criteria test_criteria_2024-01-10.xsd" >  
+    
+	<!--Timestamp: 12 Jan 2024 10:30:15-->       
+
+    <Criteria criteriaID="1704925026488" criteriaName="FireWallCriteria">
+        <description>Fire Wall Criteria</description>
+        <criteriaValues>
+            <CriteriaValue>
+                <valueName>allowedSchemes</valueName>
+                <evalItem>
+                    <allowedStrings>
+                        <Allowed-Item>https</Allowed-Item>
+                        <Allowed-Item>sftp</Allowed-Item>
+                    </allowedStrings>
+                </evalItem>
+            </CriteriaValue>
+            <CriteriaValue>
+                <valueName>allowedDomains</valueName>
+                <evalItem>
+                    <allowedStrings>
+                        <Allowed-Item>google.com</Allowed-Item>
+                        <Allowed-Item>aws.com</Allowed-Item>
+                        <Allowed-Item>microsoft.com</Allowed-Item>
+                        <Allowed-Item>nsa.gov</Allowed-Item>
+                    </allowedStrings>
+                </evalItem>
+            </CriteriaValue>             
+        </criteriaValues>
+    </Criteria>     
+
+</CriteriaSet>
