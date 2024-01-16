@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 from jadnxml.helpers.jadn_helper import get_active_type_option_vals, get_opt_type_val, get_type_option_val, get_vtype
 from jadnxml.helpers.xsd_helper import add_maxoccurs_to_element, add_minoccurs_to_element, build_choice, build_complex_type, build_documention, build_element, build_element_id, build_enumeration, build_fraction_digits, build_import, build_max_inclusive, build_max_length, build_min_inclusive, build_min_length, build_pattern, build_restriction, build_sequence, build_simple_type
 
-from jadnxml.constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, BINARY_CONST, BINARY_REG_CONST, DATE, DATE_TIME, DURATION, ENUM_CONST, F16, F16_DIGITS, F32, F32_DIGITS, FIELDS, FORMAT_CONST, FORMAT_OPTIONS_FROZ_DICT, INTEGER_CONST, KTYPE_CONST, MAP_CONST, MAPOF_CONST, MAXF_CONST, MAXV_CONST, MINF_CONST, MINV_CONST, NUMBER_CONST, PATTERN_CONST, POINTER_CONST, PRIMITIVE_TYPES, RECORD_CONST, SELECTOR_TYPES, SET_CONST, STRING_CONST, STRUCTURED_TYPES, TIME, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS, UNIQUE_CONST, UNSIGNED_BITS, VTYPE_CONST
+from jadnxml.constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, BINARY_CONST, BINARY_REG_CONST, DATE, DATE_TIME, DURATION, ENUM_CONST, F16, F16_DIGITS, F32, F32_DIGITS, FIELDS, FORMAT_CONST, FORMAT_OPTIONS_FROZ_DICT, INTEGER_CONST, IPV4_NET, IPV6_NET, KTYPE_CONST, MAP_CONST, MAPOF_CONST, MAXF_CONST, MAXV_CONST, MINF_CONST, MINV_CONST, NUMBER_CONST, PATTERN_CONST, POINTER_CONST, PRIMITIVE_TYPES, RECORD_CONST, SELECTOR_TYPES, SET_CONST, STRING_CONST, STRUCTURED_TYPES, TIME, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS, UNIQUE_CONST, UNSIGNED_BITS, VTYPE_CONST
 from jadnxml.constants.xsd_constants import xs_string, xs_decimal, xs_date, xs_time, xs_dateTime, max_occurs_unbounded, jadn_prefix, pattern_tag, enumerations, primitives, specializations, structures, schema_tag, jadn_namespace, jadn_base_type_file_loc
 from jadnxml.utils.utils import find_items_by_val, get_file_name_only, read_type_data_from_file, safe_list_get, write_to_file
 
@@ -298,45 +298,22 @@ def build_map_type(root: ET.Element, jce: dict):
     
     if jce.get(TYPE_DESCRIPTION):
       build_documention(xsd_complex_type_1, jce.get(TYPE_DESCRIPTION))
+      
+    minv_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MINV_CONST)
+    maxv_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MAXV_CONST)   
+    
+    if not minv_opt:
+      minv_opt = "0"    
+    
+    if not maxv_opt:
+      maxv_opt = max_occurs_unbounded         
 
     xsd_seq = build_sequence(xsd_complex_type_1)
     
-    build_fields(xsd_seq, jce)   
-      
-    # xsd_seq_1 = build_sequence(xsd_complex_type_1)
-    
-    # minv_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MINV_CONST)
-    # maxv_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MAXV_CONST)
-    
-    # if not minv_opt:
-    #   minv_opt = "0"    
-    
-    # if not maxv_opt:
-    #   maxv_opt = max_occurs_unbounded
-      
-    # ktype_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), KTYPE_CONST)
-    # vtype_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), VTYPE_CONST)      
-      
-    # map_name = build_element_id(jce[TYPE_NAME], "map")
-
-    # xsd_element_1 = build_element(parent_et_tag=xsd_seq_1, 
-    #               name=map_name, 
-    #               id=map_name, 
-    #               type=None,
-    #               min_occurs=minv_opt,
-    #               max_occurs=maxv_opt,
-    #               is_unique=False, 
-    #               is_set=False)
-    
-    # xsd_complex_type_2 = build_complex_type(xsd_element_1)
-    # xsd_seq_2 = build_sequence(xsd_complex_type_2)
-    
-    
-    # id_2 = build_element_id(map_name, ktype_opt)
-    # build_element(xsd_seq_2, ktype_opt, id_2)
-
-    # id_3 = build_element_id(map_name, vtype_opt)
-    # build_element(xsd_seq_2, vtype_opt, id_3)         
+    map_el = build_element(xsd_seq, jce[TYPE_NAME], min_occurs=minv_opt, max_occurs=maxv_opt)
+    map_complex_type = build_complex_type(map_el)
+    map_seq = build_sequence(map_complex_type)
+    build_fields(map_seq, jce)     
         
 
 def build_array_type(root: ET.Element, jce: dict):
@@ -348,22 +325,37 @@ def build_array_type(root: ET.Element, jce: dict):
       
     xsd_seq_1 = build_sequence(xsd_complex_type_1)
     
-    # TODO: Left off on ipv4-net
     minv_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MINV_CONST)
     maxv_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), MAXV_CONST)
-    vtype_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), VTYPE_CONST)
+    format_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), FORMAT_CONST)
     
     if not minv_opt:
       minv_opt = "0"    
     
     if not maxv_opt:
-      maxv_opt = max_occurs_unbounded 
-      
-    unique_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), UNIQUE_CONST)   
-    set_opt = get_type_option_val(jce[TYPE_OPTIONS], jce.get(BASE_TYPE), SET_CONST)   
+      maxv_opt = max_occurs_unbounded  
     
-    id = build_element_id(jce[TYPE_NAME], jce[TYPE_NAME])
-    build_element(xsd_seq_1, vtype_opt, id, is_unique=unique_opt, is_set=set_opt, min_occurs=minv_opt, max_occurs=maxv_opt) 
+    if format_opt == IPV4_NET:
+      id_1 = build_element_id(jce[TYPE_NAME], format_opt)
+      id_1 = build_element_id(id_1, BINARY_CONST)
+      build_element(parent_et_tag=xsd_seq_1, name=id_1, id=id_1, type=BINARY_CONST, min_occurs=None, max_occurs=None, is_unique=None, is_set=None)
+      id_2 = build_element_id(jce[TYPE_NAME], format_opt)
+      id_2 = build_element_id(id_2, INTEGER_CONST)
+      build_element(parent_et_tag=xsd_seq_1, name=id_2, id=id_2, type=INTEGER_CONST, min_occurs=None, max_occurs=None, is_unique=None, is_set=None)
+      
+    elif format_opt == IPV6_NET:
+      id_1 = build_element_id(jce[TYPE_NAME], format_opt)
+      id_1 = build_element_id(id_1, BINARY_CONST)
+      build_element(parent_et_tag=xsd_seq_1, name=id_1, id=id_1, type=BINARY_CONST, min_occurs=None, max_occurs=None, is_unique=None, is_set=None)
+      id_2 = build_element_id(jce[TYPE_NAME], format_opt)
+      id_2 = build_element_id(id_2, INTEGER_CONST)
+      build_element(parent_et_tag=xsd_seq_1, name=id_2, id=id_2, type=INTEGER_CONST, min_occurs=None, max_occurs=None, is_unique=None, is_set=None)
+      
+    else:
+      array_el = build_element(xsd_seq_1, jce[TYPE_NAME], min_occurs=minv_opt, max_occurs=maxv_opt)
+      array_complex_type = build_complex_type(array_el)
+      array_seq = build_sequence(array_complex_type)
+      build_fields(array_seq, jce)
    
 
 def build_mapOf_type(root: ET.Element, jce: dict):
