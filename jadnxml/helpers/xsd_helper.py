@@ -97,14 +97,12 @@ def build_element(parent_et_tag: ET.Element, name: str, id: str= None, type: str
     elem_et = ET.SubElement(parent_et_tag, element_tag) 
 
     if id:
-        # elem_et.set('id', 'field_' + str(id))
         elem_et.set('id', str(id))
         
     if name:
         elem_et.set('name', name)        
 
     if type:
-        
         is_base_type = get_base_type(type)
         if is_base_type:
             type = jadn_prefix + type
@@ -172,7 +170,8 @@ def build_group(parent_et_tag: ET.Element, name: str = None, minOccurs: str = No
 
 
 def build_element_id(parent_name: str, element_name: str):
-    id = parent_name + "_" + str(element_name)
+    id = str(parent_name) + "_" + str(element_name)
+    id = id.replace('-', '_')
     return id.lower()
 
 
