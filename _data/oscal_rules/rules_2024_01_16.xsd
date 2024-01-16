@@ -6,7 +6,7 @@
 	xmlns:criteria="http://example.com/criteria"
 	xmlns:oscal="http://example.com/oscal">
 
-	<!--Timestamp: 12 Jan 2024 10:30:15-->
+	<!--Timestamp: 16 Jan 2024 15:30:15-->
 
 	<xs:import namespace="http://example.com/criteria" schemaLocation="test_criteria_2024-01-10.xsd" />
 	<xs:import namespace="http://example.com/oscal" schemaLocation="oscal_types_2024-01-10.xsd" />
@@ -113,5 +113,4 @@
 		<xs:restriction base="oscal:StringDatatype" />
 	</xs:simpleType>
 	<xs:element id="Rules" name="Rules" type="Rules" />
-	<xs:element id="Rule" name="Rule" type="Rule" />
 </xs:schema>
