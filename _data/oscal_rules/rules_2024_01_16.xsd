@@ -1,114 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
 	targetNamespace="http://example.org/rules"
 	xmlns="http://example.org/rules"
 	xmlns:oscal="http://example.org/oscal">
 
 	<!--Timestamp: 16 Jan 2024 15:30:15-->
 
-	<xs:include schemaLocation="test_criteria_2024-01-10.xsd"/>
-	<xs:import namespace="http://example.org/oscal" schemaLocation="oscal_types_2024-01-10.xsd" />
+	<xsd:include schemaLocation="test_criteria_2024-01-10.xsd"/>
+	<xsd:import namespace="http://example.org/oscal" schemaLocation="oscal_types_2024-01-10.xsd" />
 	
-	<xs:complexType name="Rules">
-		<xs:sequence>
-			<xs:element id="rules_el_1" name="Rule" type="Rule" minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="Rule">
-		<xs:sequence>
-			<xs:element id="rule_title" name="title" type="oscal:StringDatatype" minOccurs="1" maxOccurs="1" />
-			<xs:element id="rule_description" name="description" type="oscal:StringDatatype" minOccurs="0" />
-			<xs:element id="rule_tests" name="tests" type="Tests" minOccurs="0" />
-			<xs:element id="rule_logic_statement" name="logic_statement" type="LogicalGroup" />
-		</xs:sequence>
-		<xs:attribute id="rule_uuid" name="uuid" type="oscal:UUIDDatatype" use="required"></xs:attribute>
-		<xs:attribute id="rule_name" name="name" type="oscal:StringDatatype" use="required"></xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="LogicalGroup">
-		<xs:sequence>
-			<xs:element id="logical_group_component" name="LogicalComponent" type="LogicalComponent" minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="LogicalComponent">
-		<xs:choice>
-			<xs:element id="logical_component_test" name="test" type="TestName" />
-			<xs:element id="logical_component_test_group" name="testGroup" type="LogicalGroup" />
-			<xs:element id="logical_component_boolean_logical_operator" name="booleanLogicalOperator" type="BooleanLogicalOperator" />
-			<xs:element id="logical_component_conditional_logical_operator" name="conditionalLogicalOperator" type="ConditionalLogicalOperator" />
-		</xs:choice>
-	</xs:complexType>
-	<xs:simpleType name="BooleanLogicalOperator">
-		<xs:restriction base="oscal:StringDatatype">
-			<xs:enumeration id="boolean_logical_operator_el_1" value="AND">
-				<xs:annotation>
-					<xs:documentation>Logical AND</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-			<xs:enumeration id="boolean_logical_operator_el_2" value="OR">
-				<xs:annotation>
-					<xs:documentation>Logical OR</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-			<xs:enumeration id="boolean_logical_operator_el__3" value="NOT">
-				<xs:annotation>
-					<xs:documentation>Logical NOT</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-			<xs:enumeration id="boolean_logical_operator_el__4" value="XOR">
-				<xs:annotation>
-					<xs:documentation>Logical XOR (Exclusive OR)</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="ConditionalLogicalOperator">
-		<xs:restriction base="oscal:StringDatatype">
-			<xs:enumeration id="conditional_logical_operator_el_1" value="AND">
-				<xs:annotation>
-					<xs:documentation>Conditional AND</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-			<xs:enumeration id="conditional_logical_operator_el_2" value="OR">
-				<xs:annotation>
-					<xs:documentation>Conditional OR</xs:documentation>
-				</xs:annotation>
-			</xs:enumeration>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="Measurement">
-		<xs:sequence>
-			<xs:element id="measurement_description" name="description" type="oscal:StringDatatype" minOccurs="0" />
-			<xs:element id="measurement_type" name="measurementType" type="MeasurementType" minOccurs="0" />
-		</xs:sequence>
-		<xs:attribute id="measurement_id" name="measurementID" type="oscal:UUIDDatatype" use="required"></xs:attribute>
-		<xs:attribute id="measurement_name" name="measurementName" type="MeasurementName" use="required"></xs:attribute>		
-	</xs:complexType>
-	<xs:complexType name="Tests">
-		<xs:sequence>
-			<xs:element id="tests" name="Test" type="Test" minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-	</xs:complexType>	
-	<xs:complexType name="Test">
-		<xs:sequence>
-			<xs:element id="test_description" name="testDescription" type="oscal:StringDatatype" minOccurs="0" maxOccurs="unbounded" />
-			<xs:element id="test_measurement" name="measurement" type="Measurement" />
-			<xs:element id="test_criteria" name="Criteria" type="Criteria" />
-		</xs:sequence>
-		<xs:attribute id="test_id" name="testID" type="oscal:UUIDDatatype" use="required"></xs:attribute>
-		<xs:attribute id="test_name" name="testName" type="TestName" use="required"></xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="MeasurementType">
-		<xs:choice>
-			<xs:element id="measurement_type_string" name="string" type="oscal:StringDatatype" />
-			<xs:element id="measurement_type_array" name="stringArray" type="oscal:StringDatatype" />
-			<xs:element id="measurement_type_int" name="integer" type="xs:integer" />
-		</xs:choice>
-	</xs:complexType>
-	<xs:simpleType name="TestName">
-		<xs:restriction base="oscal:StringDatatype" />
-	</xs:simpleType>
-	<xs:simpleType name="MeasurementName">
-		<xs:restriction base="oscal:StringDatatype" />
-	</xs:simpleType>
-	<xs:element id="Rules" name="Rules" type="Rules" />
-</xs:schema>
+	<xsd:complexType name="Rules">
+		<xsd:sequence>
+			<xsd:element id="rules_el_1" name="Rule" type="Rule" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Rule">
+		<xsd:sequence>
+			<xsd:element id="rule_title" name="title" type="oscal:StringDatatype" minOccurs="1" maxOccurs="1" />
+			<xsd:element id="rule_description" name="description" type="oscal:StringDatatype" minOccurs="0" />
+			<xsd:element id="rule_tests" name="tests" type="Tests" minOccurs="0" />
+			<xsd:element id="rule_logic_statement" name="logic_statement" type="LogicalGroup" />
+		</xsd:sequence>
+		<xsd:attribute id="rule_uuid" name="uuid" type="oscal:UUIDDatatype" use="required"></xsd:attribute>
+		<xsd:attribute id="rule_name" name="name" type="oscal:StringDatatype" use="required"></xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="LogicalGroup">
+		<xsd:sequence>
+			<xsd:element id="logical_group_component" name="LogicalComponent" type="LogicalComponent" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LogicalComponent">
+		<xsd:choice>
+			<xsd:element id="logical_component_test" name="test" type="TestName" />
+			<xsd:element id="logical_component_test_group" name="testGroup" type="LogicalGroup" />
+			<xsd:element id="logical_component_boolean_logical_operator" name="booleanLogicalOperator" type="BooleanLogicalOperator" />
+			<xsd:element id="logical_component_conditional_logical_operator" name="conditionalLogicalOperator" type="ConditionalLogicalOperator" />
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:simpleType name="BooleanLogicalOperator">
+		<xsd:restriction base="oscal:StringDatatype">
+			<xsd:enumeration id="boolean_logical_operator_el_1" value="AND">
+				<xsd:annotation>
+					<xsd:documentation>Logical AND</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration id="boolean_logical_operator_el_2" value="OR">
+				<xsd:annotation>
+					<xsd:documentation>Logical OR</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration id="boolean_logical_operator_el__3" value="NOT">
+				<xsd:annotation>
+					<xsd:documentation>Logical NOT</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration id="boolean_logical_operator_el__4" value="XOR">
+				<xsd:annotation>
+					<xsd:documentation>Logical XOR (Exclusive OR)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ConditionalLogicalOperator">
+		<xsd:restriction base="oscal:StringDatatype">
+			<xsd:enumeration id="conditional_logical_operator_el_1" value="AND">
+				<xsd:annotation>
+					<xsd:documentation>Conditional AND</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration id="conditional_logical_operator_el_2" value="OR">
+				<xsd:annotation>
+					<xsd:documentation>Conditional OR</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Measurement">
+		<xsd:sequence>
+			<xsd:element id="measurement_description" name="description" type="oscal:StringDatatype" minOccurs="0" />
+			<xsd:element id="measurement_type" name="measurementType" type="MeasurementType" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute id="measurement_id" name="measurementID" type="oscal:UUIDDatatype" use="required"></xsd:attribute>
+		<xsd:attribute id="measurement_name" name="measurementName" type="MeasurementName" use="required"></xsd:attribute>		
+	</xsd:complexType>
+	<xsd:complexType name="Tests">
+		<xsd:sequence>
+			<xsd:element id="tests" name="Test" type="Test" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>	
+	<xsd:complexType name="Test">
+		<xsd:sequence>
+			<xsd:element id="test_description" name="testDescription" type="oscal:StringDatatype" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element id="test_measurement" name="measurement" type="Measurement" />
+			<xsd:element id="test_criteria" name="Criteria" type="Criteria" />
+		</xsd:sequence>
+		<xsd:attribute id="test_id" name="testID" type="oscal:UUIDDatatype" use="required"></xsd:attribute>
+		<xsd:attribute id="test_name" name="testName" type="TestName" use="required"></xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="MeasurementType">
+		<xsd:choice>
+			<xsd:element id="measurement_type_string" name="string" type="oscal:StringDatatype" />
+			<xsd:element id="measurement_type_array" name="stringArray" type="oscal:StringDatatype" />
+			<xsd:element id="measurement_type_int" name="integer" type="xsd:integer" />
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:simpleType name="TestName">
+		<xsd:restriction base="oscal:StringDatatype" />
+	</xsd:simpleType>
+	<xsd:simpleType name="MeasurementName">
+		<xsd:restriction base="oscal:StringDatatype" />
+	</xsd:simpleType>
+	<xsd:element id="Rules" name="Rules" type="Rules" />
+</xsd:schema>
