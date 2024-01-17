@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CriteriaSet xmlns="http://example.com/rules"
+<CriteriaSet xmlns="http://example.org/rules"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://example.com/rules test_criteria_2024-01-10.xsd">
+    xsi:schemaLocation="http://example.org/rules test_criteria_2024-01-10.xsd">
 
     <!--Timestamp: 12 Jan 2024 10:30:45-->
 
