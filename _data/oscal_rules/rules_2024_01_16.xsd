@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-	targetNamespace="http://example.com/rules"
-	xmlns="http://example.com/rules"
-	elementFormDefault="qualified"
-	xmlns:criteria="http://example.com/criteria"
-	xmlns:oscal="http://example.com/oscal">
+	targetNamespace="http://example.org/rules"
+	xmlns="http://example.org/rules"
+	xmlns:oscal="http://example.org/oscal">
 
 	<!--Timestamp: 16 Jan 2024 15:30:15-->
 
-	<xs:import namespace="http://example.com/criteria" schemaLocation="test_criteria_2024-01-10.xsd" />
-	<xs:import namespace="http://example.com/oscal" schemaLocation="oscal_types_2024-01-10.xsd" />
+	<xs:include schemaLocation="test_criteria_2024-01-10.xsd"/>
+	<xs:import namespace="http://example.org/oscal" schemaLocation="oscal_types_2024-01-10.xsd" />
 	
 	<xs:complexType name="Rules">
 		<xs:sequence>
@@ -94,7 +92,7 @@
 		<xs:sequence>
 			<xs:element id="test_description" name="testDescription" type="oscal:StringDatatype" minOccurs="0" maxOccurs="unbounded" />
 			<xs:element id="test_measurement" name="measurement" type="Measurement" />
-			<xs:element id="test_criteria" name="criteria" type="criteria:Criteria" />
+			<xs:element id="test_criteria" name="Criteria" type="Criteria" />
 		</xs:sequence>
 		<xs:attribute id="test_id" name="testID" type="oscal:UUIDDatatype" use="required"></xs:attribute>
 		<xs:attribute id="test_name" name="testName" type="TestName" use="required"></xs:attribute>

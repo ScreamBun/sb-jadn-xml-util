@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Rules xmlns="http://example.com/rules" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://example.com/rules rules_2024_01_12.xsd">
+    xsi:schemaLocation="http://example.com/rules rules_2024_01_16.xsd">
 
     <Rule uuid="64738ff5-5367-5958-9aee-98fffdcd1871">
         <title>test</title>

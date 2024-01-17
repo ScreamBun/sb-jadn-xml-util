@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules:Rules xmlns:rules="http://example.org/rules"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://example.org/rules rules_2024_01_16.xsd">
+
+    <Rule uuid="64738ff5-5367-5958-9aee-98fffdcd1871" name="rule1">
+        <title>title</title>
+        <description>desc</description>
+        <tests>
+            <Test testID="64738ff5-5367-5958-9aee-98fffdcd1872" testName="test1">
+                <testDescription>desc</testDescription>
+                <measurement measurementID="64738ff5-5367-5958-9aee-98fffdcd1873" measurementName="TP"></measurement>
+                <Criteria criteriaID="64738ff5-5367-5958-9aee-98fffdcd1874" criteriaName="TPcriteria">
+                    <description>afad</description>
+                    <criteriaValues>
+                        <CriteriaValue>
+                            <valueName>test</valueName>
+                            <evalItem>
+                                <trueFalse>true</trueFalse>
+                            </evalItem>
+                        </CriteriaValue>
+                    </criteriaValues>
+                </Criteria>
+            </Test>
+        </tests>
+        <logic_statement>
+            <LogicalComponent>
+                <booleanLogicalOperator>AND</booleanLogicalOperator>
+            </LogicalComponent>
+        </logic_statement>
+    </Rule>
+
+</rules:Rules>

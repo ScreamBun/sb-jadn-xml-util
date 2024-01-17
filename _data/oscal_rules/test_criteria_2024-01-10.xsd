@@ -1,62 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-	targetNamespace="http://example.com/criteria"
-	xmlns="http://example.com/criteria"
-	xmlns:oscal="http://example.com/oscal"
-	elementFormDefault="qualified">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://example.org/rules"
+	xmlns="http://example.org/rules"
+	xmlns:oscal="http://example.org/oscal">
 
 	<!--Timestamp: 12 Jan 2024 10:30:15-->
 
-	<xs:import schemaLocation="oscal_types_2024-01-10.xsd" namespace="http://example.com/oscal" />
+	<xsd:import schemaLocation="oscal_types_2024-01-10.xsd" namespace="http://example.org/oscal" />
 
-	<xs:complexType name="CriteriaSet">
-		<xs:sequence>
-			<xs:element name="Criteria" type="Criteria" minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="Criteria">
-		<xs:sequence>
-			<xs:element id="criteria_el_1" name="description" type="oscal:StringDatatype" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element id="criteria_el_2" name="criteriaValues" type="CriteriaValues" />
-		</xs:sequence>
-		<xs:attribute id="criteria_at_1" name="criteriaID" type="oscal:StringDatatype" use="required"></xs:attribute>
-		<xs:attribute id="criteria_at_2" name="criteriaName" type="oscal:StringDatatype" use="required"></xs:attribute>
-	</xs:complexType>
-	<xs:complexType name="CriteriaValues">
-		<xs:sequence>
-			<xs:element id="criteriavalues_el_1" name="CriteriaValue" type="CriteriaValue" minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="CriteriaValue">
-		<xs:sequence>
-			<xs:element id="criteriavalue_el_1" name="valueName" type="oscal:StringDatatype" minOccurs="1" maxOccurs="1" />
-			<xs:element id="criteriavalue_el_2" name="evalItem" type="EvalItem" minOccurs="1" maxOccurs="1" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="EvalItem">
-		<xs:choice>
-			<xs:element id="evalitem_el_1" name="trueFalse" type="xs:boolean"/>
-			<xs:element id="evalitem_el_2" name="fixedValue" type="xs:integer" />
-			<xs:element id="evalitem_el_3" name="valueRange" type="ValueRange" />
-			<xs:element id="evalitem_el_4" name="allowedStrings" type="Allowed" />
-			<xs:element id="evalitem_el_5" name="disallowedStrings" type="Disallowed" />
-		</xs:choice>
-	</xs:complexType>
-	<xs:complexType name="ValueRange">
-		<xs:sequence>
-			<xs:element id="valuerange_el_1" name="min" type="xs:integer" minOccurs="0" maxOccurs="1" />
-			<xs:element id="valuerange_el_2" name="max" type="xs:integer" minOccurs="0" maxOccurs="1" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="Allowed">
-		<xs:sequence>
-			<xs:element id="allowed_el_1" name="Allowed-Item" type="oscal:StringDatatype" minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="Disallowed">
-		<xs:sequence>
-			<xs:element id="disallowed_el_1" name="Disallowed-Item" type="oscal:StringDatatype" minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-	</xs:complexType>
-	<xs:element name="CriteriaSet" type="CriteriaSet" />
-</xs:schema>
+	<xsd:complexType name="CriteriaSet">
+		<xsd:sequence>
+			<xsd:element name="Criteria" type="Criteria" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Criteria">
+		<xsd:sequence>
+			<xsd:element id="criteria_el_1" name="description" type="oscal:StringDatatype" minOccurs="0"/>
+			<xsd:element id="criteria_el_2" name="criteriaValues" type="CriteriaValues" />
+		</xsd:sequence>
+		<xsd:attribute id="criteria_at_1" name="criteriaID" type="oscal:StringDatatype" use="required"></xsd:attribute>
+		<xsd:attribute id="criteria_at_2" name="criteriaName" type="oscal:StringDatatype" use="required"></xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="CriteriaValues">
+		<xsd:sequence>
+			<xsd:element id="criteriavalues_el_1" name="CriteriaValue" type="CriteriaValue" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CriteriaValue">
+		<xsd:sequence>
+			<xsd:element id="criteriavalue_el_1" name="valueName" type="oscal:StringDatatype" minOccurs="1" maxOccurs="1" />
+			<xsd:element id="criteriavalue_el_2" name="evalItem" type="EvalItem" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EvalItem">
+		<xsd:choice>
+			<xsd:element id="evalitem_el_1" name="trueFalse" type="xsd:boolean"/>
+			<xsd:element id="evalitem_el_2" name="fixedValue" type="xsd:integer" />
+			<xsd:element id="evalitem_el_3" name="valueRange" type="ValueRange" />
+			<xsd:element id="evalitem_el_4" name="allowedStrings" type="Allowed" />
+			<xsd:element id="evalitem_el_5" name="disallowedStrings" type="Disallowed" />
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="ValueRange">
+		<xsd:sequence>
+			<xsd:element id="valuerange_el_1" name="min" type="xsd:integer" minOccurs="0" maxOccurs="1" />
+			<xsd:element id="valuerange_el_2" name="max" type="xsd:integer" minOccurs="0" maxOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Allowed">
+		<xsd:sequence>
+			<xsd:element id="allowed_el_1" name="Allowed-Item" type="oscal:StringDatatype" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Disallowed">
+		<xsd:sequence>
+			<xsd:element id="disallowed_el_1" name="Disallowed-Item" type="oscal:StringDatatype" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="CriteriaSet" type="CriteriaSet" />
+	<xsd:element name="Criteria" type="Criteria" />
+</xsd:schema>
