@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml version="1.0" encoding="UTF-8"?>
 <Rules xmlns="http://example.com/rules" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://example.com/rules rules_2024_01_16.xsd">
 
-    <Rule uuid="64738ff5-5367-5958-9aee-98fffdcd1871">
-        <title>TP-01</title>
-        <name>Tire Pressure Test</name>
+    <Rule uuid="64738ff5-5367-5958-9aee-98fffdcd1871" name="hello" >
+
+        <title>rule1</title>
         <tests>
-            <Test>TP</Test>
-            <Test>Temp</Test>
+            <Test testID="64738ff5-5367-5958-9aee-98fffdcd1872" testName="1">
+                <measurement measurementID="64738ff5-5367-5958-9aee-98fffdcd1873" measurementName="2"></measurement> 
+                <criteria criteriaID="1704925026488" criteriaName="FireWallCriteria">
+                    <criteriaValues>
+                        <CriteriaValue>
+                            <valueName>TirePressure</valueName>
+                            <evalItem>
+                                <trueFalse>true</trueFalse>
+                            </evalItem>
+                        </CriteriaValue>
+                    </criteriaValues>   
+                </criteria>   
+            </Test>
+        
         </tests>
         <logic_statement>
-            <LogicalComponent></LogicalComponent>
+            <LogicalComponent><test>"1"</test></LogicalComponent>
+            <LogicalComponent><booleanLogicalOperator>AND</booleanLogicalOperator></LogicalComponent>
+            <LogicalComponent><test>"2"</test></LogicalComponent>
         </logic_statement>
     </Rule>
 
