@@ -1,33 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Rules xmlns="http://example.com/rules" 
+<rules:Rules xmlns:rules="http://example.org/rules"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://example.com/rules rules_2024_01_16.xsd">
+    xsi:schemaLocation="http://example.org/rules rules_2024_01_16.xsd">
 
-    <Rule uuid="64738ff5-5367-5958-9aee-98fffdcd1871" name="hello" >
+    <Rule uuid="64738ff5-5367-5958-9aee-98fffdcd1871" name="TirePressureRule" >
 
-        <title>rule1</title>
+        <title>TirePressureRule</title>
         <tests>
-            <Test testID="64738ff5-5367-5958-9aee-98fffdcd1872" testName="1">
-                <measurement measurementID="64738ff5-5367-5958-9aee-98fffdcd1873" measurementName="2"></measurement> 
-                <criteria criteriaID="1704925026488" criteriaName="FireWallCriteria">
+            <Test testID="64738ff5-5367-5958-9aee-98fffdcd1872" testName="urn:SSP:TP">
+                <measurement measurementID="64738ff5-5367-5958-9aee-98fffdcd1873" measurementName="urn:SAR:TPField1"></measurement> 
+                <Criteria criteriaID="1704925026488" criteriaName="TirePressureCriteria">
                     <criteriaValues>
                         <CriteriaValue>
                             <valueName>TirePressure</valueName>
                             <evalItem>
-                                <trueFalse>true</trueFalse>
+                                <valueRange>
+                                    <min>30</min>
+                                    <max>51</max>
+                                </valueRange>
                             </evalItem>
                         </CriteriaValue>
                     </criteriaValues>   
-                </criteria>   
+                </Criteria>   
             </Test>
+            <Test testID="64738ff5-5367-5958-9aee-98fffdcd1874" testName="urn:SSP:Temp">
+                <measurement measurementID="64738ff5-5367-5958-9aee-98fffdcd1873" measurementName="urn:SAR:TempField1"></measurement> 
+                <Criteria criteriaID="1704925026488" criteriaName="TireTempCriteria">
+                    <criteriaValues>
+                        <CriteriaValue>
+                            <valueName>TireTempCriteria</valueName>
+                            <evalItem>
+                                <valueRange>
+                                    <min>-15</min>
+                                    <max>120</max>
+                                </valueRange>
+                            </evalItem>
+                        </CriteriaValue>
+                    </criteriaValues>   
+                </Criteria>   
+            </Test>            
         
         </tests>
         <logic_statement>
-            <LogicalComponent><test>"1"</test></LogicalComponent>
+            <LogicalComponent><test>"urn:SSP:TP"</test></LogicalComponent>
             <LogicalComponent><booleanLogicalOperator>AND</booleanLogicalOperator></LogicalComponent>
-            <LogicalComponent><test>"2"</test></LogicalComponent>
+            <LogicalComponent><test>"urn:SSP:Temp"</test></LogicalComponent>
         </logic_statement>
     </Rule>
 
 
-</Rules>
+</rules:Rules>
