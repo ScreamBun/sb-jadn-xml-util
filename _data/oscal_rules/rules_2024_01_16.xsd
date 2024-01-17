@@ -92,7 +92,7 @@
 	</xs:complexType>	
 	<xs:complexType name="Test">
 		<xs:sequence>
-			<xs:element id="test_description" name="testDescription" type="oscal:StringDatatype" minOccurs="0" />
+			<xs:element id="test_description" name="testDescription" type="oscal:StringDatatype" minOccurs="0" maxOccurs="unbounded" />
 			<xs:element id="test_measurement" name="measurement" type="Measurement" />
 			<xs:element id="test_criteria" name="criteria" type="criteria:Criteria" />
 		</xs:sequence>

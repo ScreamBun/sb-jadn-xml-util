@@ -16,7 +16,7 @@
 	</xs:complexType>
 	<xs:complexType name="Criteria">
 		<xs:sequence>
-			<xs:element id="criteria_el_1" name="description" type="oscal:StringDatatype" />
+			<xs:element id="criteria_el_1" name="description" type="oscal:StringDatatype" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element id="criteria_el_2" name="criteriaValues" type="CriteriaValues" />
 		</xs:sequence>
 		<xs:attribute id="criteria_at_1" name="criteriaID" type="oscal:StringDatatype" use="required"></xs:attribute>
