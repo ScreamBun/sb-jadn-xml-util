@@ -30,8 +30,7 @@
       Second Edition (https://www.w3.org/TR/xmlschema11-2/#NCName), with leading and trailing
       whitespace disallowed.</xsd:documentation>
     </xsd:annotation>
-    <!-- <xsd:restriction base="StringDatatype"> -->
-    <xsd:restriction base="xsd:string">
+    <xsd:restriction base="oscal:StringDatatype">
        <xsd:pattern value="(\p{L}|_)(\p{L}|\p{N}|[.\-_])*">
           <xsd:annotation>
              <xsd:documentation>A single token may not contain whitespace.
@@ -44,8 +43,7 @@
     <xsd:annotation>
        <xsd:documentation>A universal resource identifier (URI) formatted according to RFC3986.</xsd:documentation>
     </xsd:annotation>
-    <!-- <xsd:restriction base="StringDatatype"> -->
-      <xsd:restriction base="xsd:string">
+    <xsd:restriction base="oscal:StringDatatype">
        <xsd:pattern value="[a-zA-Z][a-zA-Z0-9+\-.]+:.*\S">
           <xsd:annotation>
              <xsd:documentation>Requires a scheme with colon per RFC 3986.</xsd:documentation>
@@ -58,8 +56,7 @@
        <xsd:documentation>A type 4 ('random' or 'pseudorandom') or type 5 UUID per RFC
       4122.</xsd:documentation>
     </xsd:annotation>
-    <!-- <xsd:restriction base="StringDatatype"> -->
-      <xsd:restriction base="xsd:string">
+    <xsd:restriction base="oscal:StringDatatype">
        <xsd:pattern value="[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[45][0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}">
           <xsd:annotation>
              <xsd:documentation>A sequence of 8-4-4-4-12 hex digits, with extra
