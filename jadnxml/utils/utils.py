@@ -62,23 +62,21 @@ def get_xml_file(file_name):
     return doc
 
 
-def get_xsd_file(file_name):
+def get_xsd_file(file_name, isParseToET: bool = False):
     file_dir = os.path.dirname(os.path.realpath('__file__'))
     # print(file_dir)
-    xsd_file_path = os.path.join(file_dir, './_data/xsd/' + file_name)
+    xsd_file_path = os.path.join(file_dir, '_data/xsd/' + file_name)
     xsd_file_path = os.path.abspath(os.path.realpath(xsd_file_path))   
 
-    with open(xsd_file_path, 'r') as f:
-        xmlschema_doc = etree.parse(f)
-    xmlschema = etree.XMLSchema(xmlschema_doc)
+    if isParseToET:
+        with open(xsd_file_path, 'r') as f:
+            xmlschema_doc = etree.parse(f)
+        xmlschema = etree.XMLSchema(xmlschema_doc)
+    else:
+        with open(xsd_file_path, 'r') as f:
+            xmlschema = f.read()    
 
     return xmlschema
-
-# def get_xsd_file_path(file_name):
-#     with open(file_path) as f:
-#     data = f.read()
-
-#    return file_path
 
 
 def read_file(file_name):

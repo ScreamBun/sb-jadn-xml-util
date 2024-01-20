@@ -2,11 +2,17 @@
 
 import xml.etree.ElementTree as ET
 
-from jadnxml.builder.xsd_builder import build_integer_type_opts, build_number_type_opts, build_string_type_opts, convert_to_xsd_from_file, convert_xsd_from_dict
+from jadnxml.builder.xsd_builder import build_integer_type_opts, build_number_type_opts, build_string_type_opts, convert_to_xsd_from_file, convert_xsd_from_dict, get_jadn_base_types
 from jadnxml.constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BINARY_CONST, BOOLEAN_CONST, CHOICE_CONST, ENUMERATED_CONST, INTEGER_CONST, MAP_CONST, MAPOF_CONST, NUMBER_CONST, RECORD_CONST, STRING_CONST
 from jadnxml.constants.xsd_constants import schema_tag
 from jadnxml.helpers.jadn_helper import get_active_type_option_vals, get_field_option_val, get_type_option_vals
 from jadnxml.utils.utils import read_type_data_from_file
+
+
+def test_get_jadn_base_types():
+    data = get_jadn_base_types()
+    
+    assert data != None
 
 
 def test_type_data_from_file():

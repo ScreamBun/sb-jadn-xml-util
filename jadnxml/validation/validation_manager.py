@@ -10,7 +10,7 @@ def validate_xml(xsd_file_name, xml_file_name):
     
     try:
       
-        xmlschema = get_xsd_file(xsd_file_name)  
+        xmlschema = get_xsd_file(xsd_file_name, True)  
         xml_doc = get_xml_file(xml_file_name)  
 
         # Validate the XML document using the XML schema

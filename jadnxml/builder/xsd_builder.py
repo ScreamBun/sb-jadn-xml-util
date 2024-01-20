@@ -6,7 +6,7 @@ from jadnxml.helpers.xsd_helper import add_maxoccurs_to_element, add_minoccurs_t
 
 from jadnxml.constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, BINARY_CONST, BINARY_REG_CONST, DATE, DATE_TIME, DURATION, ENUM_CONST, F16, F16_DIGITS, F32, F32_DIGITS, FIELDS, FORMAT_CONST, FORMAT_OPTIONS_FROZ_DICT, INTEGER_CONST, IPV4_NET, IPV6_NET, KTYPE_CONST, MAP_CONST, MAPOF_CONST, MAXF_CONST, MAXV_CONST, MINF_CONST, MINV_CONST, NUMBER_CONST, PATTERN_CONST, POINTER_CONST, PRIMITIVE_TYPES, RECORD_CONST, SELECTOR_TYPES, SET_CONST, STRING_CONST, STRUCTURED_TYPES, TIME, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS, UNIQUE_CONST, UNSIGNED_BITS, VTYPE_CONST
 from jadnxml.constants.xsd_constants import xs_string, xs_decimal, xs_date, xs_time, xs_dateTime, max_occurs_unbounded, jadn_prefix, pattern_tag, enumerations, primitives, specializations, structures, schema_tag, jadn_namespace, jadn_base_type_file_loc
-from jadnxml.utils.utils import find_items_by_val, get_file_name_only, read_type_data_from_file, safe_list_get, write_to_file
+from jadnxml.utils.utils import find_items_by_val, get_file_name_only, get_xsd_file, read_type_data_from_file, safe_list_get, write_to_file
 
 
 jadn_types_dict: {} = {}
@@ -520,6 +520,18 @@ def convert_xsd_from_dict(jadn_dict: dict):
     raise e  
 
   return (xml_str, schema_et)
+
+
+def get_jadn_base_types():
+  xmlschema = None
+  
+  try:
+    xmlschema = get_xsd_file("jadn_base_types.xsd", False)
+  except RuntimeError as e:
+    print("Error get_jadn_base_types: " + e.message)
+    raise e  
+    
+  return xmlschema
 
 
 def convert_to_xsd_from_file(jadn_file_name: str):
