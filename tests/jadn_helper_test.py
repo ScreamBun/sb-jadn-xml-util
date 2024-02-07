@@ -1,6 +1,8 @@
 
 
+import json
 import xml.etree.ElementTree as ET
+from jadnxml.builder.xml_builder import build_xml_from_json_str
 
 from jadnxml.builder.xsd_builder import build_integer_type_opts, build_number_type_opts, build_string_type_opts, convert_to_xsd_from_file, convert_xsd_from_dict, get_jadn_base_types
 from jadnxml.constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BINARY_CONST, BOOLEAN_CONST, CHOICE_CONST, ENUMERATED_CONST, INTEGER_CONST, MAP_CONST, MAPOF_CONST, NUMBER_CONST, RECORD_CONST, STRING_CONST
@@ -370,3 +372,48 @@ def test_map_get_type_option_vals():
     assert return_val.get("X") == "X"
     assert return_val.get("{") == "4"
     assert return_val.get("}") == "8"
+    
+def test_build_xml_from_json_dict():
+    
+    json_data = {
+        "person": {
+        "name": "John Doe",
+        "age": 30,
+        "city": "New York"
+        }
+    }
+    
+    filename = "output.xml"
+    
+    tree = build_xml_from_json_str(json_data)
+    
+    ET.indent(tree, space="\t", level=0)
+    tree.write("./_out/" + filename,
+              xml_declaration=True,encoding='utf-8',
+              method="xml")  
+    
+    assert tree != None
+    
+def test_build_xml_from_json_str():
+    
+    json_data_dict = {
+        "person": {
+        "name": "John Doe",
+        "age": 30,
+        "city": "New York"
+        }
+    }
+    
+    json_data = json.dumps(json_data_dict)
+    
+    filename = "output.xml"
+    
+    tree = build_xml_from_json_str(json_data)
+    
+    ET.indent(tree, space="\t", level=0)
+    tree.write("./_out/" + filename,
+              xml_declaration=True,encoding='utf-8',
+              method="xml")  
+    
+    assert tree != None    
+    
