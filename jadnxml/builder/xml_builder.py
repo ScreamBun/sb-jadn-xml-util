@@ -13,5 +13,8 @@ def build_xml_from_json_str(json_data: dict | str, root: str = "root"):
     
     root = ET.Element(root)
     json_to_xml(json_data, root)
+    ET.indent(root, space="\t", level=0)
+    xml_str = ET.tostring(root, encoding='unicode')    
+    print(xml_str)
     
-    return  ET.ElementTree(root)
+    return xml_str
