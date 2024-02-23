@@ -383,14 +383,14 @@ def test_build_xml_from_json_dict():
         }
     }
     
-    filename = "output.xml"
+    # filename = "output.xml"
     
     tree = build_xml_from_json_str(json_data)
     
-    ET.indent(tree, space="\t", level=0)
-    tree.write("./_out/" + filename,
-              xml_declaration=True,encoding='utf-8',
-              method="xml")  
+    # ET.indent(tree, space="\t", level=0)
+    # tree.write("./_out/" + filename,
+    #           xml_declaration=True,encoding='utf-8',
+    #           method="xml")  
     
     assert tree != None
     
@@ -406,14 +406,14 @@ def test_build_xml_from_json_str():
     
     json_data = json.dumps(json_data_dict)
     
-    filename = "output.xml"
+    # filename = "output.xml"
     
     tree = build_xml_from_json_str(json_data)
     
-    ET.indent(tree, space="\t", level=0)
-    tree.write("./_out/" + filename,
-              xml_declaration=True,encoding='utf-8',
-              method="xml")  
+    # ET.indent(tree, space="\t", level=0)
+    # tree.write("./_out/" + filename,
+    #           xml_declaration=True,encoding='utf-8',
+    #           method="xml")  
     
     assert tree != None    
     
