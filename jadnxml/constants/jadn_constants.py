@@ -57,6 +57,7 @@ IDN_HOSTNAME = "idn-hostname"
 EUI = "eui"
 F16 = "f16"
 F32 = "f32"
+F64 = "f64"
 F16_DIGITS = "4"
 F32_DIGITS = "6"
 IRI = "iri"
@@ -77,6 +78,7 @@ UNSIGNED_BITS = "u\\d+"
 URI = "uri"
 URI_REFERENCE = "uri-reference"
 URI_TEMPLATE = "uri-template"
+UUID = "uuid"
 
 BINARY_REG_CONST = "\\\\b[01]+\\\\b"
 
@@ -97,6 +99,7 @@ URI_REG_CONST = "(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-
 URI_REF_REG_CONST = "(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})"
 #TODO: Need uri-template regex
 URI_TEMPLATE_REG_CONST = "(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})(\.[a-zA-Z0-9]{2,})"
+UUID4_REG_CONST = "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[45][0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
 IRI_REG_CONST = "<(.*)>"
 IRI_REF_REG_CONST = "<(.*)>"
 # REG_REG_CONST = "\/((?![*+?])(?:[^\r\n\[/\\]|\\.|\[(?:[^\r\n\]\\]|\\.)*\])+)\/((?:g(?:im?|mi?)?|i(?:gm?|mg?)?|m(?:gi?|ig?)?)?)"
@@ -117,7 +120,8 @@ FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
     IPV6:             [STRING_CONST,  "",            "",           IPV6_REG_CONST,         "JSON Schema Section 7.3.4"],    
     URI:              [STRING_CONST,  "",            "",           URI_REG_CONST,          "JSON Schema Section 7.3.5"],    
     URI_REFERENCE:    [STRING_CONST,  "",            "",           URI_REF_REG_CONST,      "JSON Schema Section 7.3.5"],    
-    URI_TEMPLATE:     [STRING_CONST,  "",            "",           URI_TEMPLATE_REG_CONST, "JSON Schema Section 7.3.6"],    
+    URI_TEMPLATE:     [STRING_CONST,  "",            "",           URI_TEMPLATE_REG_CONST, "JSON Schema Section 7.3.6"],     
+    UUID:             [STRING_CONST,  "",            "",           UUID4_REG_CONST, "JSON Schema Section 7.3.6"],   
     IRI:              [STRING_CONST,  "",            "",           IRI_REG_CONST,          "JSON Schema Section 7.3.5"],    
     IRI_REFERENCE:    [STRING_CONST,  "",            "",           IRI_REF_REG_CONST,      "JSON Schema Section 7.3.5"],    
     JSON_POINTER:     [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.7"],    
@@ -126,6 +130,7 @@ FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
     EUI :             [BINARY_CONST,  "",            "",           "",                     "IEEE Extended Unique Identifier (MAC Address)"],
     F16 :             [NUMBER_CONST,  "",            "",           "",                     "float16: IEEE 754 Half-Precision Float (#7.25)."],
     F32 :             [NUMBER_CONST,  "",            "",           "",                     "float32: IEEE 754 Single-Precision Float (#7.26)."],
+    F64 :             [NUMBER_CONST,  "",            "",           "",                     "float64: IEEE 754 Double-Precision Float (#7.27)."],
     IPV4_ADDR :       [BINARY_CONST,  "32",          "32",         BINARY_REG_CONST,       "IPv4 address as specified in RFC 791 Section 3.1"],
     IPV6_ADDR :       [BINARY_CONST,  "32",          "32",         BINARY_REG_CONST,       "IPv6 address as specified in RFC 8200 Section 3"],
     IPV4_NET :        [ARRAY_CONST,   "",            "",           "",                     "Binary IPv4 address and Integer prefix length as specified in RFC 4632 Section 3.1"],
