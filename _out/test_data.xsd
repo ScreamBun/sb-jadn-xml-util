@@ -1,29 +1,803 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
 	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
-	<xs:complexType name="Array-Name">
+	<xs:complexType name="Root">
 		<xs:sequence>
-			<xs:element name="Array-Name" minOccurs="1" maxOccurs="2">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element id="array_name_field_value_1" name="field_value_1" type="jadn:String" />
-						<xs:element id="array_name_field_value_2" name="field_value_2" type="jadn:String" />
-						<xs:element id="array_name_field_value_3" name="field_value_3" type="jadn:String" />
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
+			<xs:element id="root_schema" name="schema" type="URIReferenceDatatype" minOccurs="0" />
+			<xs:element id="root_profile" name="profile" type="Profile" />
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="Map-Name">
+	<xs:complexType name="Profile">
 		<xs:sequence>
-			<xs:element name="Map-Name" minOccurs="0" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element id="map_name_field_value_1" name="field_value_1" type="jadn:String" />
-						<xs:element id="map_name_field_value_2" name="field_value_2" type="jadn:String" />
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
+			<xs:element id="profile_uuid" name="uuid" type="UUIDDatatype" />
+			<xs:element id="profile_metadata" name="metadata" type="Metadata" />
+			<xs:element id="profile_imports" name="imports" type="Imports" />
+			<xs:element id="profile_merge" name="merge" type="oscal-profile-merge" minOccurs="0" />
+			<xs:element id="profile_modify" name="modify" type="Modify" minOccurs="0" />
+			<xs:element id="profile_back_matter" name="back-matter" type="Back-matter" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="Imports">
+		<xs:sequence>
+			<xs:element id="imports_imports" name="Import" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Import">
+		<xs:sequence>
+			<xs:element id="import_href" name="href" type="URIReferenceDatatype" />
+			<xs:element id="import_include_all" name="include-all" type="Include-all" minOccurs="0" />
+			<xs:element id="import_include_controls" name="include-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element id="import_exclude_controls" name="exclude-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="oscal-profile-merge">
+		<xs:sequence>
+			<xs:element id="oscal_profile_merge_combine" name="combine" type="oscal-profile-merge" minOccurs="0" />
+			<xs:element id="oscal_profile_merge_flat" name="flat" type="oscal-profile-merge" minOccurs="0" />
+			<xs:element id="oscal_profile_merge_as_is" name="as-is" type="BooleanDatatype" minOccurs="0" />
+			<xs:element id="oscal_profile_merge_custom" name="custom" type="oscal-profile-merge" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Group">
+		<xs:sequence>
+			<xs:element id="group_id" name="id" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="group_class" name="class" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="group_title" name="title" type="jadn:String" />
+			<xs:element id="group_params" name="params" type="Params" minOccurs="0" />
+			<xs:element id="group_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="group_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="group_parts" name="parts" type="Parts" minOccurs="0" />
+			<xs:element id="group_groups" name="groups" type="Groups" minOccurs="0" />
+			<xs:element id="group_insert_controls" name="insert-controls" type="Insert-controls" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Params">
+		<xs:sequence>
+			<xs:element id="params_params" name="Parameter" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Props">
+		<xs:sequence>
+			<xs:element id="props_props" name="Property" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Links">
+		<xs:sequence>
+			<xs:element id="links_links" name="Link" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Parts">
+		<xs:sequence>
+			<xs:element id="parts_parts" name="Part" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Groups">
+		<xs:sequence>
+			<xs:element id="groups_groups" name="Group" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Modify">
+		<xs:sequence>
+			<xs:element id="modify_set_parameters" name="set-parameters" type="Set-parameters" minOccurs="0" />
+			<xs:element id="modify_alters" name="alters" type="Alters" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Set-parameters">
+		<xs:sequence>
+			<xs:element id="set_parameters_set_parameters" name="Set-parameter" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Set-parameter">
+		<xs:sequence>
+			<xs:element id="set_parameter_param_id" name="param-id" type="TokenDatatype" />
+			<xs:element id="set_parameter_class" name="class" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="set_parameter_depends_on" name="depends-on" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="set_parameter_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="set_parameter_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="set_parameter_label" name="label" type="jadn:String" minOccurs="0" />
+			<xs:element id="set_parameter_usage" name="usage" type="jadn:String" minOccurs="0" />
+			<xs:element id="set_parameter_constraints" name="constraints" type="Constraints" minOccurs="0" />
+			<xs:element id="set_parameter_guidelines" name="guidelines" type="Guidelines" minOccurs="0" />
+			<xs:element id="set_parameter_values" name="values" type="Param-Values" minOccurs="0" />
+			<xs:element id="set_parameter_select" name="select" type="Parameter-selection" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Constraints">
+		<xs:sequence>
+			<xs:element id="constraints_constraints" name="Parameter-constraint" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Guidelines">
+		<xs:sequence>
+			<xs:element id="guidelines_guidelines" name="Parameter-guideline" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Param-Values">
+		<xs:sequence>
+			<xs:element id="param_values_param_values" name="StringDatatype" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Alters">
+		<xs:sequence>
+			<xs:element id="alters_alters" name="Alter" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Alter">
+		<xs:sequence>
+			<xs:element id="alter_control_id" name="control-id" type="TokenDatatype" />
+			<xs:element id="alter_removes" name="removes" type="Removes" minOccurs="0" />
+			<xs:element id="alter_adds" name="adds" type="Adds" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Removes">
+		<xs:sequence>
+			<xs:element id="removes_removes" name="Remove" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Remove">
+		<xs:sequence>
+			<xs:element id="remove_by_name" name="by-name" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="remove_by_class" name="by-class" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="remove_by_id" name="by-id" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="remove_by_item_name" name="by-item-name" type="Remove$by-item-name" minOccurs="0" />
+			<xs:element id="remove_by_ns" name="by-ns" type="TokenDatatype" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Remove$by-item-name">
+		<xs:annotation>
+			<xs:documentation>Identify items to remove by the name of the item's information object name, e.g. title or prop.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="remove$by_item_name_c1" name="c1" type="TokenDatatype" />
+			<xs:element id="remove$by_item_name_c2" name="c2" type="Remove$by-item-name$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Remove$by-item-name$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="remove$by_item_name$2_param" value="param" />
+			<xs:enumeration id="remove$by_item_name$2_prop" value="prop" />
+			<xs:enumeration id="remove$by_item_name$2_link" value="link" />
+			<xs:enumeration id="remove$by_item_name$2_part" value="part" />
+			<xs:enumeration id="remove$by_item_name$2_mapping" value="mapping" />
+			<xs:enumeration id="remove$by_item_name$2_map" value="map" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Adds">
+		<xs:sequence>
+			<xs:element id="adds_adds" name="Add" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Add">
+		<xs:sequence>
+			<xs:element id="add_position" name="position" type="Add$position" minOccurs="0" />
+			<xs:element id="add_by_id" name="by-id" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="add_title" name="title" type="jadn:String" minOccurs="0" />
+			<xs:element id="add_params" name="params" type="Params" minOccurs="0" />
+			<xs:element id="add_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="add_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="add_parts" name="parts" type="Parts" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Add$position">
+		<xs:annotation>
+			<xs:documentation>Where to add the new content with respect to the targeted element (beside it or inside it).</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="add$position_c1" name="c1" type="TokenDatatype" />
+			<xs:element id="add$position_c2" name="c2" type="Add$position$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Add$position$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="add$position$2_before" value="before" />
+			<xs:enumeration id="add$position$2_after" value="after" />
+			<xs:enumeration id="add$position$2_starting" value="starting" />
+			<xs:enumeration id="add$position$2_ending" value="ending" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Insert-controls">
+		<xs:sequence>
+			<xs:element id="insert_controls_order" name="order" type="Insert-controls$order" minOccurs="0" />
+			<xs:element id="insert_controls_include_all" name="include-all" type="Include-all" minOccurs="0" />
+			<xs:element id="insert_controls_include_controls" name="include-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element id="insert_controls_exclude_controls" name="exclude-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Insert-controls$order">
+		<xs:annotation>
+			<xs:documentation>A designation of how a selection of controls in a profile is to be ordered.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="insert_controls$order_c1" name="c1" type="TokenDatatype" />
+			<xs:element id="insert_controls$order_c2" name="c2" type="Insert-controls$order$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Insert-controls$order$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="insert_controls$order$2_keep" value="keep" />
+			<xs:enumeration id="insert_controls$order$2_ascending" value="ascending" />
+			<xs:enumeration id="insert_controls$order$2_descending" value="descending" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Select-control-by-id">
+		<xs:sequence>
+			<xs:element id="select_control_by_id_with_child_controls" name="with-child-controls" type="Select-control-by-id$with-child-controls" minOccurs="0" />
+			<xs:element id="select_control_by_id_with_ids" name="with-ids" type="TokenDatatype" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element id="select_control_by_id_matching" name="matching" type="Matching" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Select-control-by-id$with-child-controls">
+		<xs:annotation>
+			<xs:documentation>When a control is included, whether its child (dependent) controls are also included.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="select_control_by_id$with_child_controls_c1" name="c1" type="TokenDatatype" />
+			<xs:element id="select_control_by_id$with_child_controls_c2" name="c2" type="Select-control-by-id$with-child-controls$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Select-control-by-id$with-child-controls$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="select_control_by_id$with_child_controls$2_yes" value="yes" />
+			<xs:enumeration id="select_control_by_id$with_child_controls$2_no" value="no" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Matching">
+		<xs:sequence>
+			<xs:element id="matching_pattern" name="pattern" type="StringDatatype" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Metadata">
+		<xs:sequence>
+			<xs:element id="metadata_title" name="title" type="jadn:String" />
+			<xs:element id="metadata_published" name="published" type="DateTimeWithTimezoneDatatype" minOccurs="0" />
+			<xs:element id="metadata_last_modified" name="last-modified" type="DateTimeWithTimezoneDatatype" />
+			<xs:element id="metadata_version" name="version" type="StringDatatype" />
+			<xs:element id="metadata_oscal_version" name="oscal-version" type="StringDatatype" />
+			<xs:element id="metadata_revisions" name="revisions" type="Revisions" minOccurs="0" />
+			<xs:element id="metadata_document_ids" name="document-ids" type="Document-ids" minOccurs="0" />
+			<xs:element id="metadata_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="metadata_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="metadata_roles" name="roles" type="Roles" minOccurs="0" />
+			<xs:element id="metadata_locations" name="locations" type="Locations" minOccurs="0" />
+			<xs:element id="metadata_parties" name="parties" type="Parties" minOccurs="0" />
+			<xs:element id="metadata_responsible_parties" name="responsible-parties" type="Responsible-parties" minOccurs="0" />
+			<xs:element id="metadata_actions" name="actions" type="Actions" minOccurs="0" />
+			<xs:element id="metadata_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Revisions">
+		<xs:sequence>
+			<xs:element id="revisions_revisions" name="Revision" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Revision">
+		<xs:sequence>
+			<xs:element id="revision_title" name="title" type="jadn:String" minOccurs="0" />
+			<xs:element id="revision_published" name="published" type="DateTimeWithTimezoneDatatype" minOccurs="0" />
+			<xs:element id="revision_last_modified" name="last-modified" type="DateTimeWithTimezoneDatatype" minOccurs="0" />
+			<xs:element id="revision_version" name="version" type="StringDatatype" />
+			<xs:element id="revision_oscal_version" name="oscal-version" type="StringDatatype" minOccurs="0" />
+			<xs:element id="revision_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="revision_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="revision_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Document-ids">
+		<xs:sequence>
+			<xs:element id="document_ids_document_ids" name="Document-id" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Roles">
+		<xs:sequence>
+			<xs:element id="roles_roles" name="Role" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Role">
+		<xs:sequence>
+			<xs:element id="role_id" name="id" type="TokenDatatype" />
+			<xs:element id="role_title" name="title" type="jadn:String" />
+			<xs:element id="role_short_name" name="short-name" type="StringDatatype" minOccurs="0" />
+			<xs:element id="role_description" name="description" type="jadn:String" minOccurs="0" />
+			<xs:element id="role_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="role_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="role_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Locations">
+		<xs:sequence>
+			<xs:element id="locations_locations" name="Location" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Location">
+		<xs:sequence>
+			<xs:element id="location_uuid" name="uuid" type="UUIDDatatype" />
+			<xs:element id="location_title" name="title" type="jadn:String" minOccurs="0" />
+			<xs:element id="location_address" name="address" type="Address" minOccurs="0" />
+			<xs:element id="location_email_addresses" name="email-addresses" type="Email-addresses" minOccurs="0" />
+			<xs:element id="location_telephone_numbers" name="telephone-numbers" type="Telephone-numbers" minOccurs="0" />
+			<xs:element id="location_urls" name="urls" type="Urls" minOccurs="0" />
+			<xs:element id="location_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="location_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="location_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Email-addresses">
+		<xs:sequence>
+			<xs:element id="email_addresses_email_addresses" name="EmailAddressDatatype" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Telephone-numbers">
+		<xs:sequence>
+			<xs:element id="telephone_numbers_telephone_numbers" name="Telephone-number" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Urls">
+		<xs:sequence>
+			<xs:element id="urls_urls" name="URIDatatype" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Parties">
+		<xs:sequence>
+			<xs:element id="parties_parties" name="Party" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Party">
+		<xs:sequence>
+			<xs:element id="party_uuid" name="uuid" type="UUIDDatatype" />
+			<xs:element id="party_type" name="type" type="Party$type" />
+			<xs:element id="party_name" name="name" type="StringDatatype" minOccurs="0" />
+			<xs:element id="party_short_name" name="short-name" type="StringDatatype" minOccurs="0" />
+			<xs:element id="party_external_ids" name="external-ids" type="External-ids" minOccurs="0" />
+			<xs:element id="party_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="party_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="party_email_addresses" name="email-addresses" type="Email-addresses" minOccurs="0" />
+			<xs:element id="party_telephone_numbers" name="telephone-numbers" type="Telephone-numbers" minOccurs="0" />
+			<xs:element id="party_addresses" name="addresses" type="Addresses" minOccurs="0" />
+			<xs:element id="party_location_uuids" name="location-uuids" type="Location-uuids" minOccurs="0" />
+			<xs:element id="party_member_of_organizations" name="member-of-organizations" type="Member-of-organizations" minOccurs="0" />
+			<xs:element id="party_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Party$type">
+		<xs:annotation>
+			<xs:documentation>A category describing the kind of party the object describes.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="party$type_c1" name="c1" type="StringDatatype" />
+			<xs:element id="party$type_c2" name="c2" type="Party$type$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Party$type$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="party$type$2_person" value="person" />
+			<xs:enumeration id="party$type$2_organization" value="organization" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="External-ids">
+		<xs:sequence>
+			<xs:element id="external_ids_external_ids" name="External-id" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="External-id">
+		<xs:sequence>
+			<xs:element id="external_id_scheme" name="scheme" type="External-id$scheme" />
+			<xs:element id="external_id_id" name="id" type="StringDatatype" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="External-id$scheme">
+		<xs:annotation>
+			<xs:documentation>Indicates the type of external identifier.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="external_id$scheme_c1" name="c1" type="URIDatatype" />
+			<xs:element id="external_id$scheme_c2" name="c2" type="External-id$scheme$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="External-id$scheme$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="external_id$scheme$2_http://orcid.org/" value="http://orcid.org/" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Addresses">
+		<xs:sequence>
+			<xs:element id="addresses_addresses" name="Address" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Location-uuids">
+		<xs:sequence>
+			<xs:element id="location_uuids_location_uuids" name="UUIDDatatype" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Member-of-organizations">
+		<xs:sequence>
+			<xs:element id="member_of_organizations_member_of_organizations" name="UUIDDatatype" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Responsible-parties">
+		<xs:sequence>
+			<xs:element id="responsible_parties_responsible_parties" name="Responsible-party" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Actions">
+		<xs:sequence>
+			<xs:element id="actions_actions" name="Action" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Back-matter">
+		<xs:sequence>
+			<xs:element id="back_matter_resources" name="resources" type="Resources" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Resources">
+		<xs:sequence>
+			<xs:element id="resources_resources" name="Resource" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Resource">
+		<xs:sequence>
+			<xs:element id="resource_uuid" name="uuid" type="UUIDDatatype" />
+			<xs:element id="resource_title" name="title" type="jadn:String" minOccurs="0" />
+			<xs:element id="resource_description" name="description" type="jadn:String" minOccurs="0" />
+			<xs:element id="resource_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="resource_document_ids" name="document-ids" type="Document-ids" minOccurs="0" />
+			<xs:element id="resource_citation" name="citation" type="Resource" minOccurs="0" />
+			<xs:element id="resource_rlinks" name="rlinks" type="Rlinks" minOccurs="0" />
+			<xs:element id="resource_base64" name="base64" type="Resource" minOccurs="0" />
+			<xs:element id="resource_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Rlinks">
+		<xs:sequence>
+			<xs:element id="rlinks_rlinks" name="Rlink" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Rlink">
+		<xs:sequence>
+			<xs:element id="rlink_href" name="href" type="URIReferenceDatatype" />
+			<xs:element id="rlink_media_type" name="media-type" type="StringDatatype" minOccurs="0" />
+			<xs:element id="rlink_hashes" name="hashes" type="Hashes" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Hashes">
+		<xs:sequence>
+			<xs:element id="hashes_hashes" name="Hash" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Property">
+		<xs:sequence>
+			<xs:element id="property_name" name="name" type="TokenDatatype" />
+			<xs:element id="property_uuid" name="uuid" type="UUIDDatatype" minOccurs="0" />
+			<xs:element id="property_ns" name="ns" type="URIDatatype" minOccurs="0" />
+			<xs:element id="property_value" name="value" type="StringDatatype" />
+			<xs:element id="property_class" name="class" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="property_group" name="group" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="property_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Link">
+		<xs:sequence>
+			<xs:element id="link_href" name="href" type="URIReferenceDatatype" />
+			<xs:element id="link_rel" name="rel" type="Link$rel" minOccurs="0" />
+			<xs:element id="link_media_type" name="media-type" type="StringDatatype" minOccurs="0" />
+			<xs:element id="link_resource_fragment" name="resource-fragment" type="StringDatatype" minOccurs="0" />
+			<xs:element id="link_text" name="text" type="jadn:String" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Link$rel">
+		<xs:annotation>
+			<xs:documentation>Describes the type of relationship provided by the link's hypertext reference. This can be an indicator of the link's purpose.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="link$rel_c1" name="c1" type="TokenDatatype" />
+			<xs:element id="link$rel_c2" name="c2" type="Link$rel$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Link$rel$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="link$rel$2_reference" value="reference" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Responsible-party">
+		<xs:sequence>
+			<xs:element id="responsible_party_role_id" name="role-id" type="TokenDatatype" />
+			<xs:element id="responsible_party_party_uuids" name="party-uuids" type="Party-uuids" />
+			<xs:element id="responsible_party_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="responsible_party_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="responsible_party_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Party-uuids">
+		<xs:sequence>
+			<xs:element id="party_uuids_party_uuids" name="UUIDDatatype" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Action">
+		<xs:sequence>
+			<xs:element id="action_uuid" name="uuid" type="UUIDDatatype" />
+			<xs:element id="action_date" name="date" type="DateTimeWithTimezoneDatatype" minOccurs="0" />
+			<xs:element id="action_type" name="type" type="TokenDatatype" />
+			<xs:element id="action_system" name="system" type="URIDatatype" />
+			<xs:element id="action_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="action_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="action_responsible_parties" name="responsible-parties" type="Responsible-parties" minOccurs="0" />
+			<xs:element id="action_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Responsible-role">
+		<xs:sequence>
+			<xs:element id="responsible_role_role_id" name="role-id" type="TokenDatatype" />
+			<xs:element id="responsible_role_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="responsible_role_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="responsible_role_party_uuids" name="party-uuids" type="Party-uuids" minOccurs="0" />
+			<xs:element id="responsible_role_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Hash">
+		<xs:sequence>
+			<xs:element id="hash_algorithm" name="algorithm" type="Hash$algorithm" />
+			<xs:element id="hash_value" name="value" type="StringDatatype" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Hash$algorithm">
+		<xs:annotation>
+			<xs:documentation>The digest method by which a hash is derived.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="hash$algorithm_c1" name="c1" type="StringDatatype" />
+			<xs:element id="hash$algorithm_c2" name="c2" type="Hash$algorithm$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Hash$algorithm$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="hash$algorithm$2_sha_224" value="SHA-224" />
+			<xs:enumeration id="hash$algorithm$2_sha_256" value="SHA-256" />
+			<xs:enumeration id="hash$algorithm$2_sha_384" value="SHA-384" />
+			<xs:enumeration id="hash$algorithm$2_sha_512" value="SHA-512" />
+			<xs:enumeration id="hash$algorithm$2_sha3_224" value="SHA3-224" />
+			<xs:enumeration id="hash$algorithm$2_sha3_256" value="SHA3-256" />
+			<xs:enumeration id="hash$algorithm$2_sha3_384" value="SHA3-384" />
+			<xs:enumeration id="hash$algorithm$2_sha3_512" value="SHA3-512" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Remarks">
+		<xs:annotation>
+			<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String" />
+	</xs:simpleType>
+	<xs:complexType name="Telephone-number">
+		<xs:sequence>
+			<xs:element id="telephone_number_type" name="type" type="Telephone-number$type" minOccurs="0" />
+			<xs:element id="telephone_number_number" name="number" type="StringDatatype" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Telephone-number$type">
+		<xs:annotation>
+			<xs:documentation>Indicates the type of phone number.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="telephone_number$type_c1" name="c1" type="StringDatatype" />
+			<xs:element id="telephone_number$type_c2" name="c2" type="Telephone-number$type$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Telephone-number$type$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="telephone_number$type$2_home" value="home" />
+			<xs:enumeration id="telephone_number$type$2_office" value="office" />
+			<xs:enumeration id="telephone_number$type$2_mobile" value="mobile" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:element id="address_type" name="type" type="Address$type" minOccurs="0" />
+			<xs:element id="address_addr_lines" name="addr-lines" type="Addr-lines" minOccurs="0" />
+			<xs:element id="address_city" name="city" type="StringDatatype" minOccurs="0" />
+			<xs:element id="address_state" name="state" type="StringDatatype" minOccurs="0" />
+			<xs:element id="address_postal_code" name="postal-code" type="StringDatatype" minOccurs="0" />
+			<xs:element id="address_country" name="country" type="StringDatatype" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Address$type">
+		<xs:annotation>
+			<xs:documentation>Indicates the type of address.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="address$type_c1" name="c1" type="TokenDatatype" />
+			<xs:element id="address$type_c2" name="c2" type="Address$type$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Address$type$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="address$type$2_home" value="home" />
+			<xs:enumeration id="address$type$2_work" value="work" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Addr-lines">
+		<xs:sequence>
+			<xs:element id="addr_lines_addr_lines" name="StringDatatype" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Document-id">
+		<xs:sequence>
+			<xs:element id="document_id_scheme" name="scheme" type="Document-id$scheme" minOccurs="0" />
+			<xs:element id="document_id_identifier" name="identifier" type="StringDatatype" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Document-id$scheme">
+		<xs:annotation>
+			<xs:documentation>Qualifies the kind of document identifier using a URI. If the scheme is not provided the value of the element will be interpreted as a string of characters.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="document_id$scheme_c1" name="c1" type="URIDatatype" />
+			<xs:element id="document_id$scheme_c2" name="c2" type="Document-id$scheme$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Document-id$scheme$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="document_id$scheme$2_http://www.doi.org/" value="http://www.doi.org/" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Part">
+		<xs:sequence>
+			<xs:element id="part_id" name="id" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="part_name" name="name" type="TokenDatatype" />
+			<xs:element id="part_ns" name="ns" type="URIDatatype" minOccurs="0" />
+			<xs:element id="part_class" name="class" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="part_title" name="title" type="jadn:String" minOccurs="0" />
+			<xs:element id="part_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="part_prose" name="prose" type="jadn:String" minOccurs="0" />
+			<xs:element id="part_parts" name="parts" type="Parts" minOccurs="0" />
+			<xs:element id="part_links" name="links" type="Links" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Parameter">
+		<xs:sequence>
+			<xs:element id="parameter_id" name="id" type="TokenDatatype" />
+			<xs:element id="parameter_class" name="class" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="parameter_depends_on" name="depends-on" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="parameter_props" name="props" type="Props" minOccurs="0" />
+			<xs:element id="parameter_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="parameter_label" name="label" type="jadn:String" minOccurs="0" />
+			<xs:element id="parameter_usage" name="usage" type="jadn:String" minOccurs="0" />
+			<xs:element id="parameter_constraints" name="constraints" type="Constraints" minOccurs="0" />
+			<xs:element id="parameter_guidelines" name="guidelines" type="Guidelines" minOccurs="0" />
+			<xs:element id="parameter_values" name="values" type="Param-Values" minOccurs="0" />
+			<xs:element id="parameter_select" name="select" type="Parameter-selection" minOccurs="0" />
+			<xs:element id="parameter_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Parameter-constraint">
+		<xs:sequence>
+			<xs:element id="parameter_constraint_description" name="description" type="jadn:String" minOccurs="0" />
+			<xs:element id="parameter_constraint_tests" name="tests" type="Tests" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Tests">
+		<xs:sequence>
+			<xs:element id="tests_tests" name="Test" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Test">
+		<xs:sequence>
+			<xs:element id="test_expression" name="expression" type="StringDatatype" />
+			<xs:element id="test_remarks" name="remarks" type="Remarks" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Parameter-guideline">
+		<xs:sequence>
+			<xs:element id="parameter_guideline_prose" name="prose" type="jadn:String" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Parameter-selection">
+		<xs:sequence>
+			<xs:element id="parameter_selection_how_many" name="how-many" type="Parameter-selection$how-many" minOccurs="0" />
+			<xs:element id="parameter_selection_choice" name="choice" type="Choice1" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Parameter-selection$how-many">
+		<xs:annotation>
+			<xs:documentation>Describes the number of selections that must occur. Without this setting, only one value should be assumed to be permitted.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="parameter_selection$how_many_c1" name="c1" type="TokenDatatype" />
+			<xs:element id="parameter_selection$how_many_c2" name="c2" type="Parameter-selection$how-many$2" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Parameter-selection$how-many$2">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="parameter_selection$how_many$2_one" value="one" />
+			<xs:enumeration id="parameter_selection$how_many$2_one_or_more" value="one-or-more" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Choice1">
+		<xs:sequence>
+			<xs:element id="choice1_choice1" name="String" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Choice1-item">
+		<xs:annotation>
+			<xs:documentation>A value selection among several such options.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String" />
+	</xs:simpleType>
+	<xs:complexType name="Include-all">
+		<xs:sequence />
+	</xs:complexType>
+	<xs:simpleType name="Base64Datatype">
+		<xs:annotation>
+			<xs:documentation>Binary data encoded using the Base 64 encoding algorithm as defined by RFC4648.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^[0-9A-Za-z+/]+={0,2}$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="BooleanDatatype">
+		<xs:annotation>
+			<xs:documentation>A binary value that is either: true or false.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:Boolean" />
+	</xs:simpleType>
+	<xs:simpleType name="DateTimeWithTimezoneDatatype">
+		<xs:annotation>
+			<xs:documentation>A string representing a point in time with a required timezone.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^(((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30)))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|(-((0[0-9]|1[0-2]):00|0[39]:30)|\+((0[0-9]|1[0-4]):00|(0[34569]|10):30|(0[58]|12):45)))$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="EmailAddressDatatype">
+		<xs:annotation>
+			<xs:documentation>An email address string formatted according to RFC 6531.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="emailaddressdatatype_c1" name="c1" type="StringDatatype" />
+			<xs:element id="emailaddressdatatype_c2" name="c2" type="jadn:String" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="EmailAddressDatatype$2">
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^.+@.+$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StringDatatype">
+		<xs:annotation>
+			<xs:documentation>A non-empty string with leading and trailing whitespace disallowed. Whitespace is: U+9, U+10, U+32 or [ 
+	]+</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^\S(.*\S)?$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TokenDatatype">
+		<xs:annotation>
+			<xs:documentation>A non-colonized name as defined by XML Schema Part 2: Datatypes Second Edition. https://www.w3.org/TR/xmlschema11-2/#NCName.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^(\p{L}|_)(\p{L}|\p{N}|[.\-_])*$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="URIDatatype">
+		<xs:annotation>
+			<xs:documentation>A universal resource identifier (URI) formatted according to RFC3986.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^[a-zA-Z][a-zA-Z0-9+\-.]+:.+$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="URIReferenceDatatype">
+		<xs:annotation>
+			<xs:documentation>A URI Reference, either a URI or a relative-reference, formatted according to section 4.1 of RFC3986.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String" />
+	</xs:simpleType>
+	<xs:simpleType name="UUIDDatatype">
+		<xs:annotation>
+			<xs:documentation>A type 4 ('random' or 'pseudorandom') or type 5 UUID per RFC 4122.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="jadn:String">
+			<xs:pattern value="^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[45][0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element id="Root" name="Root" type="Root" />
+	<xs:element id="Profile" name="Profile" type="Profile" />
 </xs:schema>

@@ -1,7 +1,7 @@
 import json
 import xml.etree.ElementTree as ET
 
-from dicttoxml import dicttoxml
+from dict2xml import dict2xml
 
 
 def build_xml_from_json(data: dict):  
@@ -10,7 +10,7 @@ def build_xml_from_json(data: dict):
     if not isinstance(data, dict):
         data = json.loads(data)
     else:
-        xml = dicttoxml(data)
+        xml = dict2xml(data)
         print(xml)
         
     return xml

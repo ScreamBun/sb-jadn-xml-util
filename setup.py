@@ -7,7 +7,7 @@ setup(
     packages=["jadnxml", "jadnxml.builder", "jadnxml.constants", "jadnxml.helpers", "jadnxml.utils", "jadnxml.validation"],
     install_requires=[
         "requests",
-        "dicttoxml",
+        "dict2xml",
         "html-to-json",
         "lxml",
         "Markdown",
