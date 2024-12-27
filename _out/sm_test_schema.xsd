@@ -6,7 +6,11 @@
 			<xs:documentation>record comment goes here....</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="record_name_field_value_1" name="field_value_1" type="jadn:String" />
+			<xs:element id="record_name_field_value_1" name="field_value_1" type="jadn:String">
+				<xs:annotation>
+					<xs:documentation>field comment goes here...</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:element id="Record-Name" name="Record-Name" type="Record-Name" />

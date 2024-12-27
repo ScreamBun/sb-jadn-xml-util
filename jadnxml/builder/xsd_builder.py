@@ -34,6 +34,9 @@ def build_fields(xsd_seq: ET.Element, jce: dict):
       id = build_element_id(jce[TYPE_NAME], field_name)
       field_type_et = build_element(xsd_seq, field_name, id=id, type=field_type)
       
+      if field_desc:
+        build_documention(field_type_et, field_desc)
+      
       if field_opts:
         field_type_et = add_minoccurs_to_element(field_type_et, field_opts)
         field_type_et = add_maxoccurs_to_element(field_type_et, field_opts)       
