@@ -8,7 +8,10 @@
 		<xs:sequence>
 			<xs:element id="action_targets_map" name="action_targets_map" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType>
-					<xs:sequence />
+					<xs:sequence>
+						<xs:element id="action_targets_map_action" name="Action" />
+						<xs:element id="action_targets_map_targets" name="Targets" />
+					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
 		</xs:sequence>

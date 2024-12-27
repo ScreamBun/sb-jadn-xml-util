@@ -394,9 +394,13 @@ def build_mapOf_type(root: ET.Element, jce: dict):
                   is_set=False)
     
     xsd_complex_type_2 = build_complex_type(xsd_element_1)
-    build_sequence(xsd_complex_type_2)
-    build_element_id(map_name, ktype_opt)
-    build_element_id(map_name, vtype_opt)
+    xsd_seq_2 = build_sequence(xsd_complex_type_2)
+    
+    id_2 = build_element_id(map_name, ktype_opt)
+    build_element(xsd_seq_2, ktype_opt, id_2)
+
+    id_3 = build_element_id(map_name, vtype_opt)
+    build_element(xsd_seq_2, vtype_opt, id_3)      
     
 
 def build_arrayOf(root: ET.Element, jce: dict):
