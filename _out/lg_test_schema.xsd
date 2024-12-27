@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
+	<xs:complexType name="Action-Targets">
+		<xs:annotation>
+			<xs:documentation>Map of each action supported by this actuator to the list of targets applicable to that action</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element id="action_targets_map" name="action_targets_map" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Targets">
+		<xs:annotation>
+			<xs:documentation>List of JSON Pointers to Target types</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element id="targets_targets" name="Target" minOccurs="1" maxOccurs="1">
+				<xs:unique name="Target-Unique">
+					<xs:selector xpath="Target" />
+					<xs:field xpath="." />
+				</xs:unique>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Target">
+		<xs:annotation>
+			<xs:documentation>OpenC2 Target datatypes</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element id="target_artifact" name="artifact" type="jadn:String">
+				<xs:annotation>
+					<xs:documentation>test string</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="target_command" name="command" type="jadn:String">
+				<xs:annotation>
+					<xs:documentation>A reference to a previously issued Command.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="Action">
+		<xs:restriction base="jadn:String">
+			<xs:enumeration id="action_scan" value="scan">
+				<xs:annotation>
+					<xs:documentation>Systematic examination of some aspect of the entity or its environment.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_locate" value="locate">
+				<xs:annotation>
+					<xs:documentation>Find an object physically, logically, functionally, or by organization.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_query" value="query">
+				<xs:annotation>
+					<xs:documentation>Initiate a request for information.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_deny" value="deny">
+				<xs:annotation>
+					<xs:documentation>Prevent a certain event or action from completion, such as preventing a flow from reaching a destination or preventing access.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_contain" value="contain">
+				<xs:annotation>
+					<xs:documentation>Isolate a file, process, or entity so that it cannot modify or access assets or processes.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_allow" value="allow">
+				<xs:annotation>
+					<xs:documentation>Permit access to or execution of a Target.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_start" value="start">
+				<xs:annotation>
+					<xs:documentation>Initiate a process, application, system, or activity.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_stop" value="stop">
+				<xs:annotation>
+					<xs:documentation>Halt a system or end an activity.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_restart" value="restart">
+				<xs:annotation>
+					<xs:documentation>Stop then start a system or an activity.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_cancel" value="cancel">
+				<xs:annotation>
+					<xs:documentation>Invalidate a previously issued Action.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_set" value="set">
+				<xs:annotation>
+					<xs:documentation>Change a value, configuration, or state of a managed entity.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_update" value="update">
+				<xs:annotation>
+					<xs:documentation>Instruct a component to retrieve, install, process, and operate in accordance with a software update, reconfiguration, or other update.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_redirect" value="redirect">
+				<xs:annotation>
+					<xs:documentation>Change the flow of traffic to a destination other than its original destination.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_create" value="create">
+				<xs:annotation>
+					<xs:documentation>Add a new entity of a known type (e.g., data, files, directories).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_delete" value="delete">
+				<xs:annotation>
+					<xs:documentation>Remove an entity (e.g., data, files, flows).</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_detonate" value="detonate">
+				<xs:annotation>
+					<xs:documentation>Execute and observe the behavior of a Target (e.g., file, hyperlink) in an isolated environment.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_restore" value="restore">
+				<xs:annotation>
+					<xs:documentation>Return a system to a previously known state.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_copy" value="copy">
+				<xs:annotation>
+					<xs:documentation>Duplicate an object, file, data flow, or artifact.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_investigate" value="investigate">
+				<xs:annotation>
+					<xs:documentation>Task the recipient to aggregate and report information as it pertains to a security event or incident.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration id="action_remediate" value="remediate">
+				<xs:annotation>
+					<xs:documentation>Task the recipient to eliminate a vulnerability or attack point.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Required-Test">
+		<xs:restriction base="jadn:date-time">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.1</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Optional-Test">
+		<xs:restriction base="jadn:String">
+			<xs:minLength value="0" />
+			<xs:maxLength value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Date-Time-Test">
+		<xs:restriction base="jadn:date-time">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.1</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Date-Test">
+		<xs:restriction base="jadn:date">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.1</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Time-Test">
+		<xs:restriction base="jadn:time">
+			<xs:annotation>
+				<xs:documentation>JSON Schema Section 7.3.1</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="A-Very-Long-Name-Of-A-String-For-Testing-Screen-Length">
+		<xs:restriction base="jadn:String" />
+	</xs:simpleType>
+	<xs:element id="Date-Time-Test" name="Date-Time-Test" type="Date-Time-Test" />
+	<xs:element id="Date-Test" name="Date-Test" type="Date-Test" />
+	<xs:element id="Time-Test" name="Time-Test" type="Time-Test" />
+	<xs:element id="A-Very-Long-Name-Of-A-String-For-Testing-Screen-Length" name="A-Very-Long-Name-Of-A-String-For-Testing-Screen-Length" type="A-Very-Long-Name-Of-A-String-For-Testing-Screen-Length" />
+</xs:schema>

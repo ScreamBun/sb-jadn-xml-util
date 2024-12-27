@@ -2,6 +2,7 @@ from datetime import date, timedelta
 import json
 import os
 import pathlib
+import re
 from lxml import etree
 import xml.etree.ElementTree as ET
 
@@ -77,6 +78,9 @@ def get_xsd_file(file_name, isParseToET: bool = False):
             xmlschema = f.read()    
 
     return xmlschema
+
+def remove_special_characters(string):
+    return re.sub(r'[^a-zA-Z0-9-_]', '', string)
 
 
 def read_file(file_name):

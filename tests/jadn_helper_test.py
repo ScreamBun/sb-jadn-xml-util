@@ -1457,11 +1457,14 @@ def test_build_xml_from_json_str():
     
     
 def test_xsd_comments():     
-    jadn_filename = "sm_test_schema.jadn"
+    sm_jadn_filename = "sm_test_schema.jadn"
+    lg_jadn_filename = "lg_test_schema.jadn"
     
-    xsd = convert_to_xsd_from_file(jadn_filename)
+    sm_xsd = convert_to_xsd_from_file(sm_jadn_filename)
+    lg_xsd = convert_to_xsd_from_file(lg_jadn_filename)
 
-    assert xsd != None      
+    assert sm_xsd != None      
+    assert lg_xsd != None      
   
 
     
