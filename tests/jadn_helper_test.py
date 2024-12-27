@@ -336,7 +336,7 @@ def test_choice_get_type_option_vals():
     assert return_val.get("X") == "X"
 
 
-def test_enumerated_get_type_option_vals():
+def test_enumerated_get_type_option_vals(): 
     
     opts = ["=", "#enum-test", ">enum-pointer", "X"]
     base_type = ENUMERATED_CONST
@@ -1453,5 +1453,15 @@ def test_build_xml_from_json_str():
     #           xml_declaration=True,encoding='utf-8',
     #           method="xml")  
     
-    assert tree != None    
+    assert tree != None 
+    
+    
+def test_xsd_comments():     
+    jadn_filename = "sm_test_schema.jadn"
+    
+    xsd = convert_to_xsd_from_file(jadn_filename)
+
+    assert xsd != None      
+  
+
     

@@ -431,6 +431,10 @@ def build_record_type(root: ET.Element, jce: dict):
     print("Building Record Type")
     
     xsd_complex_type = build_complex_type(root, jce[TYPE_NAME])
+    
+    if jce.get(TYPE_DESCRIPTION):
+      build_documention(xsd_complex_type, jce.get(TYPE_DESCRIPTION))    
+    
     xsd_seq = build_sequence(xsd_complex_type)
     
     build_fields(xsd_seq, jce)    

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
+	<xs:complexType name="Record-Name">
+		<xs:annotation>
+			<xs:documentation>record comment goes here....</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element id="record_name_field_value_1" name="field_value_1" type="jadn:String" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element id="Record-Name" name="Record-Name" type="Record-Name" />
+</xs:schema>

@@ -1,2 +1,2 @@
 ./dist/jadn_xml-1.0-py3-none-any.whl
-pytest==7.4.3
+pytest==7.4.3 
