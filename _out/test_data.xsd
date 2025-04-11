@@ -3,18 +3,53 @@
 	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
 	<xs:complexType name="Root">
 		<xs:sequence>
-			<xs:element id="root_schema" name="schema" type="URIReferenceDatatype" minOccurs="0" />
-			<xs:element id="root_profile" name="profile" type="Profile" />
+			<xs:element id="root_schema" name="schema" type="URIReferenceDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A JSON Schema directive to bind a specific schema to its document instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="root_profile" name="profile" type="Profile">
+				<xs:annotation>
+					<xs:documentation>Each OSCAL profile is defined by a profile element.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Profile">
+		<xs:annotation>
+			<xs:documentation>Each OSCAL profile is defined by a profile element.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="profile_uuid" name="uuid" type="UUIDDatatype" />
-			<xs:element id="profile_metadata" name="metadata" type="Metadata" />
-			<xs:element id="profile_imports" name="imports" type="Imports" />
-			<xs:element id="profile_merge" name="merge" type="oscal-profile-merge" minOccurs="0" />
-			<xs:element id="profile_modify" name="modify" type="Modify" minOccurs="0" />
-			<xs:element id="profile_back_matter" name="back-matter" type="Back-matter" minOccurs="0" />
+			<xs:element id="profile_uuid" name="uuid" type="UUIDDatatype">
+				<xs:annotation>
+					<xs:documentation>Provides a globally unique means to identify a given profile instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="profile_metadata" name="metadata" type="Metadata">
+				<xs:annotation>
+					<xs:documentation>Provides information about the containing document, and defines concepts that are shared across the document.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="profile_imports" name="imports" type="Imports">
+				<xs:annotation>
+					<xs:documentation>Designates a referenced source catalog or profile that provides a source of control information for use in creating a new overlay or baseline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="profile_merge" name="merge" type="oscal-profile-merge" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Provides structuring directives that instruct how controls are organized after profile resolution.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="profile_modify" name="modify" type="Modify" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Set parameters or amend controls in resolution.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="profile_back_matter" name="back-matter" type="Back-matter" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A collection of resources that may be referenced from within the OSCAL document instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Imports">
@@ -23,32 +58,109 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Import">
+		<xs:annotation>
+			<xs:documentation>Designates a referenced source catalog or profile that provides a source of control information for use in creating a new overlay or baseline.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="import_href" name="href" type="URIReferenceDatatype" />
-			<xs:element id="import_include_all" name="include-all" type="Include-all" minOccurs="0" />
-			<xs:element id="import_include_controls" name="include-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded" />
-			<xs:element id="import_exclude_controls" name="exclude-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element id="import_href" name="href" type="URIReferenceDatatype">
+				<xs:annotation>
+					<xs:documentation>A resolvable URL reference to the base catalog or profile that this profile is tailoring.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="import_include_all" name="include-all" type="Include-all" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Include all controls from the imported catalog or profile resources.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="import_include_controls" name="include-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Select a control or controls from an imported control set.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="import_exclude_controls" name="exclude-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Select a control or controls from an imported control set.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="oscal-profile-merge">
+		<xs:annotation>
+			<xs:documentation>Provides structuring directives that instruct how controls are organized after profile resolution.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="oscal_profile_merge_combine" name="combine" type="oscal-profile-merge" minOccurs="0" />
-			<xs:element id="oscal_profile_merge_flat" name="flat" type="oscal-profile-merge" minOccurs="0" />
-			<xs:element id="oscal_profile_merge_as_is" name="as-is" type="BooleanDatatype" minOccurs="0" />
-			<xs:element id="oscal_profile_merge_custom" name="custom" type="oscal-profile-merge" minOccurs="0" />
+			<xs:element id="oscal_profile_merge_combine" name="combine" type="oscal-profile-merge" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A Combine element defines how to resolve duplicate instances of the same control (e.g., controls with the same ID).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="oscal_profile_merge_flat" name="flat" type="oscal-profile-merge" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Directs that controls appear without any grouping structure.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="oscal_profile_merge_as_is" name="as-is" type="BooleanDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates that the controls selected should retain their original grouping as defined in the import source.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="oscal_profile_merge_custom" name="custom" type="oscal-profile-merge" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Provides an alternate grouping structure that selected controls will be placed in.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Group">
+		<xs:annotation>
+			<xs:documentation>A group of (selected) controls or of groups of controls.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="group_id" name="id" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="group_class" name="class" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="group_title" name="title" type="jadn:String" />
-			<xs:element id="group_params" name="params" type="Params" minOccurs="0" />
-			<xs:element id="group_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="group_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="group_parts" name="parts" type="Parts" minOccurs="0" />
-			<xs:element id="group_groups" name="groups" type="Groups" minOccurs="0" />
-			<xs:element id="group_insert_controls" name="insert-controls" type="Insert-controls" minOccurs="0" />
+			<xs:element id="group_id" name="id" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifies the group.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="group_class" name="class" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A textual label that provides a sub-type or characterization of the group.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="group_title" name="title" type="jadn:String">
+				<xs:annotation>
+					<xs:documentation>A name to be given to the group for use in display.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="group_params" name="params" type="Params" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Parameters provide a mechanism for the dynamic assignment of value(s) in a control.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="group_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="group_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="group_parts" name="parts" type="Parts" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An annotated, markup-based textual element of a control's or catalog group's definition, or a child of another part.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="group_groups" name="groups" type="Groups" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A group of (selected) controls or of groups of controls.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="group_insert_controls" name="insert-controls" type="Insert-controls" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Specifies which controls to use in the containing context.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Params">
@@ -77,9 +189,20 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Modify">
+		<xs:annotation>
+			<xs:documentation>Set parameters or amend controls in resolution.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="modify_set_parameters" name="set-parameters" type="Set-parameters" minOccurs="0" />
-			<xs:element id="modify_alters" name="alters" type="Alters" minOccurs="0" />
+			<xs:element id="modify_set_parameters" name="set-parameters" type="Set-parameters" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A parameter setting, to be propagated to points of insertion.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="modify_alters" name="alters" type="Alters" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Specifies changes to be made to an included control when a profile is resolved.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Set-parameters">
@@ -88,18 +211,65 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Set-parameter">
+		<xs:annotation>
+			<xs:documentation>A parameter setting, to be propagated to points of insertion.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="set_parameter_param_id" name="param-id" type="TokenDatatype" />
-			<xs:element id="set_parameter_class" name="class" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="set_parameter_depends_on" name="depends-on" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="set_parameter_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="set_parameter_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="set_parameter_label" name="label" type="jadn:String" minOccurs="0" />
-			<xs:element id="set_parameter_usage" name="usage" type="jadn:String" minOccurs="0" />
-			<xs:element id="set_parameter_constraints" name="constraints" type="Constraints" minOccurs="0" />
-			<xs:element id="set_parameter_guidelines" name="guidelines" type="Guidelines" minOccurs="0" />
-			<xs:element id="set_parameter_values" name="values" type="Param-Values" minOccurs="0" />
-			<xs:element id="set_parameter_select" name="select" type="Parameter-selection" minOccurs="0" />
+			<xs:element id="set_parameter_param_id" name="param-id" type="TokenDatatype">
+				<xs:annotation>
+					<xs:documentation>An identifier for the parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="set_parameter_class" name="class" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A textual label that provides a characterization of the parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="set_parameter_depends_on" name="depends-on" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>**(deprecated)** Another parameter invoking this one. This construct has been deprecated and should not be used.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="set_parameter_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="set_parameter_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="set_parameter_label" name="label" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A short, placeholder name for the parameter, which can be used as a substitute for a value if no value is assigned.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="set_parameter_usage" name="usage" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Describes the purpose and use of a parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="set_parameter_constraints" name="constraints" type="Constraints" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A formal or informal expression of a constraint or test.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="set_parameter_guidelines" name="guidelines" type="Guidelines" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A prose statement that provides a recommendation for the use of a parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="set_parameter_values" name="values" type="Param-Values" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A parameter value or set of values.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="set_parameter_select" name="select" type="Parameter-selection" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Presenting a choice among alternatives.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Constraints">
@@ -123,10 +293,25 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Alter">
+		<xs:annotation>
+			<xs:documentation>Specifies changes to be made to an included control when a profile is resolved.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="alter_control_id" name="control-id" type="TokenDatatype" />
-			<xs:element id="alter_removes" name="removes" type="Removes" minOccurs="0" />
-			<xs:element id="alter_adds" name="adds" type="Adds" minOccurs="0" />
+			<xs:element id="alter_control_id" name="control-id" type="TokenDatatype">
+				<xs:annotation>
+					<xs:documentation>A reference to a control with a corresponding id value. When referencing an externally defined control, the Control Identifier Reference must be used in the context of the external / imported OSCAL instance (e.g., uri-reference).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="alter_removes" name="removes" type="Removes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Specifies objects to be removed from a control based on specific aspects of the object that must all match.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="alter_adds" name="adds" type="Adds" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Specifies contents to be added into controls, in resolution.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Removes">
@@ -135,12 +320,35 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Remove">
+		<xs:annotation>
+			<xs:documentation>Specifies objects to be removed from a control based on specific aspects of the object that must all match.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="remove_by_name" name="by-name" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="remove_by_class" name="by-class" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="remove_by_id" name="by-id" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="remove_by_item_name" name="by-item-name" type="Remove$by-item-name" minOccurs="0" />
-			<xs:element id="remove_by_ns" name="by-ns" type="TokenDatatype" minOccurs="0" />
+			<xs:element id="remove_by_name" name="by-name" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identify items remove by matching their assigned name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="remove_by_class" name="by-class" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identify items to remove by matching their class.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="remove_by_id" name="by-id" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identify items to remove indicated by their id.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="remove_by_item_name" name="by-item-name" type="Remove$by-item-name" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identify items to remove by the name of the item's information object name, e.g. title or prop.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="remove_by_ns" name="by-ns" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identify items to remove by the item's ns, which is the namespace associated with a part, or prop.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Remove$by-item-name">
@@ -168,14 +376,45 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Add">
+		<xs:annotation>
+			<xs:documentation>Specifies contents to be added into controls, in resolution.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="add_position" name="position" type="Add$position" minOccurs="0" />
-			<xs:element id="add_by_id" name="by-id" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="add_title" name="title" type="jadn:String" minOccurs="0" />
-			<xs:element id="add_params" name="params" type="Params" minOccurs="0" />
-			<xs:element id="add_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="add_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="add_parts" name="parts" type="Parts" minOccurs="0" />
+			<xs:element id="add_position" name="position" type="Add$position" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Where to add the new content with respect to the targeted element (beside it or inside it).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="add_by_id" name="by-id" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Target location of the addition.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="add_title" name="title" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A name given to the control, which may be used by a tool for display and navigation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="add_params" name="params" type="Params" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Parameters provide a mechanism for the dynamic assignment of value(s) in a control.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="add_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="add_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="add_parts" name="parts" type="Parts" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An annotated, markup-based textual element of a control's or catalog group's definition, or a child of another part.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Add$position">
@@ -196,11 +435,30 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Insert-controls">
+		<xs:annotation>
+			<xs:documentation>Specifies which controls to use in the containing context.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="insert_controls_order" name="order" type="Insert-controls$order" minOccurs="0" />
-			<xs:element id="insert_controls_include_all" name="include-all" type="Include-all" minOccurs="0" />
-			<xs:element id="insert_controls_include_controls" name="include-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded" />
-			<xs:element id="insert_controls_exclude_controls" name="exclude-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element id="insert_controls_order" name="order" type="Insert-controls$order" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A designation of how a selection of controls in a profile is to be ordered.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="insert_controls_include_all" name="include-all" type="Include-all" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Include all controls from the imported catalog or profile resources.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="insert_controls_include_controls" name="include-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Select a control or controls from an imported control set.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="insert_controls_exclude_controls" name="exclude-controls" type="Select-control-by-id" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Select a control or controls from an imported control set.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Insert-controls$order">
@@ -220,10 +478,25 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Select-control-by-id">
+		<xs:annotation>
+			<xs:documentation>Select a control or controls from an imported control set.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="select_control_by_id_with_child_controls" name="with-child-controls" type="Select-control-by-id$with-child-controls" minOccurs="0" />
-			<xs:element id="select_control_by_id_with_ids" name="with-ids" type="TokenDatatype" minOccurs="0" maxOccurs="unbounded" />
-			<xs:element id="select_control_by_id_matching" name="matching" type="Matching" minOccurs="0" />
+			<xs:element id="select_control_by_id_with_child_controls" name="with-child-controls" type="Select-control-by-id$with-child-controls" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>When a control is included, whether its child (dependent) controls are also included.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="select_control_by_id_with_ids" name="with-ids" type="TokenDatatype" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Selecting a control by its ID given as a literal.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="select_control_by_id_matching" name="matching" type="Matching" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Selecting a set of controls by matching their IDs with a wildcard pattern.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Select-control-by-id$with-child-controls">
@@ -242,27 +515,97 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Matching">
+		<xs:annotation>
+			<xs:documentation>Selecting a set of controls by matching their IDs with a wildcard pattern.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="matching_pattern" name="pattern" type="StringDatatype" minOccurs="0" />
+			<xs:element id="matching_pattern" name="pattern" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A glob expression matching the IDs of one or more controls to be selected.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Metadata">
+		<xs:annotation>
+			<xs:documentation>Provides information about the containing document, and defines concepts that are shared across the document.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="metadata_title" name="title" type="jadn:String" />
-			<xs:element id="metadata_published" name="published" type="DateTimeWithTimezoneDatatype" minOccurs="0" />
-			<xs:element id="metadata_last_modified" name="last-modified" type="DateTimeWithTimezoneDatatype" />
-			<xs:element id="metadata_version" name="version" type="StringDatatype" />
-			<xs:element id="metadata_oscal_version" name="oscal-version" type="StringDatatype" />
-			<xs:element id="metadata_revisions" name="revisions" type="Revisions" minOccurs="0" />
-			<xs:element id="metadata_document_ids" name="document-ids" type="Document-ids" minOccurs="0" />
-			<xs:element id="metadata_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="metadata_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="metadata_roles" name="roles" type="Roles" minOccurs="0" />
-			<xs:element id="metadata_locations" name="locations" type="Locations" minOccurs="0" />
-			<xs:element id="metadata_parties" name="parties" type="Parties" minOccurs="0" />
-			<xs:element id="metadata_responsible_parties" name="responsible-parties" type="Responsible-parties" minOccurs="0" />
-			<xs:element id="metadata_actions" name="actions" type="Actions" minOccurs="0" />
-			<xs:element id="metadata_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="metadata_title" name="title" type="jadn:String">
+				<xs:annotation>
+					<xs:documentation>A name given to the document, which may be used by a tool for display and navigation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_published" name="published" type="DateTimeWithTimezoneDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date and time the document was last made available.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_last_modified" name="last-modified" type="DateTimeWithTimezoneDatatype">
+				<xs:annotation>
+					<xs:documentation>The date and time the document was last stored for later retrieval.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_version" name="version" type="StringDatatype">
+				<xs:annotation>
+					<xs:documentation>Used to distinguish a specific revision of an OSCAL document from other previous and future versions.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_oscal_version" name="oscal-version" type="StringDatatype">
+				<xs:annotation>
+					<xs:documentation>The OSCAL model version the document was authored against and will conform to as valid.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_revisions" name="revisions" type="Revisions" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An entry in a sequential list of revisions to the containing document, expected to be in reverse chronological order (i.e. latest first).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_document_ids" name="document-ids" type="Document-ids" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A document identifier qualified by an identifier scheme.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_roles" name="roles" type="Roles" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Defines a function, which might be assigned to a party in a specific situation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_locations" name="locations" type="Locations" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A physical point of presence, which may be associated with people, organizations, or other concepts within the current or linked OSCAL document.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_parties" name="parties" type="Parties" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An organization or person, which may be associated with roles or other concepts within the current or linked OSCAL document.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_responsible_parties" name="responsible-parties" type="Responsible-parties" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a set of persons and/or organizations that have responsibility for performing the referenced role in the context of the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_actions" name="actions" type="Actions" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An action applied by a role within a given party to the content.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="metadata_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Revisions">
@@ -271,15 +614,50 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Revision">
+		<xs:annotation>
+			<xs:documentation>An entry in a sequential list of revisions to the containing document, expected to be in reverse chronological order (i.e. latest first).</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="revision_title" name="title" type="jadn:String" minOccurs="0" />
-			<xs:element id="revision_published" name="published" type="DateTimeWithTimezoneDatatype" minOccurs="0" />
-			<xs:element id="revision_last_modified" name="last-modified" type="DateTimeWithTimezoneDatatype" minOccurs="0" />
-			<xs:element id="revision_version" name="version" type="StringDatatype" />
-			<xs:element id="revision_oscal_version" name="oscal-version" type="StringDatatype" minOccurs="0" />
-			<xs:element id="revision_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="revision_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="revision_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="revision_title" name="title" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A name given to the document revision, which may be used by a tool for display and navigation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="revision_published" name="published" type="DateTimeWithTimezoneDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date and time the document was last made available.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="revision_last_modified" name="last-modified" type="DateTimeWithTimezoneDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date and time the document was last stored for later retrieval.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="revision_version" name="version" type="StringDatatype">
+				<xs:annotation>
+					<xs:documentation>Used to distinguish a specific revision of an OSCAL document from other previous and future versions.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="revision_oscal_version" name="oscal-version" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The OSCAL model version the document was authored against and will conform to as valid.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="revision_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="revision_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="revision_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Document-ids">
@@ -293,14 +671,45 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Role">
+		<xs:annotation>
+			<xs:documentation>Defines a function, which might be assigned to a party in a specific situation.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="role_id" name="id" type="TokenDatatype" />
-			<xs:element id="role_title" name="title" type="jadn:String" />
-			<xs:element id="role_short_name" name="short-name" type="StringDatatype" minOccurs="0" />
-			<xs:element id="role_description" name="description" type="jadn:String" minOccurs="0" />
-			<xs:element id="role_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="role_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="role_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="role_id" name="id" type="TokenDatatype">
+				<xs:annotation>
+					<xs:documentation>A unique identifier for the role.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="role_title" name="title" type="jadn:String">
+				<xs:annotation>
+					<xs:documentation>A name given to the role, which may be used by a tool for display and navigation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="role_short_name" name="short-name" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A short common name, abbreviation, or acronym for the role.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="role_description" name="description" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A summary of the role's purpose and associated responsibilities.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="role_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="role_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="role_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Locations">
@@ -309,16 +718,55 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Location">
+		<xs:annotation>
+			<xs:documentation>A physical point of presence, which may be associated with people, organizations, or other concepts within the current or linked OSCAL document.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="location_uuid" name="uuid" type="UUIDDatatype" />
-			<xs:element id="location_title" name="title" type="jadn:String" minOccurs="0" />
-			<xs:element id="location_address" name="address" type="Address" minOccurs="0" />
-			<xs:element id="location_email_addresses" name="email-addresses" type="Email-addresses" minOccurs="0" />
-			<xs:element id="location_telephone_numbers" name="telephone-numbers" type="Telephone-numbers" minOccurs="0" />
-			<xs:element id="location_urls" name="urls" type="Urls" minOccurs="0" />
-			<xs:element id="location_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="location_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="location_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="location_uuid" name="uuid" type="UUIDDatatype">
+				<xs:annotation>
+					<xs:documentation>A unique ID for the location, for reference.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="location_title" name="title" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A name given to the location, which may be used by a tool for display and navigation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="location_address" name="address" type="Address" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A postal address for the location.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="location_email_addresses" name="email-addresses" type="Email-addresses" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An email address as defined by RFC 5322 Section 3.4.1.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="location_telephone_numbers" name="telephone-numbers" type="Telephone-numbers" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A telephone service number as defined by ITU-T E.164.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="location_urls" name="urls" type="Urls" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The uniform resource locator (URL) for a web site or other resource associated with the location.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="location_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="location_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="location_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Email-addresses">
@@ -342,20 +790,75 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Party">
+		<xs:annotation>
+			<xs:documentation>An organization or person, which may be associated with roles or other concepts within the current or linked OSCAL document.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="party_uuid" name="uuid" type="UUIDDatatype" />
-			<xs:element id="party_type" name="type" type="Party$type" />
-			<xs:element id="party_name" name="name" type="StringDatatype" minOccurs="0" />
-			<xs:element id="party_short_name" name="short-name" type="StringDatatype" minOccurs="0" />
-			<xs:element id="party_external_ids" name="external-ids" type="External-ids" minOccurs="0" />
-			<xs:element id="party_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="party_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="party_email_addresses" name="email-addresses" type="Email-addresses" minOccurs="0" />
-			<xs:element id="party_telephone_numbers" name="telephone-numbers" type="Telephone-numbers" minOccurs="0" />
-			<xs:element id="party_addresses" name="addresses" type="Addresses" minOccurs="0" />
-			<xs:element id="party_location_uuids" name="location-uuids" type="Location-uuids" minOccurs="0" />
-			<xs:element id="party_member_of_organizations" name="member-of-organizations" type="Member-of-organizations" minOccurs="0" />
-			<xs:element id="party_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="party_uuid" name="uuid" type="UUIDDatatype">
+				<xs:annotation>
+					<xs:documentation>A unique identifier for the party.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_type" name="type" type="Party$type">
+				<xs:annotation>
+					<xs:documentation>A category describing the kind of party the object describes.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_name" name="name" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The full name of the party. This is typically the legal name associated with the party.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_short_name" name="short-name" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A short common name, abbreviation, or acronym for the party.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_external_ids" name="external-ids" type="External-ids" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An identifier for a person or organization using a designated scheme. e.g. an Open Researcher and Contributor ID (ORCID).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_email_addresses" name="email-addresses" type="Email-addresses" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An email address as defined by RFC 5322 Section 3.4.1.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_telephone_numbers" name="telephone-numbers" type="Telephone-numbers" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A telephone service number as defined by ITU-T E.164.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_addresses" name="addresses" type="Addresses" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A postal address for the location.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_location_uuids" name="location-uuids" type="Location-uuids" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reference to a location by UUID.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_member_of_organizations" name="member-of-organizations" type="Member-of-organizations" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to another party by UUID, typically an organization, that this subject is associated with.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="party_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Party$type">
@@ -379,8 +882,15 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="External-id">
+		<xs:annotation>
+			<xs:documentation>An identifier for a person or organization using a designated scheme. e.g. an Open Researcher and Contributor ID (ORCID).</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="external_id_scheme" name="scheme" type="External-id$scheme" />
+			<xs:element id="external_id_scheme" name="scheme" type="External-id$scheme">
+				<xs:annotation>
+					<xs:documentation>Indicates the type of external identifier.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element id="external_id_id" name="id" type="StringDatatype" />
 		</xs:sequence>
 	</xs:complexType>
@@ -424,8 +934,15 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Back-matter">
+		<xs:annotation>
+			<xs:documentation>A collection of resources that may be referenced from within the OSCAL document instance.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="back_matter_resources" name="resources" type="Resources" minOccurs="0" />
+			<xs:element id="back_matter_resources" name="resources" type="Resources" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A resource associated with content in the containing document instance. A resource may be directly included in the document using base64 encoding or may point to one or more equivalent internet resources.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Resources">
@@ -434,16 +951,55 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Resource">
+		<xs:annotation>
+			<xs:documentation>A resource associated with content in the containing document instance. A resource may be directly included in the document using base64 encoding or may point to one or more equivalent internet resources.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="resource_uuid" name="uuid" type="UUIDDatatype" />
-			<xs:element id="resource_title" name="title" type="jadn:String" minOccurs="0" />
-			<xs:element id="resource_description" name="description" type="jadn:String" minOccurs="0" />
-			<xs:element id="resource_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="resource_document_ids" name="document-ids" type="Document-ids" minOccurs="0" />
-			<xs:element id="resource_citation" name="citation" type="Resource" minOccurs="0" />
-			<xs:element id="resource_rlinks" name="rlinks" type="Rlinks" minOccurs="0" />
-			<xs:element id="resource_base64" name="base64" type="Resource" minOccurs="0" />
-			<xs:element id="resource_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="resource_uuid" name="uuid" type="UUIDDatatype">
+				<xs:annotation>
+					<xs:documentation>A unique identifier for a resource.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="resource_title" name="title" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An optional name given to the resource, which may be used by a tool for display and navigation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="resource_description" name="description" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An optional short summary of the resource used to indicate the purpose of the resource.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="resource_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="resource_document_ids" name="document-ids" type="Document-ids" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A document identifier qualified by an identifier scheme.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="resource_citation" name="citation" type="Resource" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An optional citation consisting of end note text using structured markup.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="resource_rlinks" name="rlinks" type="Rlinks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A URL-based pointer to an external resource with an optional hash for verification and change detection.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="resource_base64" name="base64" type="Resource" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A resource encoded using the Base64 alphabet defined by RFC 2045.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="resource_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Rlinks">
@@ -452,10 +1008,25 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Rlink">
+		<xs:annotation>
+			<xs:documentation>A URL-based pointer to an external resource with an optional hash for verification and change detection.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="rlink_href" name="href" type="URIReferenceDatatype" />
-			<xs:element id="rlink_media_type" name="media-type" type="StringDatatype" minOccurs="0" />
-			<xs:element id="rlink_hashes" name="hashes" type="Hashes" minOccurs="0" />
+			<xs:element id="rlink_href" name="href" type="URIReferenceDatatype">
+				<xs:annotation>
+					<xs:documentation>A resolvable URL pointing to the referenced resource.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="rlink_media_type" name="media-type" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A label that indicates the nature of a resource, as a data serialization or format.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="rlink_hashes" name="hashes" type="Hashes" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A representation of a cryptographic digest generated over a resource using a specified hash algorithm.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Hashes">
@@ -464,23 +1035,77 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Property">
+		<xs:annotation>
+			<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="property_name" name="name" type="TokenDatatype" />
-			<xs:element id="property_uuid" name="uuid" type="UUIDDatatype" minOccurs="0" />
-			<xs:element id="property_ns" name="ns" type="URIDatatype" minOccurs="0" />
-			<xs:element id="property_value" name="value" type="StringDatatype" />
-			<xs:element id="property_class" name="class" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="property_group" name="group" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="property_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="property_name" name="name" type="TokenDatatype">
+				<xs:annotation>
+					<xs:documentation>A textual label, within a namespace, that uniquely identifies a specific attribute, characteristic, or quality of the property's containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="property_uuid" name="uuid" type="UUIDDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A unique identifier for a property.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="property_ns" name="ns" type="URIDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A namespace qualifying the property's name. This allows different organizations to associate distinct semantics with the same name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="property_value" name="value" type="StringDatatype">
+				<xs:annotation>
+					<xs:documentation>Indicates the value of the attribute, characteristic, or quality.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="property_class" name="class" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A textual label that provides a sub-type or characterization of the property's name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="property_group" name="group" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An identifier for relating distinct sets of properties.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="property_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Link">
+		<xs:annotation>
+			<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="link_href" name="href" type="URIReferenceDatatype" />
-			<xs:element id="link_rel" name="rel" type="Link$rel" minOccurs="0" />
-			<xs:element id="link_media_type" name="media-type" type="StringDatatype" minOccurs="0" />
-			<xs:element id="link_resource_fragment" name="resource-fragment" type="StringDatatype" minOccurs="0" />
-			<xs:element id="link_text" name="text" type="jadn:String" minOccurs="0" />
+			<xs:element id="link_href" name="href" type="URIReferenceDatatype">
+				<xs:annotation>
+					<xs:documentation>A resolvable URL reference to a resource.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="link_rel" name="rel" type="Link$rel" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Describes the type of relationship provided by the link's hypertext reference. This can be an indicator of the link's purpose.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="link_media_type" name="media-type" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A label that indicates the nature of a resource, as a data serialization or format.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="link_resource_fragment" name="resource-fragment" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>In case where the href points to a back-matter/resource, this value will indicate the URI fragment to append to any rlink associated with the resource. This value MUST be URI encoded.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="link_text" name="text" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A textual label to associate with the link, which may be used for presentation in a tool.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Link$rel">
@@ -498,12 +1123,35 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Responsible-party">
+		<xs:annotation>
+			<xs:documentation>A reference to a set of persons and/or organizations that have responsibility for performing the referenced role in the context of the containing object.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="responsible_party_role_id" name="role-id" type="TokenDatatype" />
-			<xs:element id="responsible_party_party_uuids" name="party-uuids" type="Party-uuids" />
-			<xs:element id="responsible_party_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="responsible_party_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="responsible_party_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="responsible_party_role_id" name="role-id" type="TokenDatatype">
+				<xs:annotation>
+					<xs:documentation>A reference to a role performed by a party.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="responsible_party_party_uuids" name="party-uuids" type="Party-uuids">
+				<xs:annotation>
+					<xs:documentation>Reference to a party by UUID.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="responsible_party_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="responsible_party_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="responsible_party_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Party-uuids">
@@ -512,29 +1160,94 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Action">
+		<xs:annotation>
+			<xs:documentation>An action applied by a role within a given party to the content.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="action_uuid" name="uuid" type="UUIDDatatype" />
-			<xs:element id="action_date" name="date" type="DateTimeWithTimezoneDatatype" minOccurs="0" />
-			<xs:element id="action_type" name="type" type="TokenDatatype" />
-			<xs:element id="action_system" name="system" type="URIDatatype" />
-			<xs:element id="action_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="action_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="action_responsible_parties" name="responsible-parties" type="Responsible-parties" minOccurs="0" />
-			<xs:element id="action_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="action_uuid" name="uuid" type="UUIDDatatype">
+				<xs:annotation>
+					<xs:documentation>A unique identifier that can be used to reference this defined action elsewhere in an OSCAL document. A UUID should be consistently used for a given location across revisions of the document.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="action_date" name="date" type="DateTimeWithTimezoneDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date and time when the action occurred.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="action_type" name="type" type="TokenDatatype">
+				<xs:annotation>
+					<xs:documentation>The type of action documented by the assembly, such as an approval.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="action_system" name="system" type="URIDatatype">
+				<xs:annotation>
+					<xs:documentation>Specifies the action type system used.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="action_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="action_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="action_responsible_parties" name="responsible-parties" type="Responsible-parties" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a set of persons and/or organizations that have responsibility for performing the referenced role in the context of the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="action_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Responsible-role">
+		<xs:annotation>
+			<xs:documentation>A reference to a role with responsibility for performing a function relative to the containing object, optionally associated with a set of persons and/or organizations that perform that role.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="responsible_role_role_id" name="role-id" type="TokenDatatype" />
-			<xs:element id="responsible_role_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="responsible_role_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="responsible_role_party_uuids" name="party-uuids" type="Party-uuids" minOccurs="0" />
-			<xs:element id="responsible_role_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="responsible_role_role_id" name="role-id" type="TokenDatatype">
+				<xs:annotation>
+					<xs:documentation>A human-oriented identifier reference to a role performed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="responsible_role_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="responsible_role_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="responsible_role_party_uuids" name="party-uuids" type="Party-uuids" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reference to a party by UUID.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="responsible_role_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Hash">
+		<xs:annotation>
+			<xs:documentation>A representation of a cryptographic digest generated over a resource using a specified hash algorithm.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="hash_algorithm" name="algorithm" type="Hash$algorithm" />
+			<xs:element id="hash_algorithm" name="algorithm" type="Hash$algorithm">
+				<xs:annotation>
+					<xs:documentation>The digest method by which a hash is derived.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element id="hash_value" name="value" type="StringDatatype" />
 		</xs:sequence>
 	</xs:complexType>
@@ -566,8 +1279,15 @@
 		<xs:restriction base="jadn:String" />
 	</xs:simpleType>
 	<xs:complexType name="Telephone-number">
+		<xs:annotation>
+			<xs:documentation>A telephone service number as defined by ITU-T E.164.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="telephone_number_type" name="type" type="Telephone-number$type" minOccurs="0" />
+			<xs:element id="telephone_number_type" name="type" type="Telephone-number$type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the type of phone number.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element id="telephone_number_number" name="number" type="StringDatatype" />
 		</xs:sequence>
 	</xs:complexType>
@@ -588,13 +1308,40 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Address">
+		<xs:annotation>
+			<xs:documentation>A postal address for the location.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="address_type" name="type" type="Address$type" minOccurs="0" />
-			<xs:element id="address_addr_lines" name="addr-lines" type="Addr-lines" minOccurs="0" />
-			<xs:element id="address_city" name="city" type="StringDatatype" minOccurs="0" />
-			<xs:element id="address_state" name="state" type="StringDatatype" minOccurs="0" />
-			<xs:element id="address_postal_code" name="postal-code" type="StringDatatype" minOccurs="0" />
-			<xs:element id="address_country" name="country" type="StringDatatype" minOccurs="0" />
+			<xs:element id="address_type" name="type" type="Address$type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the type of address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="address_addr_lines" name="addr-lines" type="Addr-lines" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A single line of an address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="address_city" name="city" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>City, town or geographical region for the mailing address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="address_state" name="state" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>State, province or analogous geographical region for a mailing address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="address_postal_code" name="postal-code" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Postal or ZIP code for mailing address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="address_country" name="country" type="StringDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The ISO 3166-1 alpha-2 country code for the mailing address.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Address$type">
@@ -618,8 +1365,15 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Document-id">
+		<xs:annotation>
+			<xs:documentation>A document identifier qualified by an identifier scheme.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="document_id_scheme" name="scheme" type="Document-id$scheme" minOccurs="0" />
+			<xs:element id="document_id_scheme" name="scheme" type="Document-id$scheme" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Qualifies the kind of document identifier using a URI. If the scheme is not provided the value of the element will be interpreted as a string of characters.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element id="document_id_identifier" name="identifier" type="StringDatatype" />
 		</xs:sequence>
 	</xs:complexType>
@@ -638,38 +1392,139 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Part">
+		<xs:annotation>
+			<xs:documentation>An annotated, markup-based textual element of a control's or catalog group's definition, or a child of another part.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="part_id" name="id" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="part_name" name="name" type="TokenDatatype" />
-			<xs:element id="part_ns" name="ns" type="URIDatatype" minOccurs="0" />
-			<xs:element id="part_class" name="class" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="part_title" name="title" type="jadn:String" minOccurs="0" />
-			<xs:element id="part_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="part_prose" name="prose" type="jadn:String" minOccurs="0" />
-			<xs:element id="part_parts" name="parts" type="Parts" minOccurs="0" />
-			<xs:element id="part_links" name="links" type="Links" minOccurs="0" />
+			<xs:element id="part_id" name="id" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A unique identifier for the part.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="part_name" name="name" type="TokenDatatype">
+				<xs:annotation>
+					<xs:documentation>A textual label that uniquely identifies the part's semantic type, which exists in a value space qualified by the ns.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="part_ns" name="ns" type="URIDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An optional namespace qualifying the part's name. This allows different organizations to associate distinct semantics with the same name.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="part_class" name="class" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An optional textual providing a sub-type or characterization of the part's name, or a category to which the part belongs.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="part_title" name="title" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An optional name given to the part, which may be used by a tool for display and navigation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="part_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="part_prose" name="prose" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Permits multiple paragraphs, lists, tables etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="part_parts" name="parts" type="Parts" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An annotated, markup-based textual element of a control's or catalog group's definition, or a child of another part.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="part_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Parameter">
+		<xs:annotation>
+			<xs:documentation>Parameters provide a mechanism for the dynamic assignment of value(s) in a control.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="parameter_id" name="id" type="TokenDatatype" />
-			<xs:element id="parameter_class" name="class" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="parameter_depends_on" name="depends-on" type="TokenDatatype" minOccurs="0" />
-			<xs:element id="parameter_props" name="props" type="Props" minOccurs="0" />
-			<xs:element id="parameter_links" name="links" type="Links" minOccurs="0" />
-			<xs:element id="parameter_label" name="label" type="jadn:String" minOccurs="0" />
-			<xs:element id="parameter_usage" name="usage" type="jadn:String" minOccurs="0" />
-			<xs:element id="parameter_constraints" name="constraints" type="Constraints" minOccurs="0" />
-			<xs:element id="parameter_guidelines" name="guidelines" type="Guidelines" minOccurs="0" />
-			<xs:element id="parameter_values" name="values" type="Param-Values" minOccurs="0" />
-			<xs:element id="parameter_select" name="select" type="Parameter-selection" minOccurs="0" />
-			<xs:element id="parameter_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="parameter_id" name="id" type="TokenDatatype">
+				<xs:annotation>
+					<xs:documentation>A unique identifier for the parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_class" name="class" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A textual label that provides a characterization of the type, purpose, use or scope of the parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_depends_on" name="depends-on" type="TokenDatatype" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>(deprecated) Another parameter invoking this one. This construct has been deprecated and should not be used.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_props" name="props" type="Props" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_links" name="links" type="Links" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A reference to a local or remote resource, that has a specific relation to the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_label" name="label" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A short, placeholder name for the parameter, which can be used as a substitute for a value if no value is assigned.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_usage" name="usage" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Describes the purpose and use of a parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_constraints" name="constraints" type="Constraints" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A formal or informal expression of a constraint or test.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_guidelines" name="guidelines" type="Guidelines" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A prose statement that provides a recommendation for the use of a parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_values" name="values" type="Param-Values" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A parameter value or set of values.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_select" name="select" type="Parameter-selection" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Presenting a choice among alternatives.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Parameter-constraint">
+		<xs:annotation>
+			<xs:documentation>A formal or informal expression of a constraint or test.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="parameter_constraint_description" name="description" type="jadn:String" minOccurs="0" />
-			<xs:element id="parameter_constraint_tests" name="tests" type="Tests" minOccurs="0" />
+			<xs:element id="parameter_constraint_description" name="description" type="jadn:String" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A textual summary of the constraint to be applied.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_constraint_tests" name="tests" type="Tests" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A test expression which is expected to be evaluated by a tool.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Tests">
@@ -678,20 +1533,49 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Test">
+		<xs:annotation>
+			<xs:documentation>A test expression which is expected to be evaluated by a tool.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="test_expression" name="expression" type="StringDatatype" />
-			<xs:element id="test_remarks" name="remarks" type="Remarks" minOccurs="0" />
+			<xs:element id="test_expression" name="expression" type="StringDatatype">
+				<xs:annotation>
+					<xs:documentation>A formal (executable) expression of a constraint.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="test_remarks" name="remarks" type="Remarks" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional commentary about the containing object.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Parameter-guideline">
+		<xs:annotation>
+			<xs:documentation>A prose statement that provides a recommendation for the use of a parameter.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="parameter_guideline_prose" name="prose" type="jadn:String" />
+			<xs:element id="parameter_guideline_prose" name="prose" type="jadn:String">
+				<xs:annotation>
+					<xs:documentation>Prose permits multiple paragraphs, lists, tables etc.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Parameter-selection">
+		<xs:annotation>
+			<xs:documentation>Presenting a choice among alternatives.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
-			<xs:element id="parameter_selection_how_many" name="how-many" type="Parameter-selection$how-many" minOccurs="0" />
-			<xs:element id="parameter_selection_choice" name="choice" type="Choice1" minOccurs="0" />
+			<xs:element id="parameter_selection_how_many" name="how-many" type="Parameter-selection$how-many" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Describes the number of selections that must occur. Without this setting, only one value should be assumed to be permitted.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element id="parameter_selection_choice" name="choice" type="Choice1" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A value selection among several such options.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Parameter-selection$how-many">
@@ -721,6 +1605,9 @@
 		<xs:restriction base="jadn:String" />
 	</xs:simpleType>
 	<xs:complexType name="Include-all">
+		<xs:annotation>
+			<xs:documentation>Include all controls from the imported catalog or profile resources.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence />
 	</xs:complexType>
 	<xs:simpleType name="Base64Datatype">

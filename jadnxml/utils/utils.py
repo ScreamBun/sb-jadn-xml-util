@@ -16,6 +16,16 @@ def convert_str_to_int(str_val: str):
   return return_int
 
 
+def find_first_list(data):
+    if isinstance(data, list):
+        return data
+    if isinstance(data, dict):
+        for value in data.values():
+            result = find_first_list(value)
+            if result is not None:
+                return result
+    return None
+
 def find_items_by_val(dictionary: dict, search_string: str):
     return {key:val for key,val in dictionary.items() if any(search_string in s for s in val)}
 
