@@ -44,4 +44,52 @@ def test_build_py_from_xml_array():
     
     json_data = build_py_from_xml(schema, root, xml)
     
-    assert json_data != None    
+    assert json_data != None
+    
+def test_build_py_from_xml_choice_id():
+    
+    xml = """<Root-Test>
+        <field_value_1 key="1">data 1</field_value_1>
+    </Root-Test>"""
+    
+    root = "Root-Test"
+    schema = {
+        "info": {
+            "package": "http://test.com",
+            "exports": ["Root-Test"]
+        },
+        "types": [
+            ["Root-Test", "Choice", ["="], "", [
+                [1, "field_value_1", "String", [], ""],
+                [2, "field_value_2", "Boolean", [], ""]
+            ]]
+        ]
+    }
+    
+    json_data = build_py_from_xml(schema, root, xml)
+    
+    assert json_data != None
+    
+def test_build_py_from_xml_choice():
+    
+    xml = """<Root-Test>
+        <field_value_1 key="1">data 1</field_value_1>
+    </Root-Test>"""
+    
+    root = "Root-Test"
+    j_schema = {
+        "info": {
+            "package": "http://test.com",
+            "exports": ["Root-Test"]
+        },
+        "types": [
+            ["Root-Test", "Choice", [], "", [
+                [1, "field_value_1", "String", [], ""],
+                [2, "field_value_2", "Boolean", [], ""]
+            ]]
+        ]
+    }
+    
+    json_data = build_py_from_xml(j_schema, root, xml)
+    
+    assert json_data != None   

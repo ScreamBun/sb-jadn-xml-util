@@ -5,7 +5,7 @@ import pathlib
 import re
 from lxml import etree
 import xml.etree.ElementTree as ET
-
+import xmltodict
 
 def convert_str_to_int(str_val: str):
   return_int: int = 0
@@ -35,6 +35,27 @@ def get_after_last_occurance(char: str, value: str):
     after_last = str_split[-1]
     return after_last
 
+def get_base_type_and_schema_type(schema: dict, root: str):
+    base_type = None
+    schema_type = None
+    
+    if schema and root:    
+        types = schema.get('types')
+        if types == None or types == []:
+            raise ValueError(f"No Types defined")
+        
+        for type in types:
+            if type[0] == root:
+                base_type = type[1]
+                schema_type = type
+                break
+    
+    if base_type == None:
+        raise ValueError(f"Root Type not found {root}")
+    if schema_type == None:
+        raise ValueError(f"Schema Type not found for {root}")
+    
+    return base_type, schema_type
 
 def get_file_extension_only(file_name: str):
     file_extension = pathlib.Path(file_name).suffix    
@@ -45,13 +66,56 @@ def get_file_name_only(file_name: str):
     file_name_only = pathlib.Path(file_name).stem    
     return file_name_only
 
+def get_list_from_xml_data(xml_str: str):
+    data_list = None
+    if xml_str:
+        data_dict = xmltodict.parse(xml_str, xml_attribs=False)
+        data_list = find_first_list(data_dict)    
+        
+    return data_list
+
+def get_dict_from_xml_data(xml_str: str, root_tag: str, use_id_as_key: bool = False):
+    data_dict = {}
+    dict_to_parse = xmltodict.parse(xml_str, xml_attribs=use_id_as_key)
+    root_dict = dict_to_parse.get(root_tag)
+    
+    if root_dict:
+        if use_id_as_key:            
+            for index, (root_data_value) in enumerate(root_dict.values()):
+                actual_key = None
+                actual_val = None
+                
+                for index, (attr_key, attr_value) in enumerate(root_data_value.items()):
+                    
+                    if attr_key == "@key" or attr_key == "@id":
+                        actual_key = attr_value
+                    elif attr_key == "#text":
+                        actual_val = attr_value
+                        
+                    if actual_val and actual_key:
+                        break
+                        
+                if actual_key and actual_val: 
+                    data_dict[actual_key] = actual_val
+                
+    elif not use_id_as_key:
+        data_dict = root_dict 
+         
+    return data_dict
+
 
 def safe_list_get (l, idx, default):
   try:
     return l[idx]
   except IndexError:
     return default
-  
+
+def use_id_as_key(root):
+    options = safe_list_get(root, 2, None)
+    if options and "=" in options:
+        return True
+    else:
+        return False
 
 def add_days_to_date(date_val: date, days_to_add: int):
     return_date = date_val + timedelta(days=days_to_add)

@@ -1,6 +1,5 @@
 
 
-import json
 import xml.etree.ElementTree as ET
 from jadnxml.builder.xml_builder import build_xml_from_json
 
