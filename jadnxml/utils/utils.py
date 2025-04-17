@@ -98,8 +98,8 @@ def get_dict_from_xml_data(xml_str: str, root_tag: str, use_id_as_key: bool = Fa
                 if actual_key and actual_val: 
                     data_dict[actual_key] = actual_val
                 
-    elif not use_id_as_key:
-        data_dict = root_dict 
+        elif not use_id_as_key:
+            data_dict = root_dict 
          
     return data_dict
 
