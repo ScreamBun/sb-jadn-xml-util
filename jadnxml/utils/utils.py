@@ -83,17 +83,27 @@ def get_dict_from_xml_data(xml_str: str, root_tag: str, use_id_as_key: bool = Fa
         if use_id_as_key:            
             for index, (root_data_value) in enumerate(root_dict.values()):
                 actual_key = None
-                actual_val = None
+                actual_val = None 
                 
-                for index, (attr_key, attr_value) in enumerate(root_data_value.items()):
+                if isinstance(root_data_value, dict): 
                     
-                    if attr_key == "@key" or attr_key == "@id":
-                        actual_key = attr_value
-                    elif attr_key == "#text":
-                        actual_val = attr_value
+                    if root_data_value.get("@key") or root_data_value.get("@id"):
+                         
+                        for index, (attr_key, attr_value) in enumerate(root_data_value.items()):
+                            
+                            if attr_key == "@key" or attr_key == "@id":
+                                actual_key = attr_value
+                            elif attr_key == "#text":
+                                actual_val = attr_value
+                                
+                            if actual_val and actual_key:
+                                break
+                            
+                    else:
+                        raise ValueError(f"Unable to locate key or id in xml")
                         
-                    if actual_val and actual_key:
-                        break
+                else:
+                    raise ValueError(f"Unable to locate key or id in xml")
                         
                 if actual_key and actual_val: 
                     data_dict[actual_key] = actual_val
