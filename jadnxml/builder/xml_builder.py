@@ -35,6 +35,10 @@ def build_py_from_xml(schema: dict, root: str, xml_str: str):
             is_use_id = use_id_as_key(schema_type)
             data_dict = get_dict_from_xml_data(xml_str, root, use_id_as_key=is_use_id)
             
+        elif base_type in ["Map", "MapOf"]:
+            is_use_id = use_id_as_key(schema_type)
+            data_dict = get_dict_from_xml_data(xml_str, root, use_id_as_key=is_use_id)            
+            
         else:
             data_dict = get_dict_from_xml_data(xml_str, root)
 
