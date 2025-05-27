@@ -103,8 +103,7 @@ def test_valid_xml_from_string():
     
     invalid_xml = """<Root-Test>
         <field_value_1 key="1">data 1</field_value_1>
-    </Root-Testzzz>"""    
-    
+    </Root-Testzzz>"""
     
     valid_result = valid_xml_from_string(valid_xml)
     
