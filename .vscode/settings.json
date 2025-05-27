@@ -15,5 +15,6 @@
         "version": "2.0", 
         "path": "features/included2.xsl"
       }        
-    ]
+    ],
+    "sarif-viewer.connectToGithubCodeScanning": "on"
 }
