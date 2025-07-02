@@ -500,27 +500,27 @@ def convert_xsd_from_dict(jadn_dict: dict):
     schema_et.set('xmlns:jadn', jadn_namespace)    
     build_import(schema_et, jadn_base_type_file_loc, jadn_namespace)
     
-    jadn_info = None
-    jadn_exports = None
+    jadn_meta = None
+    jadn_roots = None
     
-    if jadn_dict.get('info'):
-      jadn_info= jadn_dict['info']
+    if jadn_dict.get('meta'):
+      jadn_meta= jadn_dict['meta']
       
-      if jadn_info.get('exports'):
-        jadn_exports = jadn_info['exports']
+      if jadn_meta.get('roots'):
+        jadn_roots = jadn_meta['roots']
         
     global jadn_types_dict        
     jadn_types_dict = jadn_dict['types']
     
     build_types(schema_et)    
     
-    if jadn_exports:
-      for export in jadn_exports:
-        build_element(schema_et, export, export, export)  
-        
-    ET.indent(schema_et, space="\t", level=0)        
-    xml_str = ET.tostring(schema_et, encoding='unicode')            
-    
+    if jadn_roots:
+      for root in jadn_roots:
+        build_element(schema_et, root, root, root)
+
+    ET.indent(schema_et, space="\t", level=0)
+    xml_str = ET.tostring(schema_et, encoding='unicode')
+
   except RuntimeError as e:
     print("Error convert_xsd_from_dict: " + e.message)
     raise e  

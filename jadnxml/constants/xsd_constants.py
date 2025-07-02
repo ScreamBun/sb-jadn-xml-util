@@ -37,6 +37,8 @@ max_occurs_unbounded = "unbounded"
 # REF: https://www.w3.org/TR/xmlschema-2/#built-in-primitive-datatypes
 # binary?
 # float?
+xs_float = "xs:float"
+xs_double = "xs:double"
 # double?
 # duration?
 xs_date = "xs:date"

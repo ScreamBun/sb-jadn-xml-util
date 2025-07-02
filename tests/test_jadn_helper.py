@@ -26,7 +26,19 @@ def test_convert_xsd_from_file():
     converted = convert_to_xsd_from_file("test_data.jadn")
     
     assert converted == True
-    
+
+def test_jadn_numbers_to_xsd_and_print():
+  jadn_schema = {
+    "types": [
+      ["TestNumbers", "Record", [], "", [
+        [1, "float32_field", "Number", ["/f32"], "32-bit float"],
+        [2, "float64_field", "Number", ["/f64"], "64-bit float"]
+      ]]
+    ]
+  }
+  # Convert to XSD
+  xsd_tree = convert_xsd_from_dict(jadn_schema)[1]
+  assert xsd_tree is not None    
     
 def test_convert_xsd_from_dict():
     data_dict = {
@@ -150,11 +162,13 @@ def test_build_number_format_opts():
     tests = { 
                 1 : ["y1", "z2", "/f16"],
                 2 : ["y1", "z2", "/f32"],
-                3 : ["y1"],
-                4 : ["z2"],
-                5 : ["y1", "z2"],
-                6 : ["/f16"],
-                7 : ["/f32"],
+                3 : ["y1", "z2", "/f64"],
+                4 : ["y1"],
+                5 : ["z2"],
+                6 : ["y1", "z2"],
+                7 : ["/f16"],
+                8 : ["/f32"],
+                9 : ["/f64"]
              }
     
     for test in tests.items():

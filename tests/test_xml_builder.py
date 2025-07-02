@@ -54,9 +54,9 @@ def test_build_py_from_xml_choice_id():
     
     root = "Root-Test"
     schema = {
-        "info": {
+        "meta": {
             "package": "http://test.com",
-            "exports": ["Root-Test"]
+            "roots": ["Root-Test"]
         },
         "types": [
             ["Root-Test", "Choice", ["="], "", [
@@ -69,6 +69,24 @@ def test_build_py_from_xml_choice_id():
     json_data = build_py_from_xml(schema, root, xml)
     
     assert json_data != None
+
+def test_build_py_from_xml_f32():
+    xml = """<Root-Test>
+        <float>3.14</float>
+    </Root-Test>"""
+
+    root = "Root-Test"
+    schema = {
+        "types": [
+            ["Root-Test", "Record", [], "", [
+                [1, "field_value_1", "Number", ["/f32"], ""]
+            ]]
+        ]
+    }
+
+    json_data = build_py_from_xml(schema, root, xml)
+
+    assert json_data is not None
     
 def test_build_py_from_xml_choice():
     
@@ -78,9 +96,9 @@ def test_build_py_from_xml_choice():
     
     root = "Root-Test"
     j_schema = {
-        "info": {
+        "meta": {
             "package": "http://test.com",
-            "exports": ["Root-Test"]
+            "roots": ["Root-Test"]
         },
         "types": [
             ["Root-Test", "Choice", [], "", [
