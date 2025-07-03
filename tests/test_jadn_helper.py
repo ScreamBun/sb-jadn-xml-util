@@ -40,6 +40,24 @@ def test_jadn_numbers_to_xsd_and_print():
   xsd_tree = convert_xsd_from_dict(jadn_schema)[1]
   assert xsd_tree is not None    
     
+def test_jadn_integers_to_xsd_and_print():
+  jadn_schema = {
+    "types": [
+      ["TestIntegers", "Record", [], "", [
+        [1, "field1", "Number", ["/date-time"], ""],
+        [2, "field2", "Number", ["/date"], ""],
+        [3, "field3", "Number", ["/time"], ""],
+        [4, "field4", "Number", ["/gYearMonth"], ""],
+        [5, "field5", "Number", ["/gYear"], ""],
+        [6, "field6", "Number", ["/gMonthDay"], ""]
+      ]]
+    ]
+  }
+  # Convert to XSD
+  xsd_tree = convert_xsd_from_dict(jadn_schema)[1]
+  assert xsd_tree is not None    
+    
+
 def test_convert_xsd_from_dict():
     data_dict = {
                     "info": {
@@ -188,7 +206,13 @@ def test_build_integer_format_opts():
                 2 : ["{1", "}2", "/i8"],
                 3 : ["{1", "}2", "/i16"],
                 4 : ["{1", "}2", "/i32"],
-                5 : ["{1", "}2", "/u\\d+"]
+                5 : ["{1", "}2", "/u\\d+"],
+                6 : ["{1", "}2", "/date-time"],
+                7 : ["{1", "}2", "/date"],
+                8 : ["{1", "}2", "/time"],
+                9 : ["{1", "}2", "/gMonthDay"],
+                10 : ["{1", "}2", "/gYearMonth"],
+                11 : ["{1", "}2", "/gYear"]
              }
     
     for test in tests.items():

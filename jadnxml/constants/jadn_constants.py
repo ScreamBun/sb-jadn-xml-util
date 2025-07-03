@@ -47,8 +47,14 @@ LINK_CONST = "link"
 # Format Option Constants
 # Dict Keys
 DATE_TIME = "date-time"
+DATE_TIME_INT = "date-time"
 DATE = "date"
+DATE_INT = "date"
 TIME = "time"
+TIME_INT = "time"
+G_YEAR_MONTH_INT = "gYearMonth"
+G_YEAR_INT = "gYear"
+G_MONTH_DAY_INT = "gMonthDay"
 DURATION = "duration"
 EMAIL = "email"
 IDN_EMAIL = "idn-email"
@@ -109,7 +115,13 @@ REG_REG_CONST = "\*."
 #   key               type[0],        min[1],        max[2],       regex[3],               description [4]
 FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
     DATE_TIME:        [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    DATE_TIME_INT:    [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
     DATE:             [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    DATE_INT:         [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    G_YEAR_MONTH_INT: [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    G_YEAR_INT:       [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    G_MONTH_DAY_INT:  [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    TIME_INT:         [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
     DURATION:         [INTEGER_CONST, "",            "",           "",                     "JSON Schema Section 7.3.1"],
     TIME:             [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
     EMAIL:            [STRING_CONST,  "",            "",           EMAIL_REG_CONST,        "JSON Schema Section 7.3.2"],

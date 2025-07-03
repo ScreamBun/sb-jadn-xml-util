@@ -45,8 +45,11 @@ xs_date = "xs:date"
 xs_time = "xs:time"
 xs_dateTime = "xs:dateTime"
 # gYearMonth?
+xs_gYearMonth = "xs:gYearMonth"
 # gYear?
+xs_gYear = "xs:gYear"
 # gMonthDay?
+xs_gMonthDay = "xs:gMonthDay"
 # gDay?
 # gMonth?
 # hexBinary?

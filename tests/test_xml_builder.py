@@ -87,6 +87,34 @@ def test_build_py_from_xml_f32():
     json_data = build_py_from_xml(schema, root, xml)
 
     assert json_data is not None
+
+def test_build_py_from_xml_integer():
+    xml = """<Root-Test>
+        <integer>423123</integer>
+        <integer>123</integer>
+        <integer>456</integer>
+        <integer>1011</integer>
+        <integer>2025</integer>
+        <integer>1230</integer>
+    </Root-Test>"""
+
+    root = "Root-Test"
+    schema = {
+        "types": [
+            ["Root-Test", "Record", [], "", [
+                        [1, "field1", "Integer", ["/date-time"], ""],
+                        [2, "field2", "Integer", ["/date"], ""],
+                        [3, "field3", "Integer", ["/time"], ""],
+                        [4, "field4", "Integer", ["/gYearMonth"], ""],
+                        [5, "field5", "Integer", ["/gYear"], ""],
+                        [6, "field6", "Integer", ["/gMonthDay"], ""]
+            ]]
+        ]
+    }
+
+    json_data = build_py_from_xml(schema, root, xml)
+
+    assert json_data is not None
     
 def test_build_py_from_xml_choice():
     
