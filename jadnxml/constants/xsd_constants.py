@@ -6,7 +6,8 @@ schema_loc = "{http://www.w3.org/2001/XMLSchema}"
 jadn_prefix = "jadn:"
 jadn_namespace = "jadn_base_types"
 # jadn_base_type_file_loc = "../_data/xsd/jadn_base_types.xsd"
-jadn_base_type_file_loc = "https://raw.githubusercontent.com/ScreamBun/sb-jadn-xml-util/refs/heads/main/_data/xsd/jadn_base_types.xsd"
+#jadn_base_type_file_loc = "https://raw.githubusercontent.com/ScreamBun/sb-jadn-xml-util/refs/heads/main/_data/xsd/jadn_base_types.xsd"
+jadn_base_type_file_loc = "https://raw.githubusercontent.com/ScreamBun/sb-jadn-xml-util/refs/heads/jadn2/_data/xsd/jadn_base_types.xsd"
 
 # XSD
 schema_tag = f"{schema_loc}schema"
