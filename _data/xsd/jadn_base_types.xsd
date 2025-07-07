@@ -1,6 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xs:schema targetNamespace="jadn_base_types"
 		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="b64">
+		<xs:restriction base="xs:base64Binary" />
+	</xs:simpleType>	
 	<xs:simpleType name="Binary">
 		<xs:restriction base="xs:base64Binary" />
 	</xs:simpleType>
@@ -154,6 +157,16 @@
 			<xs:maxLength value="32"></xs:maxLength>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="x">
+		<xs:restriction base="xs:hexBinary">
+			<xs:pattern value="[0-9a-f]*" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="X">
+		<xs:restriction base="xs:hexBinary">
+			<xs:pattern value="[0-9A-F]*" />
+		</xs:restriction>
+	</xs:simpleType>	
 	<xs:simpleType name="ArrayOf">
 		<xs:restriction base="xs:normalizedString" />
 	</xs:simpleType>

@@ -1,6 +1,9 @@
 import sys
 import traceback
 import xml.etree.ElementTree as ET
+
+from lxml import etree
+
 from jadnxml.helpers.jadn_helper import get_active_type_option_vals, get_opt_type_val, get_type_option_val, get_vtype
 from jadnxml.helpers.xsd_helper import add_maxoccurs_to_element, add_minoccurs_to_element, build_choice, build_complex_type, build_documention, build_element, build_element_id, build_enumeration, build_fraction_digits, build_import, build_max_inclusive, build_max_length, build_min_inclusive, build_min_length, build_pattern, build_restriction, build_sequence, build_simple_type
 
@@ -518,8 +521,10 @@ def convert_xsd_from_dict(jadn_dict: dict):
       for root in jadn_roots:
         build_element(schema_et, root, root, root)
 
-    ET.indent(schema_et, space="\t", level=0)
+    # ET.indent(schema_et, space="\t", level=0)
     xml_str = ET.tostring(schema_et, encoding='unicode')
+    root = etree.fromstring(xml_str)
+    xml_str = etree.tostring(root, pretty_print=True, encoding='unicode')
 
   except RuntimeError as e:
     print("Error convert_xsd_from_dict: " + e.message)

@@ -27,6 +27,88 @@ def test_convert_xsd_from_file():
     
     assert converted == True
 
+
+def test_jadn_binary_b64_format():
+  jadn_schema = {
+    "types": [
+      ["Binary-Name", "Binary", ["/b64"], ""],
+      ["Record-Name", "Record", [], "", [
+          [1, "field_value_1", "Binary-Name", [], ""]
+        ]]
+    ]
+  }
+  # Convert to XSD
+  xsd_tuple = convert_xsd_from_dict(jadn_schema)
+  xsd_str = xsd_tuple[0]
+  schema_et = xsd_tuple[1]
+  
+  print(xsd_str)  
+  
+  substring_format = "jadn:b64"
+  substring_element_name_1 = "Binary-Name"
+  substring_element_name_2 = "field_value_1"
+  
+  assert schema_et is not None  
+  assert xsd_str is not None  
+  assert xsd_str.find(substring_format) != -1
+  assert xsd_str.find(substring_element_name_1) != -1
+  assert xsd_str.find(substring_element_name_2) != -1
+
+
+def test_jadn_binary_x_format():
+  jadn_schema = {
+    "types": [
+      ["Binary-Name", "Binary", ["/x"], ""],
+      ["Record-Name", "Record", [], "", [
+          [1, "field_value_1", "Binary-Name", [], ""]
+        ]]
+    ]
+  }
+  # Convert to XSD
+  xsd_tuple = convert_xsd_from_dict(jadn_schema)
+  xsd_str = xsd_tuple[0]
+  schema_et = xsd_tuple[1]
+  
+  print(xsd_str)  
+  
+  substring_format = "jadn:x"
+  substring_element_name_1 = "Binary-Name"
+  substring_element_name_2 = "field_value_1"
+  
+  assert schema_et is not None  
+  assert xsd_str is not None  
+  assert xsd_str.find(substring_format) != -1
+  assert xsd_str.find(substring_element_name_1) != -1
+  assert xsd_str.find(substring_element_name_2) != -1
+  
+  
+def test_jadn_binary_X_format():
+  jadn_schema = {
+    "types": [
+      ["Binary-Name", "Binary", ["/X"], ""],
+      ["Record-Name", "Record", [], "", [
+          [1, "field_value_1", "Binary-Name", [], ""]
+        ]]
+    ]
+  }
+  # Convert to XSD
+  xsd_tuple = convert_xsd_from_dict(jadn_schema)
+  xsd_str = xsd_tuple[0]
+  schema_et = xsd_tuple[1]
+  
+  print(xsd_str)
+  
+  substring_format = "jadn:X"
+  substring_element_name_1 = "Binary-Name"
+  substring_element_name_2 = "field_value_1"
+  
+  assert schema_et is not None  
+  assert xsd_str is not None  
+  assert xsd_str.find(substring_format) != -1
+  assert xsd_str.find(substring_element_name_1) != -1
+  assert xsd_str.find(substring_element_name_2) != -1
+      
+  
 def test_jadn_numbers_to_xsd_and_print():
   jadn_schema = {
     "types": [
