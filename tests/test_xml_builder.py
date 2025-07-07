@@ -22,7 +22,27 @@ def test_build_xml_from_json_dict():
     
     assert tree != None
     
-## Leftoff here..........    
+def test_build_py_from_binary_x_format():
+    # 48656C6C6F20576F726C6421 is the hexadecimal representation of "Hello World!" in ASCII.
+    # FB8	an odd number of characters is not valid; characters must appear in pairs.
+    xml = """<Root-Test>
+        <field_value_1>48656c6c6f20576f726c6421</field_value_1>
+    </Root-Test>""" 
+
+    root = "Root-Test"
+    schema = {
+        "types": [
+            ["Root-Test", "Record", [], "", [
+                [1, "field_value_1", "Binary", ["/x"], ""]
+            ]]
+        ]
+    }
+
+    json_data = build_py_from_xml(schema, root, xml)
+    
+    # TODO: schema creation and validation
+
+    assert json_data is not None    
     
 def test_build_py_from_xml_array():
     
