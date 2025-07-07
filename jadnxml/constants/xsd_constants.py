@@ -7,7 +7,7 @@ jadn_prefix = "jadn:"
 jadn_namespace = "jadn_base_types"
 # jadn_base_type_file_loc = "../_data/xsd/jadn_base_types.xsd"
 #jadn_base_type_file_loc = "https://raw.githubusercontent.com/ScreamBun/sb-jadn-xml-util/refs/heads/main/_data/xsd/jadn_base_types.xsd"
-jadn_base_type_file_loc = "https://raw.githubusercontent.com/ScreamBun/sb-jadn-xml-util/refs/heads/jadn2/_data/xsd/jadn_base_types.xsd"
+jadn_base_type_file_loc = "_data/xsd/jadn_base_types.xsd"
 
 # XSD
 schema_tag = f"{schema_loc}schema"
@@ -38,10 +38,8 @@ max_occurs_unbounded = "unbounded"
 
 # REF: https://www.w3.org/TR/xmlschema-2/#built-in-primitive-datatypes
 # binary?
-# float?
 xs_float = "xs:float"
 xs_double = "xs:double"
-# double?
 # duration?
 xs_date = "xs:date"
 xs_time = "xs:time"
@@ -54,12 +52,12 @@ xs_gYear = "xs:gYear"
 xs_gMonthDay = "xs:gMonthDay"
 # gDay?
 # gMonth?
-# hexBinary?
-# base64Binary?
 # anyURI?
 # QName?
 # NOTATION?
 xs_byte= "xs:byte"
+xs_hexBinary= "xs:hexBinary"
+xs_b64= "xs:base64Binary"
 xs_choice= "xs:choice"
 xs_boolean = "xs:boolean"
 xs_decimal = "xs:decimal"

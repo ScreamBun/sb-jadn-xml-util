@@ -34,7 +34,7 @@ def validate_xml_str(xsd, xml):
     xml_doc = etree.fromstring(xml)
     xsd_doc = etree.fromstring(xsd)
     xml_schema = etree.XMLSchema(xsd_doc)
-
+    print(xml)
     try: 
         return xml_schema.validate(xml_doc)
     except Error as e:
