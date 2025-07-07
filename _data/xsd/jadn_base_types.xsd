@@ -52,14 +52,10 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="f32">
-		<xs:restriction base="xs:decimal">
-			<xs:fractionDigits value="6" />
-		</xs:restriction>
+		<xs:restriction base="xs:float">
 	</xs:simpleType>
 	<xs:simpleType name="f64">
-		<xs:restriction base="xs:decimal">
-			<xs:fractionDigits value="15" />
-		</xs:restriction>
+		<xs:restriction base="xs:double">
 	</xs:simpleType>
 	<xs:simpleType name="date">
 		<xs:restriction base="xs:date" />
