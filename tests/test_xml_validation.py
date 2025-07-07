@@ -2,31 +2,83 @@ from jadnxml.builder.xsd_builder import convert_xsd_from_dict
 from jadnxml.validation.validation_manager import validate_xml_str as validate
 from jadnxml.utils.utils import generate_xsd_template
 
-def test_number_f32_jadn():
+def test_number_f32():
     # Step 1: Create JADN Schema
     jadn_schema = {
-        "types": [
-        ["Number-Name", "Number", ["/f32"], ""],
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
         ["Record-Name", "Record", [], "", [
-            [1, "field_value_1", "Number-Name", [], ""]
-            ]]
-        ]
-    }
+            [1, "field_value_1", "Integer", ["/f32"], ""]
+        ]]
+    ]
+    }    
+    
+    
+    # jadn_schema = {
+    #     "types": [
+    #     ["Number-Name", "Number", ["/f32"], ""],
+    #     ["Record-Name", "Record", [], "", [
+    #         [1, "field_value_1", "Number-Name", [], ""]
+    #         ]]
+    #     ]
+    # }
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
-    xsd_str = xsd_tuple[0]
-    print(xsd_str)
+    # xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    # xsd_string = xsd_tuple[0]
+    # print(xsd_string)
 
     # Step 3: Create test XML
-    xml_str = """<TestFloat>
-    <float>0.52</float>
-    </TestFloat>"""
+    xml_string = """<Test>
+        <field_value_1>1.55</field_value_1>
+    </Test>"""
+    
+    xsd_string = """<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+        <xs:import schemaLocation="./_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types"/>
+        <xs:complexType name="Record-Name">
+            <xs:sequence>
+            <xs:element id="record_name_field_value_1" name="field_value_1">
+                <xs:simpleType>
+                <xs:restriction base="jadn:f32">
+                    <xs:annotation>
+                    <xs:documentation>float32: IEEE 754 Single-Precision Float (#7.26).</xs:documentation>
+                    </xs:annotation>
+                </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:element id="Record-Name" name="Record-Name" type="Record-Name"/>
+    </xs:schema>"""
+    
+    # xsd_string = """
+    # <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    #     <xs:element name="Test">
+    #         <xs:complexType>
+    #         <xs:sequence>
+    #             <xs:element name="field_value_1" type="xs:float"/>
+    #         </xs:sequence>
+    #         </xs:complexType>
+    #     </xs:element>
+    # </xs:schema>
+    # """    
+    
+    # xsd_string = """
+    # <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    #     <xs:element name="fdszfgds">
+    #         <xs:simpleType>
+    #             <xs:restriction base="xs:float"></xs:restriction>
+    #         </xs:simpleType>
+    #     </xs:element>
+    # </xs:schema>
+    # """       
 
     # Step 4: Valiate XML Against XSD
-    valid = validate(xsd_str, xml_str)
-    #assert valid is True
-    assert True
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
 
 def test_number():
     xsd_string = generate_xsd_template("decimal")

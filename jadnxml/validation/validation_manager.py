@@ -30,13 +30,24 @@ def validate_xml(xsd_file_name, xml_file_name):
     print(f"*** Is data valid? {is_valid} ***")
     return is_valid
 
-def validate_xml_str(xsd, xml):
-    xml_doc = etree.fromstring(xml)
-    xsd_doc = etree.fromstring(xsd)
-    xml_schema = etree.XMLSchema(xsd_doc)
-    print(xml)
+def validate_xml_str(xsd_str: str, xml_str: str):
+    xml_doc = etree.fromstring(xml_str)
+    xsd_doc = etree.fromstring(xsd_str)
+    
+    if xml_doc is None or xsd_doc is None:
+        print("Error: XML or XSD document is None")
+        return False
+    
+    try:
+        xml_schema = etree.XMLSchema(xsd_doc)
+    except Exception as e:
+        print(f"XML Syntax Error: {e}")
+        return False
+
     try: 
-        return xml_schema.validate(xml_doc)
-    except Error as e:
+        xml_schema.validate(xml_doc)
+    except Exception as e:
         print(f"XML Validation Error: {e}")
         return False
+    
+    return True
