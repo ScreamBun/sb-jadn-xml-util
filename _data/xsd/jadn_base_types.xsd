@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<xs:schema targetNamespace="jadn_base_types"
-		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="jadn_base_types"
+	elementFormDefault="qualified">
 	<xs:simpleType name="b64">
 		<xs:restriction base="xs:base64Binary" />
 	</xs:simpleType>	
@@ -67,11 +69,20 @@
 		<xs:restriction base="xs:duration" />
 	</xs:simpleType>
 	<xs:simpleType name="dayTimeDuration">
-		<xs:restriction base="xs:dayTimeDuration" />
+		<xs:restriction base="xs:duration" />
 	</xs:simpleType>
 	<xs:simpleType name="yearMonthDuration">
-		<xs:restriction base="xs:yearMonthDuration" />
-	</xs:simpleType>								
+		<xs:restriction base="xs:duration" />
+	</xs:simpleType>
+	<xs:simpleType name="gMonthDay">
+		<xs:restriction base="xs:gMonthDay" />
+	</xs:simpleType>
+	<xs:simpleType name="gYear">
+		<xs:restriction base="xs:gYear" />
+	</xs:simpleType>
+	<xs:simpleType name="gYearMonth">
+		<xs:restriction base="xs:gYearMonth" />
+	</xs:simpleType>		
 	<xs:simpleType name="time">
 		<xs:restriction base="xs:time" />
 	</xs:simpleType>

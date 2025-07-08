@@ -422,7 +422,7 @@ def test_integer_g_year_month():
 
     # Step 3: Create test XML
     xml_string = """<Record-Name>
-        <field_value_1>1751677200</field_value_1>
+        <field_value_1>2024-11</field_value_1>
     </Record-Name>"""   
 
     # Step 4: Valiate XML Against XSD
@@ -450,7 +450,7 @@ def test_integer_g_year():
 
     # Step 3: Create test XML
     xml_string = """<Record-Name>
-        <field_value_1>1751677200</field_value_1>
+        <field_value_1>2023</field_value_1>
     </Record-Name>"""   
 
     # Step 4: Valiate XML Against XSD
@@ -478,7 +478,7 @@ def test_integer_g_month_day():
 
     # Step 3: Create test XML
     xml_string = """<Record-Name>
-        <field_value_1>1751677200</field_value_1>
+        <field_value_1>--07-08</field_value_1>
     </Record-Name>"""   
 
     # Step 4: Valiate XML Against XSD
@@ -506,7 +506,7 @@ def test_integer_duration():
 
     # Step 3: Create test XML
     xml_string = """<Record-Name>
-        <field_value_1>100</field_value_1>
+        <field_value_1>P0Y0M0DT1H20M30S</field_value_1>
     </Record-Name>"""   
 
     # Step 4: Valiate XML Against XSD

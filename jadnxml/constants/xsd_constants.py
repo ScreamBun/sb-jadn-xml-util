@@ -48,7 +48,6 @@ xs_dateTime = "xs:dateTime"
 xs_gYearMonth = "xs:gYearMonth"
 # gYear?
 xs_gYear = "xs:gYear"
-# gMonthDay?
 xs_gMonthDay = "xs:gMonthDay"
 xs_duration = "xs:duration"
 xs_dayTimeDuration = "xs:dayTimeDuration"

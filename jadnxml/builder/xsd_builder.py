@@ -7,7 +7,7 @@ from lxml import etree
 from jadnxml.helpers.jadn_helper import get_active_type_option_vals, get_opt_type_val, get_type_option_val, get_vtype
 from jadnxml.helpers.xsd_helper import add_maxoccurs_to_element, add_minoccurs_to_element, build_choice, build_complex_type, build_documention, build_element, build_element_id, build_enumeration, build_fraction_digits, build_import, build_max_inclusive, build_max_length, build_min_inclusive, build_min_length, build_pattern, build_restriction, build_sequence, build_simple_type
 
-from jadnxml.constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, BINARY_CONST, BINARY_REG_CONST, DATE, DATE_TIME, DURATION, ENUM_CONST, F16, F16_DIGITS, F32, F32_DIGITS, FIELDS, FORMAT_CONST, FORMAT_OPTIONS_FROZ_DICT, INTEGER_CONST, IPV4_NET, IPV6_NET, KTYPE_CONST, MAP_CONST, MAPOF_CONST, MAXF_CONST, MAXV_CONST, MINF_CONST, MINV_CONST, NUMBER_CONST, PATTERN_CONST, POINTER_CONST, PRIMITIVE_TYPES, RECORD_CONST, SELECTOR_TYPES, SET_CONST, STRING_CONST, STRUCTURED_TYPES, TIME, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS, UNIQUE_CONST, UNSIGNED_BITS, VTYPE_CONST
+from jadnxml.constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BASE_TYPE, BINARY_CONST, BINARY_REG_CONST, DATE, DATE_TIME, DAY_TIME_DURATION, DURATION, ENUM_CONST, F16, F16_DIGITS, F32, F32_DIGITS, FIELDS, FORMAT_CONST, FORMAT_OPTIONS_FROZ_DICT, G_MONTH_DAY_INT, G_YEAR_INT, G_YEAR_MONTH_INT, INTEGER_CONST, IPV4_NET, IPV6_NET, KTYPE_CONST, MAP_CONST, MAPOF_CONST, MAXF_CONST, MAXV_CONST, MINF_CONST, MINV_CONST, NUMBER_CONST, PATTERN_CONST, POINTER_CONST, PRIMITIVE_TYPES, RECORD_CONST, SELECTOR_TYPES, SET_CONST, STRING_CONST, STRUCTURED_TYPES, TIME, TYPE_DESCRIPTION, TYPE_NAME, TYPE_OPTIONS, UNIQUE_CONST, UNSIGNED_BITS, VTYPE_CONST, YEAR_MONTH_DURATION
 from jadnxml.constants.xsd_constants import xs_string, xs_decimal, xs_date, xs_time, xs_dateTime, max_occurs_unbounded, jadn_prefix, pattern_tag, enumerations, primitives, specializations, structures, schema_tag, jadn_namespace, jadn_base_type_file_loc
 from jadnxml.utils.utils import find_items_by_val, get_file_name_only, get_xsd_file, read_type_data_from_file, safe_list_get, write_to_file
 
@@ -98,7 +98,7 @@ def build_integer_type_opts(parent_et: ET.Element, jadn_opts: {}, base_type: str
         frozen_format_opt_name = frozen_format_opt[0]
         if format_val == frozen_format_opt_name:
           
-          if format_val == DURATION:
+          if format_val in [DURATION, G_MONTH_DAY_INT, G_YEAR_INT, G_YEAR_MONTH_INT, DAY_TIME_DURATION, YEAR_MONTH_DURATION]:
             restriction = build_restriction(parent_et, jadn_prefix + format_val)
           else:
             restriction = build_restriction(parent_et, jadn_prefix + base_type)
