@@ -125,8 +125,11 @@ def test_string_time():
 def test_integer():
     xsd_string = generate_xsd_template("integer")
     xml_str = """<integer>15</integer>"""
+    invalid_xml_str = """<integer>15.99</integer>"""
     valid = validate(xsd_string, xml_str)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_str)
+    assert valid is False
 
 def test_boolean():
     xsd_string = generate_xsd_template("boolean")

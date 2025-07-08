@@ -33,6 +33,7 @@ def validate_xml(xsd_file_name, xml_file_name):
 def validate_xml_str(xsd_str: str, xml_str: str):
     xml_doc = etree.fromstring(xml_str)
     xsd_doc = etree.fromstring(xsd_str)
+    is_valid = False
     
     if xml_doc is None or xsd_doc is None:
         print("Error: XML or XSD document is None")
@@ -45,9 +46,9 @@ def validate_xml_str(xsd_str: str, xml_str: str):
         return False
 
     try: 
-        xml_schema.validate(xml_doc)
+        is_valid = xml_schema.validate(xml_doc)
     except Exception as e:
         print(f"XML Validation Error: {e}")
         return False
     
-    return True
+    return is_valid
