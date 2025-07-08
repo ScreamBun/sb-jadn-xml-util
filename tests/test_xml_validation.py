@@ -1,46 +1,7 @@
 from jadnxml.builder.xsd_builder import convert_xsd_from_dict
 from jadnxml.validation.validation_manager import validate_xml_str as validate
 from jadnxml.utils.utils import generate_xsd_template
-
-    # xsd_string = """<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
-    #     <xs:import schemaLocation="./_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types"/>
-    #     <xs:complexType name="Record-Name">
-    #         <xs:sequence>
-    #         <xs:element id="record_name_field_value_1" name="field_value_1">
-    #             <xs:simpleType>
-    #             <xs:restriction base="jadn:f32">
-    #                 <xs:annotation>
-    #                 <xs:documentation>float32: IEEE 754 Single-Precision Float (#7.26).</xs:documentation>
-    #                 </xs:annotation>
-    #             </xs:restriction>
-    #             </xs:simpleType>
-    #         </xs:element>
-    #         </xs:sequence>
-    #     </xs:complexType>
-    #     <xs:element id="Record-Name" name="Record-Name" type="Record-Name"/>
-    # </xs:schema>"""
-    
-    # xsd_string = """
-    # <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    #     <xs:element name="Test">
-    #         <xs:complexType>
-    #         <xs:sequence>
-    #             <xs:element name="field_value_1" type="xs:float"/>
-    #         </xs:sequence>
-    #         </xs:complexType>
-    #     </xs:element>
-    # </xs:schema>
-    # """    
-    
-    # xsd_string = """
-    # <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    #     <xs:element name="fdszfgds">
-    #         <xs:simpleType>
-    #             <xs:restriction base="xs:float"></xs:restriction>
-    #         </xs:simpleType>
-    #     </xs:element>
-    # </xs:schema>
-    # """    
+  
 
 def test_number(): 
     # Step 1: Create JADN Schema
