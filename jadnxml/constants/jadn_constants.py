@@ -57,6 +57,8 @@ G_YEAR_MONTH_INT = "gYearMonth"
 G_YEAR_INT = "gYear"
 G_MONTH_DAY_INT = "gMonthDay"
 DURATION = "duration"
+DAY_TIME_DURATION = "dayTimeDuration"
+YEAR_MONTH_DURATION = "yearMonthDuration"
 EMAIL = "email"
 IDN_EMAIL = "idn-email"
 HOSTNAME = "hostname"
@@ -129,6 +131,8 @@ FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
     G_MONTH_DAY_INT:  [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
     TIME_INT:         [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
     DURATION:         [INTEGER_CONST, "",            "",           "",                          "JSON Schema Section 7.3.1"],
+    DAY_TIME_DURATION:[INTEGER_CONST, "",            "",           "",                          "JSON Schema Section 7.3.1"],
+    YEAR_MONTH_DURATION:[INTEGER_CONST, "",            "",           "",                          "JSON Schema Section 7.3.1"],
     TIME:             [STRING_CONST,  "",            "",           "",                          "JSON Schema Section 7.3.1"],
     EMAIL:            [STRING_CONST,  "",            "",           EMAIL_REG_CONST,             "JSON Schema Section 7.3.2"],
     IDN_EMAIL:        [STRING_CONST,  "",            "",           IDN_EMAIL_REG_CONST,         "JSON Schema Section 7.3.2"],

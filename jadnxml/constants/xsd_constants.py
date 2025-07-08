@@ -50,6 +50,9 @@ xs_gYearMonth = "xs:gYearMonth"
 xs_gYear = "xs:gYear"
 # gMonthDay?
 xs_gMonthDay = "xs:gMonthDay"
+xs_duration = "xs:duration"
+xs_dayTimeDuration = "xs:dayTimeDuration"
+xs_yearMonthDuration = "xs:yearMonthDuration"
 # gDay?
 # gMonth?
 # anyURI?
@@ -61,7 +64,6 @@ xs_b64= "xs:base64Binary"
 xs_choice= "xs:choice"
 xs_boolean = "xs:boolean"
 xs_decimal = "xs:decimal"
-xs_duration = "xs:duration"
 xs_enumeration = "xs:enumeration"
 xs_fractionDigits = "xs:fractionDigits"
 xs_integer = "xs:integer"

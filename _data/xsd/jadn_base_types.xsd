@@ -65,7 +65,13 @@
 	</xs:simpleType>
 	<xs:simpleType name="duration">
 		<xs:restriction base="xs:duration" />
-	</xs:simpleType>		
+	</xs:simpleType>
+	<xs:simpleType name="dayTimeDuration">
+		<xs:restriction base="xs:dayTimeDuration" />
+	</xs:simpleType>
+	<xs:simpleType name="yearMonthDuration">
+		<xs:restriction base="xs:yearMonthDuration" />
+	</xs:simpleType>								
 	<xs:simpleType name="time">
 		<xs:restriction base="xs:time" />
 	</xs:simpleType>

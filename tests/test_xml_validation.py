@@ -485,6 +485,90 @@ def test_integer_g_month_day():
     valid = validate(xsd_string, xml_string)
     assert valid is True
 
+def test_integer_duration(): 
+   # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "Integer", ["/duration"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>100</field_value_1>
+    </Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+
+def test_integer_day_time_duration(): 
+   # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "Integer", ["/dayTimeDuration"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>P3DT4H30M15S</field_value_1>
+    </Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+
+def test_integer_year_month_duration(): 
+   # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "Integer", ["/yearMonthDuration"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>P2Y6M</field_value_1>
+    </Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+
 def test_boolean(): 
     # Step 1: Create JADN Schema
     jadn_schema = {
