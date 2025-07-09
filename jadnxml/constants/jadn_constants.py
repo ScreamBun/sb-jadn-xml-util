@@ -82,6 +82,15 @@ IPV6_NET = "ipv6-net"
 I8 = "i8"
 I16 = "i16"
 I32 = "i32"
+I64 = "i64"
+U8 = "u8"
+U16 = "u16"
+U32 = "u32"
+U64 = "u64"
+NON_NEGATIVE_INTEGER = "nonNegativeInteger"
+NON_POSITIVE_INTEGER = "nonPositiveInteger"
+POSITIVE_INTEGER = "positiveInteger"
+NEGATIVE_INTEGER = "negativeInteger"
 JSON_POINTER = "json-pointer"
 REGEX = "regex"
 REL_JSON_POINTER = "relative-json-pointer"
@@ -160,6 +169,15 @@ FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
     I8 :              [INTEGER_CONST, "-128",        "127",        "",                          "Signed 8 bit integer, value must be between -128 and 127."],
     I16 :             [INTEGER_CONST, "-32768",      "32767",      "",                          "Signed 16 bit integer, value must be between -32768 and 32767."],
     I32 :             [INTEGER_CONST, "-2147483648", "2147483647", "",                          "Signed 32 bit integer, value must be between -2147483648 and 2147483647."],
+    I64 :             [INTEGER_CONST, str(-2**63), str((2**63)-1), "",                          "Signed 64 bit integer, value must be between -2**63 and 2**63 - 1."],
+    U8 :              [INTEGER_CONST, "0",        "255",        "",                             "Unsigned 8 bit integer, value must be between 0 and 255."],
+    U16 :              [INTEGER_CONST, "0",        "65535",        "",                          "Unsigned 16 bit integer, value must be between 0 and 65535."],
+    U32 :              [INTEGER_CONST, "0",        "4294967295",        "",                     "Unsigned 32 bit integer, value must be between 0 and 4294967295."],
+    U64 :              [INTEGER_CONST, "0",        "18446744073709551615",        "",           "Unsigned 64 bit integer, value must be between 0 and 18446744073709551615."],
+    NON_NEGATIVE_INTEGER:[INTEGER_CONST, "0", "", "",                                           "Non Negative Integer, range of [0,*] inclusive"],
+    NON_POSITIVE_INTEGER:[INTEGER_CONST, "", "0", "",                                           "Non Positive Integer, range of [*,0] inclusive"],
+    NEGATIVE_INTEGER: [INTEGER_CONST, "", "-1", "",                                             "Negative Integer, range of [*,0) exclusive"],
+    POSITIVE_INTEGER: [INTEGER_CONST, "1", "", "",                                              "Positive Integer, range of (0, *] exclusive"],
     UNSIGNED_BITS :   [INTEGER_CONST, "",            "",           "",                          "Unsigned integer or bit field of <n> bits, value must be between 0 and 2^<n> - 1."],  
     HEX_BINARY_LOWER :[BINARY_CONST,  "",            "",           "", "Hex - base16 - lowercase out, case-folding in"],
     HEX_BINARY_UPPER :[BINARY_CONST,  "",            "",           "", "Hex - RFC 4648 Section 8 - uppercase only"]  
