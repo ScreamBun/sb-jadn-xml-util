@@ -86,6 +86,27 @@
 	<xs:simpleType name="time">
 		<xs:restriction base="xs:time" />
 	</xs:simpleType>
+	<xs:simpleType name="normalizedString">
+		<xs:restriction base="xs:normalizedString" />
+	</xs:simpleType>	
+	<xs:simpleType name="token">
+		<xs:restriction base="xs:token" />
+	</xs:simpleType>	
+	<xs:simpleType name="language">
+		<xs:restriction base="xs:language" />
+	</xs:simpleType>	
+	<xs:simpleType name="name">
+		<xs:restriction base="xs:Name" />
+	</xs:simpleType>	
+	<xs:simpleType name="QName">
+		<xs:restriction base="xs:QName" />
+	</xs:simpleType>
+	<xs:simpleType name="anyURI">
+		<xs:restriction base="xs:anyURI" />
+	</xs:simpleType>
+	<xs:simpleType name="NOTATION">
+		<xs:restriction base="xs:NOTATION" />
+	</xs:simpleType>
 	<xs:simpleType name="email">
 		<xs:restriction base="xs:normalizedString">
 			<xs:pattern value="[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}" />

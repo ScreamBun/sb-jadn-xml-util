@@ -69,7 +69,13 @@ xs_integer = "xs:integer"
 xs_positiveInteger = "xs:positiveInteger"
 xs_nonNegativeInteger = "xs:nonNegativeInteger"
 xs_string = "xs:string"
-# xs_token = "xs:token"
+xs_token = "xs:token"
+xs_normalizedString = "xs:normalizedString"
+xs_language = "xs:language"
+xs_name = "xs:name"
+xs_QName = "xs:QName"
+xs_anyURI = "xs:anyURI"
+xs_notation = "xs:NOTATION"
 
 # JADN => XSD
 primitives = {

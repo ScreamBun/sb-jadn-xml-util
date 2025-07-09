@@ -271,6 +271,244 @@ def test_string_time_2():
     valid = validate(xsd_string, xml_str)
     assert valid is True
 
+def test_string_normalized(): 
+    # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "String", ["/normalizedString"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>test</field_value_1>
+    </Record-Name>"""   
+
+    #invalid_xml_string = """<Record-Name>
+    #    <field_value_1></field_value_1>
+    #</Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+    #valid = validate(xsd_string, invalid_xml_string)
+    #ssert valid is False
+
+def test_string_token(): 
+    # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "String", ["/token"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>token</field_value_1>
+    </Record-Name>"""   
+
+    #invalid_xml_string = """<Record-Name>
+    #    <field_value_1>    Token    </field_value_1>
+    #</Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+    #valid = validate(xsd_string, invalid_xml_string)
+    #assert valid is False
+
+def test_string_language(): 
+    # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "String", ["/language"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>abc-123</field_value_1>
+    </Record-Name>"""   
+
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>123</field_value_1>
+    </Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
+
+def test_string_name(): 
+    # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "String", ["/name"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>test-test.xml</field_value_1>
+    </Record-Name>"""   
+
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>123</field_value_1>
+    </Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
+
+def test_string_q_name(): 
+    # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "String", ["/QName"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>abc</field_value_1>
+    </Record-Name>"""   
+
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>123:abc</field_value_1>
+    </Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
+
+def test_string_any_uri(): 
+    # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "String", ["/anyURI"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>123</field_value_1>
+    </Record-Name>"""   
+
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>123:abc</field_value_1>
+    </Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
+
+def test_string_notation(): 
+    # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "String", ["/NOTATION"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    #xml_string = """<Record-Name>
+    #   <field_value_1></field_value_1>
+    #</Record-Name>"""   
+
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>123:abc</field_value_1>
+    </Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    #valid = validate(xsd_string, xml_string)
+    #assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
+
 def test_integer(): 
     # Step 1: Create JADN Schema
     jadn_schema = {

@@ -90,10 +90,21 @@ URI = "uri"
 URI_REFERENCE = "uri-reference"
 URI_TEMPLATE = "uri-template"
 UUID = "uuid"
-
+NORMALIZED_STRING = "normalizedString"
+TOKEN = "token"
+LANGUAGE = "language"
+NAME = "name"
+Q_NAME = "QName"
+ANY_URI = "anyURI"
+NOTATION = "NOTATION"
 
 # Patterns
 BINARY_REG_CONST = "\\\\b[01]+\\\\b"
+#NORMALIZED_STRING_REG_CONST = "^[\S]*$"
+#TOKEN_REG_CONST = "^\S+(?:\s+\S+)*$"
+#LANGUAGE_REG_CONST = "^[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*$"
+#NAME_REG_CONST = "^[a-zA-Z_:][a-zA-Z-_:\.]*$"
+#Q_NAME_REG_CONST = "^[a-zA-Z_][a-zA-Z-_\.]*[:][a-zA-Z_][a-zA-Z-_\.]*$"
 
 #TODO: Need an offical email regex
 EMAIL_REG_CONST = "[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}"
@@ -149,6 +160,13 @@ FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
     JSON_POINTER:     [STRING_CONST,  "",            "",           "",                          "JSON Schema Section 7.3.7"],    
     REL_JSON_POINTER: [STRING_CONST,  "",            "",           "",                          "JSON Schema Section 7.3.7"],    
     REGEX:            [STRING_CONST,  "",            "",           REG_REG_CONST,               "JSON Schema Section 7.3.8"],
+    NORMALIZED_STRING:[STRING_CONST,  "",            "",           "",  ""],
+    TOKEN:            [STRING_CONST,  "",            "",           "",            ""],
+    LANGUAGE:         [STRING_CONST,  "",            "",           "",           ""],
+    NAME:             [STRING_CONST,  "",            "",           "",              ""],
+    Q_NAME:           [STRING_CONST,  "",            "",           "",           ""],
+    ANY_URI:           [STRING_CONST,  "",            "",           "",           ""],
+    NOTATION:           [STRING_CONST,  "",            "",           "",           ""],
     EUI :             [BINARY_CONST,  "",            "",           "",                          "IEEE Extended Unique Identifier (MAC Address)"],
     F16 :             [NUMBER_CONST,  "",            "",           "",                          "float16: IEEE 754 Half-Precision Float (#7.25)."],
     F32 :             [NUMBER_CONST,  "",            "",           "",                          "float32: IEEE 754 Single-Precision Float (#7.26)."],
