@@ -1,6 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<xs:schema targetNamespace="jadn_base_types"
-		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="jadn_base_types"
+	elementFormDefault="qualified">
+	<xs:simpleType name="b64">
+		<xs:restriction base="xs:base64Binary" />
+	</xs:simpleType>	
 	<xs:simpleType name="Binary">
 		<xs:restriction base="xs:base64Binary" />
 	</xs:simpleType>
@@ -49,9 +54,10 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="f32">
-		<xs:restriction base="xs:decimal">
-			<xs:fractionDigits value="6" />
-		</xs:restriction>
+		<xs:restriction base="xs:float" />
+	</xs:simpleType>
+	<xs:simpleType name="f64">
+		<xs:restriction base="xs:double" />
 	</xs:simpleType>
 	<xs:simpleType name="date">
 		<xs:restriction base="xs:date" />
@@ -61,6 +67,21 @@
 	</xs:simpleType>
 	<xs:simpleType name="duration">
 		<xs:restriction base="xs:duration" />
+	</xs:simpleType>
+	<xs:simpleType name="dayTimeDuration">
+		<xs:restriction base="xs:duration" />
+	</xs:simpleType>
+	<xs:simpleType name="yearMonthDuration">
+		<xs:restriction base="xs:duration" />
+	</xs:simpleType>
+	<xs:simpleType name="gMonthDay">
+		<xs:restriction base="xs:gMonthDay" />
+	</xs:simpleType>
+	<xs:simpleType name="gYear">
+		<xs:restriction base="xs:gYear" />
+	</xs:simpleType>
+	<xs:simpleType name="gYearMonth">
+		<xs:restriction base="xs:gYearMonth" />
 	</xs:simpleType>		
 	<xs:simpleType name="time">
 		<xs:restriction base="xs:time" />
@@ -149,6 +170,16 @@
 			<xs:maxLength value="32"></xs:maxLength>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="x">
+		<xs:restriction base="xs:hexBinary">
+			<xs:pattern value="[0-9a-f]*" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="X">
+		<xs:restriction base="xs:hexBinary">
+			<xs:pattern value="[0-9A-F]*" />
+		</xs:restriction>
+	</xs:simpleType>	
 	<xs:simpleType name="ArrayOf">
 		<xs:restriction base="xs:normalizedString" />
 	</xs:simpleType>

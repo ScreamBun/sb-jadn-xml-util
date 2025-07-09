@@ -46,10 +46,19 @@ LINK_CONST = "link"
 
 # Format Option Constants
 # Dict Keys
+BASE64_BINARY = "b64"
 DATE_TIME = "date-time"
+DATE_TIME_INT = "date-time"
 DATE = "date"
+DATE_INT = "date"
 TIME = "time"
+TIME_INT = "time"
+G_YEAR_MONTH_INT = "gYearMonth"
+G_YEAR_INT = "gYear"
+G_MONTH_DAY_INT = "gMonthDay"
 DURATION = "duration"
+DAY_TIME_DURATION = "dayTimeDuration"
+YEAR_MONTH_DURATION = "yearMonthDuration"
 EMAIL = "email"
 IDN_EMAIL = "idn-email"
 HOSTNAME = "hostname"
@@ -60,6 +69,8 @@ F32 = "f32"
 F64 = "f64"
 F16_DIGITS = "4"
 F32_DIGITS = "6"
+HEX_BINARY_LOWER = "x"
+HEX_BINARY_UPPER = "X"
 IRI = "iri"
 IRI_REFERENCE = "iri-reference"
 IPV4 = "ipv4"
@@ -80,13 +91,15 @@ URI_REFERENCE = "uri-reference"
 URI_TEMPLATE = "uri-template"
 UUID = "uuid"
 
-BINARY_REG_CONST = "\\\\b[01]+\\\\b"
 
 # Patterns
+BINARY_REG_CONST = "\\\\b[01]+\\\\b"
+
 #TODO: Need an offical email regex
 EMAIL_REG_CONST = "[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}"
 #TODO: Need an offical idn-email regex
 IDN_EMAIL_REG_CONST = "[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}"
+
 #TODO: Need an offical hostname regex
 HOSTNAME_REG_CONST = "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])"
 #TODO: Need idn-hostname regex
@@ -106,39 +119,50 @@ IRI_REF_REG_CONST = "<(.*)>"
 REG_REG_CONST = "\*."
 
 # Dict
-#   key               type[0],        min[1],        max[2],       regex[3],               description [4]
+#   key               type[0],        min[1],        max[2],       regex[3],                    description [4]
 FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
-    DATE_TIME:        [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
-    DATE:             [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
-    DURATION:         [INTEGER_CONST, "",            "",           "",                     "JSON Schema Section 7.3.1"],
-    TIME:             [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
-    EMAIL:            [STRING_CONST,  "",            "",           EMAIL_REG_CONST,        "JSON Schema Section 7.3.2"],
-    IDN_EMAIL:        [STRING_CONST,  "",            "",           IDN_EMAIL_REG_CONST,    "JSON Schema Section 7.3.2"],
-    HOSTNAME:         [STRING_CONST,  "",            "",           HOSTNAME_REG_CONST,     "JSON Schema Section 7.3.3"],
-    IDN_HOSTNAME:     [STRING_CONST,  "",            "",           IDN_HOSTNAME_REG_CONST, "JSON Schema Section 7.3.3"],    
-    IPV4:             [STRING_CONST,  "",            "",           IPV4_REG_CONST,         "JSON Schema Section 7.3.4"],    
-    IPV6:             [STRING_CONST,  "",            "",           IPV6_REG_CONST,         "JSON Schema Section 7.3.4"],    
-    URI:              [STRING_CONST,  "",            "",           URI_REG_CONST,          "JSON Schema Section 7.3.5"],    
-    URI_REFERENCE:    [STRING_CONST,  "",            "",           URI_REF_REG_CONST,      "JSON Schema Section 7.3.5"],    
-    URI_TEMPLATE:     [STRING_CONST,  "",            "",           URI_TEMPLATE_REG_CONST, "JSON Schema Section 7.3.6"],     
-    UUID:             [STRING_CONST,  "",            "",           UUID4_REG_CONST, "JSON Schema Section 7.3.6"],   
-    IRI:              [STRING_CONST,  "",            "",           IRI_REG_CONST,          "JSON Schema Section 7.3.5"],    
-    IRI_REFERENCE:    [STRING_CONST,  "",            "",           IRI_REF_REG_CONST,      "JSON Schema Section 7.3.5"],    
-    JSON_POINTER:     [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.7"],    
-    REL_JSON_POINTER: [STRING_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.7"],    
-    REGEX:            [STRING_CONST,  "",            "",           REG_REG_CONST,          "JSON Schema Section 7.3.8"],
-    EUI :             [BINARY_CONST,  "",            "",           "",                     "IEEE Extended Unique Identifier (MAC Address)"],
-    F16 :             [NUMBER_CONST,  "",            "",           "",                     "float16: IEEE 754 Half-Precision Float (#7.25)."],
-    F32 :             [NUMBER_CONST,  "",            "",           "",                     "float32: IEEE 754 Single-Precision Float (#7.26)."],
-    F64 :             [NUMBER_CONST,  "",            "",           "",                     "float64: IEEE 754 Double-Precision Float (#7.27)."],
-    IPV4_ADDR :       [BINARY_CONST,  "32",          "32",         BINARY_REG_CONST,       "IPv4 address as specified in RFC 791 Section 3.1"],
-    IPV6_ADDR :       [BINARY_CONST,  "32",          "32",         BINARY_REG_CONST,       "IPv6 address as specified in RFC 8200 Section 3"],
-    IPV4_NET :        [ARRAY_CONST,   "",            "",           "",                     "Binary IPv4 address and Integer prefix length as specified in RFC 4632 Section 3.1"],
-    IPV6_NET :        [ARRAY_CONST,   "",            "",           "",                     "Binary IPv6 address and Integer prefix length as specified in RFC 4291 Section 2.3"],
-    I8 :              [INTEGER_CONST, "-128",        "127",        "",                     "Signed 8 bit integer, value must be between -128 and 127."],
-    I16 :             [INTEGER_CONST, "-32768",      "32767",      "",                     "Signed 16 bit integer, value must be between -32768 and 32767."],
-    I32 :             [INTEGER_CONST, "-2147483648", "2147483647", "",                     "Signed 32 bit integer, value must be between -2147483648 and 2147483647."],
-    UNSIGNED_BITS :   [INTEGER_CONST, "",            "",           "",                     "Unsigned integer or bit field of <n> bits, value must be between 0 and 2^<n> - 1."]  
+    BASE64_BINARY:    [BINARY_CONST,  "",            "",           "",                          " Base64url - RFC 4648 Section 5 (default text representation of Binary type)"],
+    DATE_TIME:        [STRING_CONST,  "",            "",           "",                          "JSON Schema Section 7.3.1"],
+    DATE_TIME_INT:    [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    DATE:             [STRING_CONST,  "",            "",           "",                          "JSON Schema Section 7.3.1"],
+    DATE_INT:         [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    G_YEAR_MONTH_INT: [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    G_YEAR_INT:       [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    G_MONTH_DAY_INT:  [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    TIME_INT:         [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],
+    DURATION:         [INTEGER_CONST, "",            "",           "",                          "JSON Schema Section 7.3.1"],
+    DAY_TIME_DURATION:[INTEGER_CONST, "",            "",           "",                          "JSON Schema Section 7.3.1"],
+    YEAR_MONTH_DURATION:[INTEGER_CONST, "",            "",           "",                          "JSON Schema Section 7.3.1"],
+    TIME:             [STRING_CONST,  "",            "",           "",                          "JSON Schema Section 7.3.1"],
+    EMAIL:            [STRING_CONST,  "",            "",           EMAIL_REG_CONST,             "JSON Schema Section 7.3.2"],
+    IDN_EMAIL:        [STRING_CONST,  "",            "",           IDN_EMAIL_REG_CONST,         "JSON Schema Section 7.3.2"],
+    HOSTNAME:         [STRING_CONST,  "",            "",           HOSTNAME_REG_CONST,          "JSON Schema Section 7.3.3"],
+    IDN_HOSTNAME:     [STRING_CONST,  "",            "",           IDN_HOSTNAME_REG_CONST,      "JSON Schema Section 7.3.3"],    
+    IPV4:             [STRING_CONST,  "",            "",           IPV4_REG_CONST,              "JSON Schema Section 7.3.4"],    
+    IPV6:             [STRING_CONST,  "",            "",           IPV6_REG_CONST,              "JSON Schema Section 7.3.4"],    
+    URI:              [STRING_CONST,  "",            "",           URI_REG_CONST,               "JSON Schema Section 7.3.5"],    
+    URI_REFERENCE:    [STRING_CONST,  "",            "",           URI_REF_REG_CONST,           "JSON Schema Section 7.3.5"],    
+    URI_TEMPLATE:     [STRING_CONST,  "",            "",           URI_TEMPLATE_REG_CONST,      "JSON Schema Section 7.3.6"],     
+    UUID:             [STRING_CONST,  "",            "",           UUID4_REG_CONST,             "JSON Schema Section 7.3.6"],   
+    IRI:              [STRING_CONST,  "",            "",           IRI_REG_CONST,               "JSON Schema Section 7.3.5"],    
+    IRI_REFERENCE:    [STRING_CONST,  "",            "",           IRI_REF_REG_CONST,           "JSON Schema Section 7.3.5"],    
+    JSON_POINTER:     [STRING_CONST,  "",            "",           "",                          "JSON Schema Section 7.3.7"],    
+    REL_JSON_POINTER: [STRING_CONST,  "",            "",           "",                          "JSON Schema Section 7.3.7"],    
+    REGEX:            [STRING_CONST,  "",            "",           REG_REG_CONST,               "JSON Schema Section 7.3.8"],
+    EUI :             [BINARY_CONST,  "",            "",           "",                          "IEEE Extended Unique Identifier (MAC Address)"],
+    F16 :             [NUMBER_CONST,  "",            "",           "",                          "float16: IEEE 754 Half-Precision Float (#7.25)."],
+    F32 :             [NUMBER_CONST,  "",            "",           "",                          "float32: IEEE 754 Single-Precision Float (#7.26)."],
+    F64 :             [NUMBER_CONST,  "",            "",           "",                          "float64: IEEE 754 Double-Precision Float (#7.27)."],
+    IPV4_ADDR :       [BINARY_CONST,  "32",          "32",         BINARY_REG_CONST,            "IPv4 address as specified in RFC 791 Section 3.1"],
+    IPV6_ADDR :       [BINARY_CONST,  "32",          "32",         BINARY_REG_CONST,            "IPv6 address as specified in RFC 8200 Section 3"],
+    IPV4_NET :        [ARRAY_CONST,   "",            "",           "",                          "Binary IPv4 address and Integer prefix length as specified in RFC 4632 Section 3.1"],
+    IPV6_NET :        [ARRAY_CONST,   "",            "",           "",                          "Binary IPv6 address and Integer prefix length as specified in RFC 4291 Section 2.3"],
+    I8 :              [INTEGER_CONST, "-128",        "127",        "",                          "Signed 8 bit integer, value must be between -128 and 127."],
+    I16 :             [INTEGER_CONST, "-32768",      "32767",      "",                          "Signed 16 bit integer, value must be between -32768 and 32767."],
+    I32 :             [INTEGER_CONST, "-2147483648", "2147483647", "",                          "Signed 32 bit integer, value must be between -2147483648 and 2147483647."],
+    UNSIGNED_BITS :   [INTEGER_CONST, "",            "",           "",                          "Unsigned integer or bit field of <n> bits, value must be between 0 and 2^<n> - 1."],  
+    HEX_BINARY_LOWER :[BINARY_CONST,  "",            "",           "", "Hex - base16 - lowercase out, case-folding in"],
+    HEX_BINARY_UPPER :[BINARY_CONST,  "",            "",           "", "Hex - RFC 4648 Section 8 - uppercase only"]  
 })
 
 PRIMITIVE_TYPES = (BINARY_CONST, BOOLEAN_CONST, INTEGER_CONST, NUMBER_CONST, STRING_CONST)

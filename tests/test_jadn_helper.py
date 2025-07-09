@@ -26,8 +26,120 @@ def test_convert_xsd_from_file():
     converted = convert_to_xsd_from_file("test_data.jadn")
     
     assert converted == True
+
+
+def test_jadn_binary_b64_format():
+  jadn_schema = {
+    "types": [
+      ["Binary-Name", "Binary", ["/b64"], ""],
+      ["Record-Name", "Record", [], "", [
+          [1, "field_value_1", "Binary-Name", [], ""]
+        ]]
+    ]
+  }
+  # Convert to XSD
+  xsd_tuple = convert_xsd_from_dict(jadn_schema)
+  xsd_str = xsd_tuple[0]
+  schema_et = xsd_tuple[1]
+  
+  print(xsd_str)  
+  
+  substring_format = "jadn:b64"
+  substring_element_name_1 = "Binary-Name"
+  substring_element_name_2 = "field_value_1"
+  
+  assert schema_et is not None  
+  assert xsd_str is not None  
+  assert xsd_str.find(substring_format) != -1
+  assert xsd_str.find(substring_element_name_1) != -1
+  assert xsd_str.find(substring_element_name_2) != -1
+
+
+def test_jadn_binary_x_format():
+  jadn_schema = {
+    "types": [
+      ["Binary-Name", "Binary", ["/x"], ""],
+      ["Record-Name", "Record", [], "", [
+          [1, "field_value_1", "Binary-Name", [], ""]
+        ]]
+    ]
+  }
+  # Convert to XSD
+  xsd_tuple = convert_xsd_from_dict(jadn_schema)
+  xsd_str = xsd_tuple[0]
+  schema_et = xsd_tuple[1]
+  
+  print(xsd_str)  
+  
+  substring_format = "jadn:x"
+  substring_element_name_1 = "Binary-Name"
+  substring_element_name_2 = "field_value_1"
+  
+  assert schema_et is not None  
+  assert xsd_str is not None  
+  assert xsd_str.find(substring_format) != -1
+  assert xsd_str.find(substring_element_name_1) != -1
+  assert xsd_str.find(substring_element_name_2) != -1
+  
+  
+def test_jadn_binary_X_format():
+  jadn_schema = {
+    "types": [
+      ["Binary-Name", "Binary", ["/X"], ""],
+      ["Record-Name", "Record", [], "", [
+          [1, "field_value_1", "Binary-Name", [], ""]
+        ]]
+    ]
+  }
+  # Convert to XSD
+  xsd_tuple = convert_xsd_from_dict(jadn_schema)
+  xsd_str = xsd_tuple[0]
+  schema_et = xsd_tuple[1]
+  
+  print(xsd_str)
+  
+  substring_format = "jadn:X"
+  substring_element_name_1 = "Binary-Name"
+  substring_element_name_2 = "field_value_1"
+  
+  assert schema_et is not None  
+  assert xsd_str is not None  
+  assert xsd_str.find(substring_format) != -1
+  assert xsd_str.find(substring_element_name_1) != -1
+  assert xsd_str.find(substring_element_name_2) != -1
+      
+  
+def test_jadn_numbers_to_xsd_and_print():
+  jadn_schema = {
+    "types": [
+      ["TestNumbers", "Record", [], "", [
+        [1, "float32_field", "Number", ["/f32"], "32-bit float"],
+        [2, "float64_field", "Number", ["/f64"], "64-bit float"]
+      ]]
+    ]
+  }
+  # Convert to XSD
+  xsd_tree = convert_xsd_from_dict(jadn_schema)[1]
+  assert xsd_tree is not None    
     
+def test_jadn_integers_to_xsd_and_print():
+  jadn_schema = {
+    "types": [
+      ["TestIntegers", "Record", [], "", [
+        [1, "field1", "Number", ["/date-time"], ""],
+        [2, "field2", "Number", ["/date"], ""],
+        [3, "field3", "Number", ["/time"], ""],
+        [4, "field4", "Number", ["/gYearMonth"], ""],
+        [5, "field5", "Number", ["/gYear"], ""],
+        [6, "field6", "Number", ["/gMonthDay"], ""]
+      ]]
+    ]
+  }
+  # Convert to XSD
+  xsd_tree = convert_xsd_from_dict(jadn_schema)[1]
+  assert xsd_tree is not None    
     
+
 def test_convert_xsd_from_dict():
     data_dict = {
                     "info": {
@@ -150,11 +262,13 @@ def test_build_number_format_opts():
     tests = { 
                 1 : ["y1", "z2", "/f16"],
                 2 : ["y1", "z2", "/f32"],
-                3 : ["y1"],
-                4 : ["z2"],
-                5 : ["y1", "z2"],
-                6 : ["/f16"],
-                7 : ["/f32"],
+                3 : ["y1", "z2", "/f64"],
+                4 : ["y1"],
+                5 : ["z2"],
+                6 : ["y1", "z2"],
+                7 : ["/f16"],
+                8 : ["/f32"],
+                9 : ["/f64"]
              }
     
     for test in tests.items():
@@ -174,7 +288,13 @@ def test_build_integer_format_opts():
                 2 : ["{1", "}2", "/i8"],
                 3 : ["{1", "}2", "/i16"],
                 4 : ["{1", "}2", "/i32"],
-                5 : ["{1", "}2", "/u\\d+"]
+                5 : ["{1", "}2", "/u\\d+"],
+                6 : ["{1", "}2", "/date-time"],
+                7 : ["{1", "}2", "/date"],
+                8 : ["{1", "}2", "/time"],
+                9 : ["{1", "}2", "/gMonthDay"],
+                10 : ["{1", "}2", "/gYearMonth"],
+                11 : ["{1", "}2", "/gYear"]
              }
     
     for test in tests.items():

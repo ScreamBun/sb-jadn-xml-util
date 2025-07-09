@@ -190,3 +190,17 @@ def read_type_data_from_file(filename):
   f.close()
 
   return data
+
+def generate_xsd_template(type, option=None):
+    if not option:
+        return f"""
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <xs:element name="{type}" type="xs:{type}"/>
+    </xs:schema>
+    """
+    else:
+        return f"""
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <xs:element name="{type}" type="xs:{option}"/>
+    </xs:schema>
+    """

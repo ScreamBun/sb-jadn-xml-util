@@ -22,6 +22,72 @@ def test_build_xml_from_json_dict():
     
     assert tree != None
     
+def test_build_py_from_binary_b64_format():
+    # SGVsbG8gV29ybGQh is the base64Binary representation of "Hello World!" in ASCII.
+    # SGV an odd number of characters is not valid; characters must appear in pairs.
+    xml = """<Root-Test>
+        <field_value_1>SGVsbG8gV29ybGQh</field_value_1>
+    </Root-Test>""" 
+
+    root = "Root-Test"
+    schema = {
+        "types": [
+            ["Root-Test", "Record", [], "", [
+                [1, "field_value_1", "Binary", ["/b64"], ""]
+            ]]
+        ]
+    }
+
+    json_data = build_py_from_xml(schema, root, xml)
+    
+    # TODO: schema creation and validation
+
+    assert json_data is not None    
+    
+def test_build_py_from_binary_X_format():
+    # 48656C6C6F20576F726C6421 is the hexadecimal representation of "Hello World!" in ASCII.
+    # FB8 an odd number of characters is not valid; characters must appear in pairs.
+    xml = """<Root-Test>
+        <field_value_1>48656C6C6F20576F726C6421</field_value_1>
+    </Root-Test>""" 
+
+    root = "Root-Test"
+    schema = {
+        "types": [
+            ["Root-Test", "Record", [], "", [
+                [1, "field_value_1", "Binary", ["/X"], ""]
+            ]]
+        ]
+    }
+
+    json_data = build_py_from_xml(schema, root, xml)
+    
+    # TODO: schema creation and validation
+
+    assert json_data is not None     
+    
+def test_build_py_from_binary_x_format():
+    # 48656C6C6F20576F726C6421 is the hexadecimal representation of "Hello World!" in ASCII.
+    # FB8 an odd number of characters is not valid; characters must appear in pairs.
+    xml = """<Root-Test>
+        <field_value_1>48656c6c6f20576f726c6421</field_value_1>
+    </Root-Test>""" 
+
+    root = "Root-Test"
+    schema = {
+        "types": [
+            ["Root-Test", "Record", [], "", [
+                [1, "field_value_1", "Binary", ["/x"], ""]
+            ]]
+        ]
+    }
+
+    json_data = build_py_from_xml(schema, root, xml)
+    
+    # TODO: schema creation and validation
+
+    assert json_data is not None    
+    
 def test_build_py_from_xml_array():
     
     xml = """<?xml version="1.0" encoding="UTF-8"?>
@@ -54,9 +120,9 @@ def test_build_py_from_xml_choice_id():
     
     root = "Root-Test"
     schema = {
-        "info": {
+        "meta": {
             "package": "http://test.com",
-            "exports": ["Root-Test"]
+            "roots": ["Root-Test"]
         },
         "types": [
             ["Root-Test", "Choice", ["="], "", [
@@ -69,6 +135,52 @@ def test_build_py_from_xml_choice_id():
     json_data = build_py_from_xml(schema, root, xml)
     
     assert json_data != None
+
+def test_build_py_from_xml_f32():
+    xml = """<Root-Test>
+        <float>3.14</float>
+    </Root-Test>"""
+
+    root = "Root-Test"
+    schema = {
+        "types": [
+            ["Root-Test", "Record", [], "", [
+                [1, "field_value_1", "Number", ["/f32"], ""]
+            ]]
+        ]
+    }
+
+    json_data = build_py_from_xml(schema, root, xml)
+
+    assert json_data is not None
+
+def test_build_py_from_xml_integer():
+    xml = """<Root-Test>
+        <integer>423123</integer>
+        <integer>123</integer>
+        <integer>456</integer>
+        <integer>1011</integer>
+        <integer>2025</integer>
+        <integer>1230</integer>
+    </Root-Test>"""
+
+    root = "Root-Test"
+    schema = {
+        "types": [
+            ["Root-Test", "Record", [], "", [
+                        [1, "field1", "Integer", ["/date-time"], ""],
+                        [2, "field2", "Integer", ["/date"], ""],
+                        [3, "field3", "Integer", ["/time"], ""],
+                        [4, "field4", "Integer", ["/gYearMonth"], ""],
+                        [5, "field5", "Integer", ["/gYear"], ""],
+                        [6, "field6", "Integer", ["/gMonthDay"], ""]
+            ]]
+        ]
+    }
+
+    json_data = build_py_from_xml(schema, root, xml)
+
+    assert json_data is not None
     
 def test_build_py_from_xml_choice():
     
@@ -78,9 +190,9 @@ def test_build_py_from_xml_choice():
     
     root = "Root-Test"
     j_schema = {
-        "info": {
+        "meta": {
             "package": "http://test.com",
-            "exports": ["Root-Test"]
+            "roots": ["Root-Test"]
         },
         "types": [
             ["Root-Test", "Choice", [], "", [

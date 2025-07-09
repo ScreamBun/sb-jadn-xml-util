@@ -36,27 +36,31 @@ max_occurs_unbounded = "unbounded"
 
 # REF: https://www.w3.org/TR/xmlschema-2/#built-in-primitive-datatypes
 # binary?
-# float?
-# double?
+xs_float = "xs:float"
+xs_double = "xs:double"
 # duration?
 xs_date = "xs:date"
 xs_time = "xs:time"
 xs_dateTime = "xs:dateTime"
 # gYearMonth?
+xs_gYearMonth = "xs:gYearMonth"
 # gYear?
-# gMonthDay?
+xs_gYear = "xs:gYear"
+xs_gMonthDay = "xs:gMonthDay"
+xs_duration = "xs:duration"
+xs_dayTimeDuration = "xs:dayTimeDuration"
+xs_yearMonthDuration = "xs:yearMonthDuration"
 # gDay?
 # gMonth?
-# hexBinary?
-# base64Binary?
 # anyURI?
 # QName?
 # NOTATION?
 xs_byte= "xs:byte"
+xs_hexBinary= "xs:hexBinary"
+xs_b64= "xs:base64Binary"
 xs_choice= "xs:choice"
 xs_boolean = "xs:boolean"
 xs_decimal = "xs:decimal"
-xs_duration = "xs:duration"
 xs_enumeration = "xs:enumeration"
 xs_fractionDigits = "xs:fractionDigits"
 xs_integer = "xs:integer"

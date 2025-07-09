@@ -34,7 +34,7 @@ if __name__=="__main__":
         for filename in files_to_convert:
             print(f"Converting {filename} to a JADN XSD... ")
             convert_to_xsd_from_file(filename)
-            print(f"Converion complete for {filename}, see the _data/out directory to view the results")
+            print(f"Conversion complete for {filename}, see the _data/out directory to view the results")
 
         if len(files_to_convert) == 0:
             print("Unable to find JADN or JSON files to convert to XSD files.")
