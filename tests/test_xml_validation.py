@@ -61,9 +61,15 @@ def test_number_f32():
         <field_value_1>1.55</field_value_1>
     </Record-Name>"""   
 
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>zero</field_value_1>
+    </Record-Name>"""   
+
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_number_f32_2():
     xsd_string = generate_xsd_template("decimal", "float")
@@ -95,9 +101,15 @@ def test_number_f64():
         <field_value_1>1.55</field_value_1>
     </Record-Name>"""   
 
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>zero</field_value_1>
+    </Record-Name>"""   
+
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_number_f64_2():
     xsd_string = generate_xsd_template("decimal", "double")
@@ -163,9 +175,15 @@ def test_string_date_time():
         <field_value_1>2025-07-07T15:00:00Z</field_value_1>
     </Record-Name>"""   
 
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>2025-07-07</field_value_1>
+    </Record-Name>"""   
+
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_string_date_time_2():
     xsd_string = generate_xsd_template("string", "dateTime")
@@ -197,9 +215,15 @@ def test_string_date():
         <field_value_1>2025-07-07</field_value_1>
     </Record-Name>"""   
 
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>2025-07</field_value_1>
+    </Record-Name>"""   
+
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_string_date_2():
     xsd_string = generate_xsd_template("string", "date")
@@ -231,9 +255,15 @@ def test_string_time():
         <field_value_1>15:00:00</field_value_1>
     </Record-Name>"""   
 
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>12341</field_value_1>
+    </Record-Name>"""   
+
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_string_time_2():
     xsd_string = generate_xsd_template("string", "time")
@@ -302,9 +332,15 @@ def test_integer_date_time():
         <field_value_1>1751677200</field_value_1>
     </Record-Name>"""   
 
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>P3DT4H30M15S</field_value_1>
+    </Record-Name>"""   
+
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_integer_date(): 
     # Step 1: Create JADN Schema
@@ -330,9 +366,15 @@ def test_integer_date():
         <field_value_1>1751677200</field_value_1>
     </Record-Name>"""   
 
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>2024-11</field_value_1>
+    </Record-Name>"""   
+
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_integer_time(): 
     # Step 1: Create JADN Schema
@@ -358,9 +400,15 @@ def test_integer_time():
         <field_value_1>1751677200</field_value_1>
     </Record-Name>"""   
 
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>15S</field_value_1>
+    </Record-Name>"""   
+
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_integer_g_year_month(): 
     # Step 1: Create JADN Schema
@@ -383,12 +431,18 @@ def test_integer_g_year_month():
 
     # Step 3: Create test XML
     xml_string = """<Record-Name>
-        <field_value_1>1751677200</field_value_1>
+        <field_value_1>2024-11</field_value_1>
+    </Record-Name>"""   
+
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>11-2024</field_value_1>
     </Record-Name>"""   
 
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_integer_g_year(): 
     # Step 1: Create JADN Schema
@@ -411,12 +465,18 @@ def test_integer_g_year():
 
     # Step 3: Create test XML
     xml_string = """<Record-Name>
-        <field_value_1>1751677200</field_value_1>
+        <field_value_1>2023</field_value_1>
+    </Record-Name>"""   
+
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>24</field_value_1>
     </Record-Name>"""   
 
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_integer_g_month_day(): 
     # Step 1: Create JADN Schema
@@ -439,12 +499,120 @@ def test_integer_g_month_day():
 
     # Step 3: Create test XML
     xml_string = """<Record-Name>
-        <field_value_1>1751677200</field_value_1>
+        <field_value_1>--07-08</field_value_1>
+    </Record-Name>"""   
+
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>07-08</field_value_1>
     </Record-Name>"""   
 
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
+
+def test_integer_duration(): 
+   # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "Integer", ["/duration"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>P0Y0M0DT1H20M30S</field_value_1>
+    </Record-Name>"""   
+
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>Test</field_value_1>
+    </Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
+
+def test_integer_day_time_duration(): 
+   # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "Integer", ["/dayTimeDuration"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>P3DT4H30M15S</field_value_1>
+    </Record-Name>"""   
+
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>P3DT4</field_value_1>
+    </Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
+
+def test_integer_year_month_duration(): 
+   # Step 1: Create JADN Schema
+    jadn_schema = {
+    "meta": {
+        "package": "http://test/v1.0",
+        "roots": ["Record-Name"]
+    },
+    "types": [
+        ["Record-Name", "Record", [], "", [
+            [1, "field_value_1", "Integer", ["/yearMonthDuration"], ""]
+        ]]
+    ]
+    }    
+
+    # Step 2: Convert JADN to XSD
+    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    xsd_string = xsd_tuple[0]
+    print(xsd_string)
+
+    # Step 3: Create test XML
+    xml_string = """<Record-Name>
+        <field_value_1>P2Y6M</field_value_1>
+    </Record-Name>"""   
+
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>6M</field_value_1>
+    </Record-Name>"""   
+
+    # Step 4: Valiate XML Against XSD
+    valid = validate(xsd_string, xml_string)
+    assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_boolean(): 
     # Step 1: Create JADN Schema
@@ -504,9 +672,15 @@ def test_binary():
         <field_value_1>0101</field_value_1>
     </Record-Name>"""   
 
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>01P</field_value_1>
+    </Record-Name>"""   
+
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_binary_2():
     xsd_string = generate_xsd_template("byte")
@@ -538,9 +712,15 @@ def test_binary_base64():
         <field_value_1>ABCD</field_value_1>
     </Record-Name>"""   
 
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>ABC</field_value_1>
+    </Record-Name>"""   
+
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 
 def test_binary_base64_2():
     xsd_string = generate_xsd_template("byte", "base64Binary")
@@ -572,10 +752,15 @@ def test_binary_hex():
         <field_value_1>abcd</field_value_1>
     </Record-Name>"""   
 
+    invalid_xml_string = """<Record-Name>
+        <field_value_1>abcz/</field_value_1>
+    </Record-Name>"""   
+
     # Step 4: Valiate XML Against XSD
     valid = validate(xsd_string, xml_string)
     assert valid is True
-
+    valid = validate(xsd_string, invalid_xml_string)
+    assert valid is False
 def test_binary_hex_2():
     xsd_string = generate_xsd_template("byte", "hexBinary")
     xml_str = """<byte>1ABC</byte>"""
