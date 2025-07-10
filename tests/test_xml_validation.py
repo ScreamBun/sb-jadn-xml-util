@@ -462,7 +462,7 @@ def test_string_any_uri():
 
     # Step 3: Create test XML
     xml_string = """<Record-Name>
-        <field_value_1>123</field_value_1>
+        <field_value_1>http://www.test.com</field_value_1>
     </Record-Name>"""   
 
     invalid_xml_string = """<Record-Name>
@@ -495,9 +495,9 @@ def test_string_notation():
     print(xsd_string)
 
     # Step 3: Create test XML
-    #xml_string = """<Record-Name>
-    #   <field_value_1></field_value_1>
-    #</Record-Name>"""   
+    xml_string = """<Record-Name>
+        <field_value_1>http://www.test.com</field_value_1>
+    </Record-Name>"""   
 
     invalid_xml_string = """<Record-Name>
         <field_value_1>123:abc</field_value_1>
