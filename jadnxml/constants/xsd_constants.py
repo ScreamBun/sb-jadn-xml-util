@@ -5,8 +5,7 @@ schema_loc = "{http://www.w3.org/2001/XMLSchema}"
 # jadn_namespace = "http://docs.oasis-open.org/openc2/ns/jadn/v1.0"
 jadn_prefix = "jadn:"
 jadn_namespace = "jadn_base_types"
-# jadn_base_type_file_loc = "../_data/xsd/jadn_base_types.xsd"
-#jadn_base_type_file_loc = "https://raw.githubusercontent.com/ScreamBun/sb-jadn-xml-util/refs/heads/main/_data/xsd/jadn_base_types.xsd"
+# jadn_base_type_file_loc = "https://raw.githubusercontent.com/ScreamBun/sb-jadn-xml-util/main/_data/xsd/jadn_base_types.xsd"
 jadn_base_type_file_loc = "./_data/xsd/jadn_base_types.xsd"
 
 # XSD
@@ -52,12 +51,23 @@ xs_gMonthDay = "xs:gMonthDay"
 xs_duration = "xs:duration"
 xs_dayTimeDuration = "xs:dayTimeDuration"
 xs_yearMonthDuration = "xs:yearMonthDuration"
+xs_long = "xs:long"
+xs_int = "xs:int"
+xs_short = "xs:short"
+xs_byte= "xs:byte"
+xs_unsignedLong = "xs:unsignedLong"
+xs_unsignedInt = "xs:unsignedInt"
+xs_unsignedShort = "xs:unsignedShort"
+xs_unsignedByte = "xs:unsignedByte"
+xs_nonNegativeInteger = "xs:nonNegativeInteger"
+xs_nonPositiveInteger = "xs:nonPositiveInteger"
+xs_negativeInteger = "xs:negativeInteger"
+xs_positiveInteger = "xs:positiveInteger"
 # gDay?
 # gMonth?
 # anyURI?
 # QName?
 # NOTATION?
-xs_byte= "xs:byte"
 xs_hexBinary= "xs:hexBinary"
 xs_b64= "xs:base64Binary"
 xs_choice= "xs:choice"

@@ -59,6 +59,42 @@
 	<xs:simpleType name="f64">
 		<xs:restriction base="xs:double" />
 	</xs:simpleType>
+	<xs:simpleType name="i64">
+		<xs:restriction base="xs:long" />
+	</xs:simpleType>
+	<xs:simpleType name="i32">
+		<xs:restriction base="xs:int" />
+	</xs:simpleType>
+	<xs:simpleType name="i16">
+		<xs:restriction base="xs:short" />
+	</xs:simpleType>
+	<xs:simpleType name="i8">
+		<xs:restriction base="xs:byte" />
+	</xs:simpleType>
+	<xs:simpleType name="u64">
+		<xs:restriction base="xs:unsignedLong" />
+	</xs:simpleType>
+	<xs:simpleType name="u32">
+		<xs:restriction base="xs:unsignedInt" />
+	</xs:simpleType>
+	<xs:simpleType name="u16">
+		<xs:restriction base="xs:unsignedShort" />
+	</xs:simpleType>
+	<xs:simpleType name="u8">
+		<xs:restriction base="xs:unsignedByte" />
+	</xs:simpleType>
+	<xs:simpleType name="nonNegativeInteger">
+		<xs:restriction base="xs:nonNegativeInteger" />
+	</xs:simpleType>
+	<xs:simpleType name="nonPositiveInteger">
+		<xs:restriction base="xs:nonPositiveInteger" />
+	</xs:simpleType>
+	<xs:simpleType name="negativeInteger">
+		<xs:restriction base="xs:negativeInteger" />
+	</xs:simpleType>
+	<xs:simpleType name="positiveInteger">
+		<xs:restriction base="xs:positiveInteger" />
+	</xs:simpleType>
 	<xs:simpleType name="date">
 		<xs:restriction base="xs:date" />
 	</xs:simpleType>

@@ -52,3 +52,11 @@ def build_py_from_xml(schema: dict, root: str, xml_str: str):
         
         
     return data_dict
+
+
+def valid_xml_from_string(xml_str: str):
+    try:
+        ET.fromstring(xml_str)
+        return True
+    except ET.ParseError as e:
+        raise ValueError(f"Unable to parse xml, invalid data: {e}")
