@@ -3,6 +3,9 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="jadn_base_types"
 	elementFormDefault="qualified">
+	<xs:simpleType name="attr">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>	
 	<xs:simpleType name="b64">
 		<xs:restriction base="xs:base64Binary" />
 	</xs:simpleType>	

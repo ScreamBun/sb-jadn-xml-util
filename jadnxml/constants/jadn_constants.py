@@ -107,6 +107,9 @@ Q_NAME = "QName"
 ANY_URI = "anyURI"
 NOTATION = "NOTATION"
 
+# Quasi Format: attribute
+ATTR = "attr"
+
 # Patterns
 BINARY_REG_CONST = "\\\\b[01]+\\\\b"
 #NORMALIZED_STRING_REG_CONST = "^[\S]*$"
@@ -141,6 +144,7 @@ REG_REG_CONST = "\*."
 # Dict
 #   key               type[0],        min[1],        max[2],       regex[3],                    description [4]
 FORMAT_OPTIONS_FROZ_DICT = FrozenDict({
+    ATTR:             [STRING_CONST,  "",            "",           "",                          "Attribute value"],
     BASE64_BINARY:    [BINARY_CONST,  "",            "",           "",                          " Base64url - RFC 4648 Section 5 (default text representation of Binary type)"],
     DATE_TIME:        [STRING_CONST,  "",            "",           "",                          "JSON Schema Section 7.3.1"],
     DATE_TIME_INT:    [INTEGER_CONST,  "",            "",           "",                     "JSON Schema Section 7.3.1"],

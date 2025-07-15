@@ -87,6 +87,9 @@ xs_QName = "xs:QName"
 xs_anyURI = "xs:anyURI"
 xs_notation = "xs:NOTATION"
 
+# Quasi Format: attribute
+xs_attr = "xs:attr"
+
 # JADN => XSD
 primitives = {
     "Binary" : xs_byte,
