@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 from jadnxml.constants.jadn_constants import ATTR_CONST, FIELD_OPTIONS_FROZ_DICT, FIELDS, MAXC_CONST, MINC_CONST, PRIMITIVES, TAGID_CONST 
 from jadnxml.helpers.jadn_helper import get_base_type, get_field_option_val
 from jadnxml.constants.xsd_constants import choice_tag, complexType_tag, annotation_tag, documentation_tag, element_tag, jadn_prefix, unique_tag, selector_tag, field_tag, enumeration_tag, fraction_digits_tag, group_tag, import_tag, max_length_tag, min_length_tag, max_inclusive_tag, min_inclusive_tag, pattern_tag, restriction_tag, sequence_tag, simple_type_tag
+from jadnxml.utils.general import split_on_first_char
 from jadnxml.utils.utils import remove_special_characters
             
             
@@ -19,7 +20,13 @@ def build_attrs(el: ET.Element, jce: dict, ref_attrs: list = None):
             attrib_el = ET.SubElement(el, "xs:attribute")
             attrib_el.set("name", field_name)
             attrib_el.set("type", "xs:string") 
-            attrib_el.set("use", "optional") # TODO: Add logic for required attributes
+            
+            is_optional = is_field_optional(field)            
+            if is_optional:
+                attrib_el.set("use", "optional")
+            else:
+                attrib_el.set("use", "required")
+                
             if field_desc:
                 build_documention(attrib_el, field_desc)
                 
@@ -71,20 +78,6 @@ def add_maxoccurs_to_element(et_tag: ET.Element, field_opts: [] = [], val: str =
             et_tag.set('maxOccurs', xsd_val)    
     
     return et_tag
-
-
-# def add_ref_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 
-    
-#     if val:  
-#         et_tag.set('ref', val)
-#     else:    
-#         id = FIELD_OPTIONS_FROZ_DICT.get(LINK_CONST)
-#         val = get_field_option_val(field_opts, id)
-        
-#         if val:  
-#             et_tag.set('ref', val)
-    
-#     return et_tag
 
 
 def build_choice(parent_et_tag: ET.Element):
@@ -288,11 +281,53 @@ def build_simple_type(parent_et_tag: ET.Element, jadn_name: str = None):
     return simple_type
 
 
+def get_min_length(opts: list) -> int:
+    min_val = get_opt_int("{", opts)
+    # if min_val == None:
+    #     min_val = 0    
+    return min_val
+
+
+def get_min_occurs(opts: list) -> int:
+    min_val = get_opt_int("[", opts)
+    if min_val == None:
+        min_val = 1
+    return min_val
+
+
+def get_opt_int(key: str, opts: list):
+    return_val = None
+
+    for opt in opts:
+        opt_key, opt_val = split_on_first_char(opt)
+        if key == opt_key:
+            try:
+                return_val = int(opt_val)
+            except ValueError as e:
+                print("Invalid option: requires integer value: " + e)
+            break
+        
+    return return_val
+
 def is_attr_opt_found(val: list):
     return_val = False
     if val and ATTR_CONST in val:
         return_val = True
     return return_val
+
+
+def is_field_optional(j_field: list) -> bool: 
+    is_optional = False
+    
+    field_opts = j_field[3] if len(j_field) > 3 else []
+    
+    min_occurs = get_min_occurs(field_opts)
+    min_length = get_min_length(field_opts)
+    
+    if min_length == 0 or min_occurs == 0:
+        is_optional = True
+    
+    return is_optional
 
 
 def split_types_by_attr(types_list):

@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
 from lxml import etree
-from jadnxml.helpers.xsd_helper import build_attrs, split_types_by_attr
+from jadnxml.helpers.xsd_helper import build_attrs, is_field_optional, split_types_by_attr
 
 
 def test_split_types_by_attr():
@@ -70,3 +70,26 @@ def test_build_attrs():
     attrib_el = root.find(".//xs:attribute[@name='id']", namespaces=nsmap)
     assert attrib_el is not None
     assert attrib_el.attrib['type'] == 'xs:string'
+    
+def test_is_field_optional():
+    """
+    Tests the is_field_optional function to ensure it correctly identifies optional fields.
+    """
+    
+    # Mocking a JADN field with options indicating it's optional
+    j_field = [1, "id", "String", ["[0"], ""]
+    
+    # Call the function
+    is_optional = is_field_optional(j_field)
+    
+    # Assert that the field is identified as optional
+    assert is_optional is True
+    
+    # Mocking a JADN field without options indicating it's required
+    j_field = [2, "info_1", "String", [], ""]
+    
+    # Call the function again
+    is_optional = is_field_optional(j_field)
+    
+    # Assert that the field is not identified as optional
+    assert is_optional is False     

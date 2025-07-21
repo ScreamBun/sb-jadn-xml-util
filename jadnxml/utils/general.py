@@ -150,6 +150,14 @@ def safe_cast(val: Any, to_type: Type, default: Any = None) -> Any:
         return to_type(val)
     except (ValueError, TypeError):
         return default
+    
+def split_on_first_char(string):
+    """Splits a string on the first character."""
+
+    if not string:
+        return []
+
+    return [string[0], string[1:]]    
 
 
 def toStr(s: Any) -> str:
