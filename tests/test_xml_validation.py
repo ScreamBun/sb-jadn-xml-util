@@ -1,4 +1,4 @@
-from jadnxml.builder.xsd_builder import convert_xsd_from_dict
+from jadnxml.builder.xsd_builder import XSDBuilder
 from jadnxml.validation.validation_manager import validate_xml_str as validate
 from jadnxml.utils.utils import generate_xsd_template
   
@@ -14,21 +14,21 @@ def test_attribute():
         ["Record-Name", "Record", [], "", [
             [1, "field_value_1", "String", ["/attr"], ""],
             [2, "field_value_2", "Number", ["/attr", "f32"], ""],
-            [2, "field_value_3", "Integer", ["/attr", "i8"], ""]
+            [2, "field_value_3", "Integer", ["/attr", "i8"], ""],
+            [2, "field_value_4", "String", [], ""]
         ]]
     ]
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
     # Step 3: Create test XML
-    xml_string = """<Record-Name>
-        <field_value_1>Test</field_value_1>
-        <field_value_2>1.55</field_value_2>
-        <field_value_3>2</field_value_3>
+    xml_string = """<Record-Name field_value_1="Test" field_value_2="1.55" field_value_3="2">
+        <field_value_4>test</field_value_4>
     </Record-Name>"""   
 
     # Step 4: Valiate XML Against XSD
@@ -50,7 +50,8 @@ def test_number():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -84,7 +85,8 @@ def test_number_f32():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -124,7 +126,8 @@ def test_number_f64():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -164,7 +167,8 @@ def test_string():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -198,7 +202,8 @@ def test_string_date_time():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -238,7 +243,8 @@ def test_string_date():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -278,7 +284,8 @@ def test_string_time():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -318,7 +325,8 @@ def test_string_normalized():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -352,7 +360,8 @@ def test_string_token():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -386,7 +395,8 @@ def test_string_language():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -420,7 +430,8 @@ def test_string_name():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -454,7 +465,8 @@ def test_string_q_name():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -488,7 +500,8 @@ def test_string_any_uri():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -522,7 +535,8 @@ def test_string_notation():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -556,7 +570,8 @@ def test_integer():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -593,7 +608,8 @@ def test_integer_date_time():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -627,7 +643,8 @@ def test_integer_date():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -661,7 +678,8 @@ def test_integer_time():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -695,7 +713,8 @@ def test_integer_g_year_month():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -729,7 +748,8 @@ def test_integer_g_year():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -763,7 +783,8 @@ def test_integer_g_month_day():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -797,7 +818,8 @@ def test_integer_duration():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -831,7 +853,8 @@ def test_integer_day_time_duration():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -865,7 +888,8 @@ def test_integer_year_month_duration():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -899,7 +923,8 @@ def test_integer_i64():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -932,7 +957,8 @@ def test_integer_i32():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -965,7 +991,8 @@ def test_integer_i16():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -998,7 +1025,8 @@ def test_integer_i8():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -1031,7 +1059,8 @@ def test_integer_u64():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -1070,7 +1099,8 @@ def test_integer_u32():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -1109,7 +1139,8 @@ def test_integer_u16():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -1148,7 +1179,8 @@ def test_integer_u8():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -1187,7 +1219,8 @@ def test_integer_non_negative():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -1220,7 +1253,8 @@ def test_integer_negative():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -1253,7 +1287,8 @@ def test_integer_non_positive():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -1286,7 +1321,8 @@ def test_integer_positive():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
     # Step 3: Create test XML
@@ -1319,7 +1355,8 @@ def test_boolean():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -1353,7 +1390,8 @@ def test_binary():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -1393,7 +1431,8 @@ def test_binary_base64():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 
@@ -1433,7 +1472,8 @@ def test_binary_hex():
     }    
 
     # Step 2: Convert JADN to XSD
-    xsd_tuple = convert_xsd_from_dict(jadn_schema)
+    builder = XSDBuilder()
+    xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
     xsd_string = xsd_tuple[0]
     print(xsd_string)
 

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
-	<xs:import schemaLocation="../_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
+	<xs:import schemaLocation="./_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
 	<xs:complexType name="Root">
 		<xs:sequence>
 			<xs:element id="root_schema" name="schema" type="URIReferenceDatatype" minOccurs="0">
@@ -1685,6 +1685,4 @@
 			<xs:pattern value="^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[45][0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$" />
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:element id="Root" name="Root" type="Root" />
-	<xs:element id="Profile" name="Profile" type="Profile" />
 </xs:schema>

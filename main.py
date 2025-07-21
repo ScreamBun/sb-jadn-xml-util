@@ -2,7 +2,7 @@ import glob
 import os
 import sys
 
-from jadnxml.builder.xsd_builder import convert_to_xsd_from_file
+from jadnxml.builder.xsd_builder import XSDBuilder
 from jadnxml.utils.utils import get_after_last_occurance, get_filename_from_path
 from jadnxml.validation.validation_manager import validate_xml
 
@@ -33,7 +33,8 @@ if __name__=="__main__":
         
         for filename in files_to_convert:
             print(f"Converting {filename} to a JADN XSD... ")
-            convert_to_xsd_from_file(filename)
+            builder = XSDBuilder()
+            builder.convert_to_xsd_from_file(filename)
             print(f"Conversion complete for {filename}, see the _data/out directory to view the results")
 
         if len(files_to_convert) == 0:

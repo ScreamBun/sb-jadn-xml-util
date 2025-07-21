@@ -1,10 +1,9 @@
 
 import json
-import xmltodict
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET  
 
 from dict2xml import dict2xml
-from jadnxml.utils.utils import find_first_list, get_base_type_and_schema_type, get_dict_from_xml_data, get_list_from_xml_data, use_id_as_key
+from jadnxml.utils.utils import get_base_type_and_schema_type, get_dict_from_xml_data, get_list_from_xml_data, use_id_as_key
 
 def build_xml_from_json(data: dict):  
     

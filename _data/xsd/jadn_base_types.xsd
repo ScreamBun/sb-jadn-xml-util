@@ -23,7 +23,10 @@
 		<xs:restriction base="xs:decimal" />
 	</xs:simpleType>
 	<xs:simpleType name="String">
-		<xs:restriction base="xs:string" />
+		<xs:restriction base="xs:string">
+			<!-- Only allow alphabetic characters and spaces -->
+			<xs:pattern value="[A-Za-z ]+" />
+		</xs:restriction>
 	</xs:simpleType>
 	<xs:complexType name="Enumerated">
 		<xs:sequence>

@@ -1,9 +1,29 @@
 import xml.etree.ElementTree as ET
-from jadnxml.constants.jadn_constants import FIELD_OPTIONS_FROZ_DICT, MAXC_CONST, MINC_CONST, TAGID_CONST 
+from jadnxml.constants.jadn_constants import ATTR_CONST, FIELD_OPTIONS_FROZ_DICT, FIELDS, MAXC_CONST, MINC_CONST, PRIMITIVES, TAGID_CONST 
 from jadnxml.helpers.jadn_helper import get_base_type, get_field_option_val
 from jadnxml.constants.xsd_constants import choice_tag, complexType_tag, annotation_tag, documentation_tag, element_tag, jadn_prefix, unique_tag, selector_tag, field_tag, enumeration_tag, fraction_digits_tag, group_tag, import_tag, max_length_tag, min_length_tag, max_inclusive_tag, min_inclusive_tag, pattern_tag, restriction_tag, sequence_tag, simple_type_tag
 from jadnxml.utils.utils import remove_special_characters
             
+            
+def build_attrs(el: ET.Element, jce: dict, ref_attrs: list = None):
+    for field in (jce.get(FIELDS) or []):
+        field_name = field[1]
+        field_type = field[2]
+        field_opts = field[3]
+        field_desc = field[4]
+
+        if (
+            (field_type in PRIMITIVES and is_attr_opt_found(field_opts)) or
+            (ref_attrs is not None and field_type in ref_attrs)
+        ):
+            attrib_el = ET.SubElement(el, "xs:attribute")
+            attrib_el.set("name", field_name)
+            attrib_el.set("type", "xs:string") 
+            attrib_el.set("use", "optional") # TODO: Add logic for required attributes
+            if field_desc:
+                build_documention(attrib_el, field_desc)
+                
+    return el
 
 def add_id_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 
     if val:  
@@ -267,5 +287,32 @@ def build_simple_type(parent_et_tag: ET.Element, jadn_name: str = None):
 
     return simple_type
 
+
+def is_attr_opt_found(val: list):
+    return_val = False
+    if val and ATTR_CONST in val:
+        return_val = True
+    return return_val
+
+
+def split_types_by_attr(types_list):
+    """
+    Splits types into those with '/attr' in their options and those without.
+    Sets self.jadn_types_dict to types without '/attr' and self.ref_attrs to types with '/attr'.
+    Returns (types_without_attr, types_with_attr)
+    """
+    
+    types_with_attr = []
+    types_without_attr = []
+    
+    for t in types_list:
+        opts = t[2] if len(t) > 2 else []
+        if any(opt == "/attr" for opt in opts):
+            # types_with_attr.append(t)
+            types_with_attr.append(t[0])
+        else:
+            types_without_attr.append(t)
+
+    return types_without_attr, types_with_attr
 
 

@@ -1,10 +1,7 @@
 import sys
 import traceback
 from jadnxml.utils.utils import get_xml_file, get_xsd_file
-import xml.etree.ElementTree as ET
-import xmltodict
 from lxml import etree
-import os
 
 # Ref: https://github.com/usnistgov/OSCAL/blob/main/src/utils/oscal-content-validator.py
 
@@ -47,6 +44,12 @@ def validate_xml_str(xsd_str: str, xml_str: str):
 
     try: 
         is_valid = xml_schema.validate(xml_doc)
+        
+        if not is_valid:
+            print("Validation failed. Error log:")
+            for error in xml_schema.error_log:
+                print(f"Line {error.line}: {error.message}")        
+        
     except Exception as e:
         print(f"XML Validation Error: {e}")
         return False

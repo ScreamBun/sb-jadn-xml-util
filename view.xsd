@@ -1,0 +1,11 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
+    <xs:import schemaLocation="./_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
+    <xs:complexType name="Record-Name">
+        <xs:sequence>
+            <xs:element id="record_name_info_1" name="info_1" type="jadn:String" />
+            <xs:element id="record_name_info_2" name="info_2" type="jadn:String" />
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="optional" />
+    </xs:complexType>
+    <xs:element id="Record-Name" name="Record-Name" type="Record-Name" />
+</xs:schema>

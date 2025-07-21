@@ -1,9 +1,7 @@
-
-
 import xml.etree.ElementTree as ET
-from jadnxml.builder.xml_builder import build_xml_from_json
 
-from jadnxml.builder.xsd_builder import build_integer_type_opts, build_number_type_opts, build_string_type_opts, convert_to_xsd_from_file, convert_xsd_from_dict, get_jadn_base_types
+from jadnxml.builder.xml_builder import build_xml_from_json
+from jadnxml.builder.xsd_builder import XSDBuilder
 from jadnxml.constants.jadn_constants import ARRAY_CONST, ARRAYOF_CONST, BINARY_CONST, BOOLEAN_CONST, CHOICE_CONST, ENUMERATED_CONST, INTEGER_CONST, MAP_CONST, MAPOF_CONST, NUMBER_CONST, RECORD_CONST, STRING_CONST
 from jadnxml.constants.xsd_constants import schema_tag
 from jadnxml.helpers.jadn_helper import get_active_type_option_vals, get_field_option_val, get_type_option_vals
@@ -11,9 +9,10 @@ from jadnxml.utils.utils import read_type_data_from_file
 
 
 def test_get_jadn_base_types():
-    data = get_jadn_base_types()
+    builder = XSDBuilder()
+    data = builder.get_jadn_base_types()
     
-    assert data != None
+    assert data != None  
 
 
 def test_type_data_from_file():
@@ -23,7 +22,8 @@ def test_type_data_from_file():
     
 
 def test_convert_xsd_from_file():
-    converted = convert_to_xsd_from_file("test_data.jadn")
+    builder = XSDBuilder()
+    converted = builder.convert_to_xsd_from_file("test_data.jadn")
     
     assert converted == True
 
@@ -38,7 +38,8 @@ def test_jadn_binary_b64_format():
     ]
   }
   # Convert to XSD
-  xsd_tuple = convert_xsd_from_dict(jadn_schema)
+  builder = XSDBuilder()
+  xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
   xsd_str = xsd_tuple[0]
   schema_et = xsd_tuple[1]
   
@@ -65,7 +66,8 @@ def test_jadn_binary_x_format():
     ]
   }
   # Convert to XSD
-  xsd_tuple = convert_xsd_from_dict(jadn_schema)
+  builder = XSDBuilder()
+  xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
   xsd_str = xsd_tuple[0]
   schema_et = xsd_tuple[1]
   
@@ -92,7 +94,8 @@ def test_jadn_binary_X_format():
     ]
   }
   # Convert to XSD
-  xsd_tuple = convert_xsd_from_dict(jadn_schema)
+  builder = XSDBuilder()
+  xsd_tuple = builder.convert_xsd_from_dict(jadn_schema)
   xsd_str = xsd_tuple[0]
   schema_et = xsd_tuple[1]
   
@@ -119,7 +122,8 @@ def test_jadn_numbers_to_xsd_and_print():
     ]
   }
   # Convert to XSD
-  xsd_tree = convert_xsd_from_dict(jadn_schema)[1]
+  builder = XSDBuilder()
+  xsd_tree = builder.convert_xsd_from_dict(jadn_schema)[1]
   assert xsd_tree is not None    
     
 def test_jadn_integers_to_xsd_and_print():
@@ -136,7 +140,8 @@ def test_jadn_integers_to_xsd_and_print():
     ]
   }
   # Convert to XSD
-  xsd_tree = convert_xsd_from_dict(jadn_schema)[1]
+  builder = XSDBuilder()
+  xsd_tree = builder.convert_xsd_from_dict(jadn_schema)[1]
   assert xsd_tree is not None    
     
 
@@ -205,7 +210,8 @@ def test_convert_xsd_from_dict():
                         ]]
                     ]
                     }
-    data_converted = convert_xsd_from_dict(data_dict)
+    builder = XSDBuilder()
+    data_converted = builder.convert_xsd_from_dict(data_dict)
     
     assert data_converted != None
 
@@ -249,7 +255,8 @@ def test_build_string_format_opts():
     
     for test in tests.items():
         active_jadn_opts = get_active_type_option_vals(test[1], STRING_CONST, {})
-        build_string_type_opts(root, active_jadn_opts, STRING_CONST)
+        builder = XSDBuilder()
+        builder.build_string_type_opts(root, active_jadn_opts, STRING_CONST)
     
         for child in root:
             print(child.tag, child.attrib)    
@@ -273,7 +280,8 @@ def test_build_number_format_opts():
     
     for test in tests.items():
         active_jadn_opts = get_active_type_option_vals(test[1], NUMBER_CONST, {})
-        build_number_type_opts(root, active_jadn_opts, NUMBER_CONST)
+        builder = XSDBuilder()
+        builder.build_number_type_opts(root, active_jadn_opts, NUMBER_CONST)
     
         for child in root:
             print(child.tag, child.attrib)    
@@ -299,7 +307,8 @@ def test_build_integer_format_opts():
     
     for test in tests.items():
         active_jadn_opts = get_active_type_option_vals(test[1], INTEGER_CONST, {})
-        build_integer_type_opts(root, active_jadn_opts, INTEGER_CONST)
+        builder = XSDBuilder()
+        builder.build_integer_type_opts(root, active_jadn_opts, INTEGER_CONST)
     
         for child in root:
             print(child.tag, child.attrib)    
@@ -503,7 +512,6 @@ def test_build_xml_from_json_dict():
     }
     
     # filename = "output.xml"
-    
     tree = build_xml_from_json(json_data)
     
     # ET.indent(tree, space="\t", level=0)
@@ -1561,29 +1569,5 @@ def test_build_xml_from_json_str():
   }
 }
 
-    # json_data = json.dumps(json_data_dict)
-    
-    # filename = "output.xml"
-    
-    tree = build_xml_from_json(json_data_dict)
-    
-    # ET.indent(tree, space="\t", level=0)
-    # tree.write("./_out/" + filename,
-    #           xml_declaration=True,encoding='utf-8',
-    #           method="xml")  
-    
-    assert tree != None 
-    
-    
-def test_xsd_comments():     
-    sm_jadn_filename = "sm_test_schema.jadn"
-    lg_jadn_filename = "lg_test_schema.jadn"
-    
-    sm_xsd = convert_to_xsd_from_file(sm_jadn_filename)
-    lg_xsd = convert_to_xsd_from_file(lg_jadn_filename)
 
-    assert sm_xsd != None      
-    assert lg_xsd != None      
-  
 
-    
