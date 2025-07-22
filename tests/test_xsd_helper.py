@@ -44,7 +44,7 @@ def test_build_attrs():
     jce = {
         "type_name": "TestType",
         "fields": [
-            [1, "id", "id", ["/attr"], "Identifier"],
+            [1, "id", "id", [], "Identifier"],
             [2, "info_1", "String", ["/attr"], "Information 1"]
         ],
         "description": "Test Type Description"
