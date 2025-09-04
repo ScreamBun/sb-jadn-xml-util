@@ -29,7 +29,8 @@ def test_field_attribute_from_field():
         <info_2>True</info_2>
     </Record-Name>"""           
     
-    invalid_xml = """<Record-Name id="abc123">
+    invalid_xml = """<Record-Name>
+        <id>123</id>
         <info_1>Some value</info_1>
         <info_2>1</info_2>
     </Record-Name>"""
