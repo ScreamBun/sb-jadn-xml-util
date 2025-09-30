@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jadn="jadn_base_types">
-	<xs:import schemaLocation="./_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types" />
+	<xs:import schemaLocation="./_data/xsd/jadn_base_types.xsd" namespace="jadn_base_types">
+		<xs:annotation>
+			<xs:documentation>Source: https://raw.githubusercontent.com/ScreamBun/sb-jadn-xml-util/main/_data/xsd/jadn_base_types.xsd</xs:documentation>
+		</xs:annotation>
+	</xs:import>
 	<xs:complexType name="Root">
 		<xs:sequence>
 			<xs:element id="root_schema" name="schema" type="URIReferenceDatatype" minOccurs="0">

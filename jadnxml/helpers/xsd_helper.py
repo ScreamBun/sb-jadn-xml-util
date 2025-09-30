@@ -1,7 +1,8 @@
 import xml.etree.ElementTree as ET
+
 from jadnxml.constants.jadn_constants import ATTR_CONST, FIELD_OPTIONS_FROZ_DICT, FIELDS, MAXC_CONST, MINC_CONST, PRIMITIVES, TAGID_CONST 
 from jadnxml.helpers.jadn_helper import get_base_type, get_field_option_val
-from jadnxml.constants.xsd_constants import choice_tag, complexType_tag, annotation_tag, documentation_tag, element_tag, jadn_prefix, unique_tag, selector_tag, field_tag, enumeration_tag, fraction_digits_tag, group_tag, import_tag, max_length_tag, min_length_tag, max_inclusive_tag, min_inclusive_tag, pattern_tag, restriction_tag, sequence_tag, simple_type_tag
+from jadnxml.constants.xsd_constants import choice_tag, complexType_tag, annotation_tag, documentation_tag, element_tag, jadn_prefix, unique_tag, selector_tag, field_tag, enumeration_tag, fraction_digits_tag, group_tag, import_tag, max_length_tag, min_length_tag, max_inclusive_tag, min_inclusive_tag, pattern_tag, restriction_tag, sequence_tag, simple_type_tag, jadn_base_type_file_loc_raw_url
 from jadnxml.utils.general import split_on_first_char
 from jadnxml.utils.utils import remove_special_characters
             
@@ -32,7 +33,7 @@ def build_attrs(el: ET.Element, jce: dict, ref_attrs: list = None):
                 
     return el
 
-def add_id_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 
+def add_id_to_element(et_tag: ET.Element, field_opts: list = [], val: str = None): 
     if val:  
         et_tag.set('id', val)
     else:    
@@ -45,7 +46,7 @@ def add_id_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None):
     return et_tag
 
 
-def add_minoccurs_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None):   
+def add_minoccurs_to_element(et_tag: ET.Element, field_opts: list = [], val: str = None):   
     if val:  
         et_tag.set('minOccurs', val)
     else:    
@@ -65,7 +66,7 @@ def check_for_unbounded(val: str):
     return return_val
 
 
-def add_maxoccurs_to_element(et_tag: ET.Element, field_opts: [] = [], val: str = None): 
+def add_maxoccurs_to_element(et_tag: ET.Element, field_opts: list = [], val: str = None): 
     if val:  
         xsd_val = check_for_unbounded(val)
         et_tag.set('maxOccurs', xsd_val)
@@ -192,12 +193,15 @@ def build_element_id(parent_name: str, element_name: str):
 
 def build_import(parent_et_tag: ET.Element, schema_loc: str, namespace: str):
     import_et = ET.SubElement(parent_et_tag, import_tag)
-    
     if schema_loc:
-        import_et.set('schemaLocation', schema_loc)   
-        
+        import_et.set('schemaLocation', schema_loc)
     if namespace:
-        import_et.set('namespace', namespace)           
+        import_et.set('namespace', namespace)
+
+    # Add annotation with documentation for the source URL
+    annotation_et = ET.SubElement(import_et, "xs:annotation")
+    documentation_et = ET.SubElement(annotation_et, "xs:documentation")
+    documentation_et.text = f"Source: {jadn_base_type_file_loc_raw_url}"
 
     return import_et
 

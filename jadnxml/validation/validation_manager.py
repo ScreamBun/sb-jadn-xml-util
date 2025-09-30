@@ -37,6 +37,9 @@ def validate_xml_str(xsd_str: str, xml_str: str):
         return False
     
     try:
+        # print(xsd_doc)
+        # print
+        # print(xml_doc)
         xml_schema = etree.XMLSchema(xsd_doc)
     except Exception as e:
         print(f"XML Syntax Error: {e}")
